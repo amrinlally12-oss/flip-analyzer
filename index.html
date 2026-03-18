@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Flip Deal Analyzer — Streamline AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --navy:#0B1F3A;--navy2:#132c52;--gold:#C9973A;--gold-l:#E8C97A;
+  --white:#FFFFFF;--cream:#F8F8FA;--steel:#86868b;--border:#d2d2d7;
+  --text:#1d1d1f;--light:#F5F5F7;
+  --green:#248a3d;--green-bg:#e8f5e9;--green-b:#a5d6a7;
+  --amber:#bf5600;--amber-bg:#fff3e0;--amber-b:#ffcc80;
+  --red:#d70015;--red-bg:#ffebee;--red-b:#ef9a9a;
+  --blue:#0071e3;--blue-bg:#e3f2fd;
+  --radius:12px;
+  --shadow-sm:0 0.5px 1px rgba(0,0,0,0.04),0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md:0 2px 8px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.04);
+  --shadow-lg:0 4px 12px rgba(0,0,0,0.08),0 12px 40px rgba(0,0,0,0.06);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+body{font-family:'Inter','Outfit',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--cream);color:var(--text);min-height:100vh;font-size:15px;line-height:1.47;}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:99px;border:2px solid transparent;background-clip:padding-box;}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.25);border:2px solid transparent;background-clip:padding-box;}
+
+/* ── NAV ── */
+.topbar{background:rgba(11,31,58,0.92);backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  padding:0 32px;height:52px;display:flex;align-items:center;
+  justify-content:space-between;border-bottom:1px solid rgba(201,151,58,0.3);
+  position:sticky;top:0;z-index:100;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-text{font-size:15px;font-weight:700;color:#fff;letter-spacing:-0.2px;}
+.logo-text span{color:var(--gold);}
+.logo-sub{font-size:9px;font-weight:600;color:var(--gold-l);letter-spacing:2px;text-transform:uppercase;}
+.tag{font-size:11px;font-weight:600;color:var(--gold-l);background:rgba(201,151,58,0.1);
+  padding:3px 10px;border-radius:99px;}
+
+/* ── LAYOUT — 8px rhythm ── */
+.main{max-width:1080px;margin:0 auto;padding:32px 24px 80px;}
+.card{background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:32px;box-shadow:var(--shadow-sm);}
+
+/* ── FORM ── */
+.form-label{font-size:11px;font-weight:600;color:var(--steel);text-transform:uppercase;
+  letter-spacing:0.6px;display:block;margin-bottom:6px;}
+input[type=text],input[type=number],select,textarea{
+  font-family:inherit;font-size:15px;color:var(--text);
+  background:rgba(255,255,255,0.8);
+  border:1px solid var(--border);border-radius:10px;padding:11px 14px;outline:none;
+  transition:all 0.2s;width:100%;height:44px;}
+textarea{height:auto;min-height:72px;resize:vertical;}
+input[type=text]::placeholder,input[type=number]::placeholder,textarea::placeholder{
+  color:#aeaeb2;font-weight:400;}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);
+  box-shadow:0 0 0 4px rgba(0,113,227,0.15);}
+input:hover:not(:focus),select:hover:not(:focus),textarea:hover:not(:focus){border-color:#aeaeb2;}
+select{cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%2386868b' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+
+/* ── CUSTOM SLIDER (Apple-style pill thumb) ── */
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:36px;
+  border:none;padding:0;background:transparent;cursor:pointer;outline:none;margin:4px 0;}
+input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:99px;
+  background:var(--border);}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+  width:26px;height:16px;border-radius:8px;margin-top:-5.5px;
+  background:#fff;border:0.5px solid rgba(0,0,0,0.1);
+  box-shadow:0 0.5px 1px rgba(0,0,0,0.1),0 1px 4px rgba(0,0,0,0.12);
+  cursor:pointer;transition:box-shadow 0.15s,transform 0.1s;}
+input[type=range]::-webkit-slider-thumb:hover{
+  box-shadow:0 1px 3px rgba(0,0,0,0.14),0 2px 8px rgba(0,0,0,0.12);}
+input[type=range]::-webkit-slider-thumb:active{transform:scaleX(0.94);
+  box-shadow:0 0.5px 2px rgba(0,0,0,0.16);}
+input[type=range]::-moz-range-track{height:5px;border-radius:99px;background:var(--border);border:none;}
+input[type=range]::-moz-range-thumb{width:26px;height:16px;border-radius:8px;
+  background:#fff;border:0.5px solid rgba(0,0,0,0.1);
+  box-shadow:0 0.5px 1px rgba(0,0,0,0.1),0 1px 4px rgba(0,0,0,0.12);cursor:pointer;}
+input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:var(--gold);}
+
+/* ── BUTTONS ── */
+.btn{font-family:inherit;font-size:14px;font-weight:600;padding:10px 24px;
+  border-radius:980px;border:none;cursor:pointer;transition:all 0.15s;
+  display:inline-flex;align-items:center;gap:6px;letter-spacing:-0.1px;}
+.btn-primary{background:var(--navy);color:#fff;}
+.btn-primary:hover:not(:disabled){background:var(--navy2);}
+.btn-primary:active:not(:disabled){transform:scale(0.98);opacity:0.9;}
+.btn-primary:disabled{background:#d2d2d7;color:#86868b;cursor:not-allowed;}
+.btn-gold{background:var(--gold);color:#fff;}
+.btn-gold:hover:not(:disabled){background:var(--gold-l);color:var(--navy);}
+.btn-gold:disabled{background:#d2d2d7;color:#86868b;cursor:not-allowed;}
+.btn-outline{background:transparent;color:var(--steel);border:1px solid var(--border);font-weight:500;}
+.btn-outline:hover{border-color:var(--text);color:var(--text);}
+.btn-sm{font-size:13px;padding:7px 14px;}
+
+/* ── PHOTO UPLOAD ── */
+.photo-drop{
+  border:1.5px dashed var(--border);border-radius:14px;padding:32px;
+  text-align:center;cursor:pointer;transition:all 0.2s;background:var(--light);
+  position:relative;}
+.photo-drop:hover,.photo-drop.dragover{border-color:var(--blue);background:rgba(0,113,227,0.03);}
+.photo-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.photo-drop-icon{font-size:28px;margin-bottom:8px;opacity:0.4;}
+.photo-drop-label{font-size:14px;color:var(--steel);font-weight:500;}
+.photo-drop-sub{font-size:12px;color:var(--steel);margin-top:4px;opacity:0.6;}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin-top:12px;}
+.photo-thumb{
+  width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;
+  border:2px solid transparent;transition:border-color 0.15s;}
+.photo-thumb:hover{border-color:var(--blue);}
+.photo-remove{position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.55);color:#fff;
+  border:none;border-radius:50%;width:20px;height:20px;font-size:10px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.15s;
+  backdrop-filter:blur(4px);}
+.photo-thumb-wrap{position:relative;}
+.photo-thumb-wrap:hover .photo-remove{opacity:1;}
+
+/* ── CHECKBOXES ── */
+.check-item{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;
+  padding:8px 12px;background:var(--light);border-radius:10px;border:1px solid transparent;
+  transition:all 0.15s;user-select:none;}
+.check-item:hover{background:#ececf0;}
+.check-item.active{border-color:var(--blue);background:rgba(0,113,227,0.06);}
+.check-item input{width:16px;height:16px;accent-color:var(--blue);cursor:pointer;flex-shrink:0;
+  border-radius:4px;}
+
+/* ── ADVANCED OVERRIDES ── */
+.override-section{border-top:1px solid rgba(0,0,0,0.06);padding-top:12px;margin-top:4px;}
+.override-toggle{background:none;border:none;cursor:pointer;font-family:inherit;
+  font-size:13px;font-weight:600;color:var(--blue);padding:4px 0;display:flex;align-items:center;gap:6px;
+  transition:opacity 0.15s;}
+.override-toggle:hover{opacity:0.7;}
+.override-panel{overflow:hidden;transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1),opacity 0.25s;max-height:0;opacity:0;}
+.override-panel.visible{max-height:300px;opacity:1;}
+.override-panel.hidden{max-height:0;opacity:0;}
+
+/* ── PROGRESS CHECKLIST ── */
+.progress-checklist{display:flex;flex-direction:column;gap:0;margin-bottom:24px;
+  background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:20px 24px;box-shadow:var(--shadow-sm);}
+.checklist-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-0.2px;}
+.check-step{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:14px;color:var(--steel);
+  transition:all 0.25s;border-bottom:1px solid rgba(0,0,0,0.04);}
+.check-step:last-child{border-bottom:none;}
+.check-step.active{color:var(--blue);font-weight:500;}
+.check-step.done{color:var(--green);}
+.check-step.error{color:var(--red);}
+.check-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;flex-shrink:0;font-size:12px;border:2px solid var(--border);color:var(--border);
+  transition:all 0.3s cubic-bezier(0.4,0,0.2,1);}
+.check-step.active .check-icon{border-color:var(--blue);color:var(--blue);animation:pulse 1.2s ease infinite;}
+.check-step.done .check-icon{border-color:var(--green);background:var(--green);color:#fff;
+  transform:scale(1);font-weight:700;}
+.check-step.error .check-icon{border-color:var(--red);background:var(--red);color:#fff;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+
+/* ── WAVE INDICATOR ── */
+.wave-bar{display:flex;gap:6px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+.wave-pill{
+  display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;
+  font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--light);
+  color:var(--steel);transition:all 0.2s;}
+.wave-pill.active{background:var(--blue-bg);border-color:#378add;color:#185fa5;}
+.wave-pill.done{background:var(--green-bg);border-color:var(--green-b);color:var(--green);}
+.wave-arrow{color:var(--border);font-size:14px;}
+
+/* ── DEAL HEADER ── */
+.deal-header{
+  background:var(--navy);border-radius:16px;
+  padding:28px 32px;margin-bottom:24px;position:relative;overflow:hidden;
+  box-shadow:var(--shadow-lg);animation:fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) both;}
+.deal-header::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--gold);}
+.deal-address{font-size:22px;font-weight:700;color:#fff;letter-spacing:-0.4px;margin-bottom:6px;}
+.deal-facts{font-size:14px;color:rgba(255,255,255,0.5);font-weight:400;}
+.grade-badge{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;
+  justify-content:center;font-size:28px;font-weight:800;flex-shrink:0;}
+
+/* ── STAT BOXES ── */
+.stat-box{background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(0,0,0,0.06);border-radius:14px;
+  padding:18px 20px;box-shadow:var(--shadow-sm);transition:all 0.2s cubic-bezier(0.4,0,0.2,1);
+  animation:fadeUp 0.4s cubic-bezier(0.4,0,0.2,1) both;}
+.stat-box:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);}
+.stat-label{font-size:11px;color:var(--steel);margin-bottom:8px;font-weight:500;
+  text-transform:none;letter-spacing:0;}
+.stat-value{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.5px;
+  font-variant-numeric:tabular-nums;}
+.sv-green{color:var(--green);}.sv-red{color:var(--red);}.sv-gold{color:var(--gold);}.sv-blue{color:var(--blue);}
+
+/* ── STAGGER ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.grid-4 .stat-box:nth-child(1){animation-delay:0.05s;}
+.grid-4 .stat-box:nth-child(2){animation-delay:0.1s;}
+.grid-4 .stat-box:nth-child(3){animation-delay:0.15s;}
+.grid-4 .stat-box:nth-child(4){animation-delay:0.2s;}
+
+/* ── TABS (Apple segmented control style) ── */
+.tab-bar{display:flex;gap:1px;margin-bottom:24px;background:rgba(0,0,0,0.04);padding:3px;
+  border-radius:10px;width:fit-content;flex-wrap:wrap;
+  animation:fadeUp 0.4s cubic-bezier(0.4,0,0.2,1) 0.25s both;}
+.tab-btn{font-family:inherit;font-size:13px;font-weight:500;padding:7px 16px;
+  border-radius:8px;border:none;cursor:pointer;background:transparent;
+  color:var(--steel);transition:all 0.2s cubic-bezier(0.4,0,0.2,1);}
+.tab-btn:hover:not(.active){color:var(--text);}
+.tab-btn.active{background:#fff;color:var(--text);font-weight:600;
+  box-shadow:0 0.5px 1px rgba(0,0,0,0.06),0 1px 4px rgba(0,0,0,0.06);}
+
+/* ── TABLES ── */
+.dt{width:100%;border-collapse:collapse;font-size:14px;}
+.dt th{background:var(--light);color:var(--steel);padding:10px 16px;text-align:left;
+  font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;
+  border-bottom:1px solid var(--border);}
+.dt th:first-child{border-radius:10px 0 0 0;}.dt th:last-child{border-radius:0 10px 0 0;}
+.dt td{padding:12px 16px;border-bottom:1px solid rgba(0,0,0,0.04);}
+.dt tr:last-child td{border-bottom:none;}
+.dt tr:nth-child(even) td{background:rgba(0,0,0,0.015);}
+.dt tr:hover td{background:rgba(0,0,0,0.025);}
+.dt .tr-total td{font-weight:700;background:var(--light);border-top:1px solid var(--border);}
+.dt .tr-sub td{font-weight:600;color:var(--text);}
+.num{text-align:right;font-variant-numeric:tabular-nums;}
+.blue-v{color:var(--blue);font-weight:500;}
+.gold-v{color:var(--gold);}
+.green-v{color:var(--green);font-weight:600;}
+
+/* ── COST BARS ── */
+.cbar-row{margin-bottom:8px;}
+.cbar-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--steel);margin-bottom:4px;}
+.cbar-bg{height:4px;background:rgba(0,0,0,0.06);border-radius:99px;}
+.cbar-fill{height:100%;border-radius:99px;transition:width 0.7s cubic-bezier(0.4,0,0.2,1);}
+
+/* ── KV ROWS ── */
+.kv{display:flex;justify-content:space-between;align-items:center;
+  font-size:14px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.04);}
+.kv:last-child{border-bottom:none;}
+.kv-k{color:var(--steel);}.kv-v{font-weight:600;color:var(--text);}
+
+/* ── FLAGS ── */
+.flag{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;}
+.fdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:6px;}
+.fred{background:var(--red);}.fyellow{background:var(--amber);}.fgreen{background:var(--green);}
+.ftext{font-size:14px;color:var(--text);line-height:1.5;}
+
+/* ── REC BOX ── */
+.rec-box{border-radius:14px;padding:16px 20px;border-left:3px solid;}
+.rec-label{font-size:12px;font-weight:700;margin-bottom:6px;}
+.rec-text{font-size:14px;line-height:1.65;}
+
+/* ── SOURCE BADGE ── */
+.source-badge{
+  display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;
+  padding:3px 10px;border-radius:99px;border:none;}
+.sb-high{background:rgba(36,138,61,0.1);color:var(--green);}
+.sb-medium{background:rgba(191,86,0,0.1);color:var(--amber);}
+.sb-low{background:rgba(215,0,21,0.1);color:var(--red);}
+.sb-none{background:rgba(0,0,0,0.04);color:var(--steel);}
+
+/* ── SCORE BAR ── */
+.score-bar{height:6px;background:var(--light);border-radius:3px;margin-top:5px;}
+.score-fill{height:100%;border-radius:3px;}
+
+/* ── MISC ── */
+.divider{border:none;border-top:1px solid rgba(0,0,0,0.06);margin:20px 0;}
+.section-hdr{font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px;letter-spacing:-0.3px;}
+.err-box{display:none;background:var(--red-bg);color:var(--red);border:1px solid var(--red-b);
+  border-radius:8px;padding:10px 14px;font-size:13px;margin-top:12px;}
+.hidden{display:none!important;}
+.toast{position:fixed;bottom:28px;right:28px;z-index:300;
+  background:rgba(29,29,31,0.8);backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  color:#fff;padding:12px 20px;border-radius:14px;font-size:13px;font-weight:500;
+  box-shadow:0 4px 24px rgba(0,0,0,0.2);transform:translateY(80px);opacity:0;
+  transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* ── LOADING ── */
+.loading-overlay{display:none;position:fixed;inset:0;
+  background:rgba(255,255,255,0.65);backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  z-index:200;align-items:center;justify-content:center;animation:fadeIn 0.15s ease;}
+.loading-overlay.show{display:flex;}
+.loading-card{background:rgba(255,255,255,0.85);border:1px solid rgba(0,0,0,0.06);
+  border-radius:20px;padding:32px 40px;
+  max-width:380px;width:90%;box-shadow:var(--shadow-lg);
+  animation:slideUp 0.35s cubic-bezier(0.4,0,0.2,1);}
+.spinner{width:32px;height:32px;border:2.5px solid rgba(0,0,0,0.08);border-top-color:var(--blue);
+  border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 16px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+
+@media(max-width:768px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
+  .main{padding:16px 12px 48px;}
+  .card{padding:20px 16px;border-radius:12px;}
+  .deal-address{font-size:16px;}
+  .stat-value{font-size:17px;}
+  .topbar{padding:0 16px;}
+}
+</style>
+</head>
+<body>
+
+<script>
+  const SERVER_URL   = "https://flip-analyzer-server-production.up.railway.app";
+  const ACCESS_TOKEN = "streamline2025";
+</script>
+
+<div class="topbar">
+  <div class="logo">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <rect width="32" height="32" rx="7" fill="rgba(201,151,58,0.15)"/>
+      <path d="M4 11 C7.5 7,12 17,16 11 C20 5,24.5 15,28 11" stroke="#C9973A" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <path d="M4 17 C7.5 13,12 23,16 17 C20 11,24.5 21,28 17" stroke="#E8C97A" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+      <path d="M4 23 C7.5 19,12 29,16 23 C20 17,24.5 27,28 23" stroke="rgba(255,255,255,0.25)" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    </svg>
+    <div><div class="logo-text">Streamline<span> AI</span></div><div class="logo-sub">Consulting</div></div>
+  </div>
+  <span class="tag">Flip Deal Analyzer</span>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-card">
+    <div class="spinner"></div>
+    <div style="font-size:17px;font-weight:700;color:var(--text);text-align:center;margin-bottom:4px;letter-spacing:-0.3px;">Analyzing Deal</div>
+    <div style="font-size:13px;color:var(--steel);text-align:center;line-height:1.5;" id="loadingMsg">Starting analysis...</div>
+    <div style="height:4px;background:rgba(0,0,0,0.06);border-radius:99px;margin-top:16px;overflow:hidden;">
+      <div id="progressBar" style="height:100%;background:var(--blue);border-radius:99px;width:0%;transition:width 0.5s cubic-bezier(0.4,0,0.2,1);"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;">
+      <div style="font-size:11px;color:#aeaeb2;transition:opacity 0.3s;" id="hangTightMsg"></div>
+      <div style="font-size:11px;color:#aeaeb2;font-variant-numeric:tabular-nums;" id="timeRemaining"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="main">
+
+  <!-- ══ INPUT FORM ══════════════════════════════════════════════ -->
+  <div id="viewInput">
+    <div style="margin-bottom:22px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">NorCal Fix &amp; Flip</div>
+      <div style="font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-0.5px;line-height:1.1;">Deal Analyzer</div>
+      <div style="font-size:14px;color:var(--steel);margin-top:5px;">
+        Automated comps · Photo assessment · Public records · Full deal report
+      </div>
+    </div>
+
+    <div class="grid-2" style="gap:24px;">
+      <!-- Left col -->
+      <div style="display:flex;flex-direction:column;gap:13px;">
+        <div>
+          <label class="form-label">Property Address <span style="color:var(--red);font-weight:400;">*</span></label>
+          <input type="text" id="address" placeholder="e.g. 123 Main St, Sacramento CA 95811"/>
+        </div>
+        <div class="grid-2">
+          <div><label class="form-label">Asking Price <span style="color:var(--red);font-weight:400;">*</span></label><input type="number" id="purchasePrice" placeholder="e.g. 350000"/></div>
+          <div><label class="form-label">Your Offer <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">optional</span></label><input type="number" id="offerPrice" placeholder="Defaults to asking price"/></div>
+          <div><label class="form-label">Estimated After-Repair Value <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">optional</span></label><input type="number" id="arv" placeholder="Leave blank for auto-estimate"/></div>
+          <div><label class="form-label">Year Built <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">optional</span></label><input type="number" id="yearBuilt" placeholder="e.g. 1978"/></div>
+        </div>
+        <div>
+          <label class="form-label">Beds / Baths / Sqft <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">optional</span></label>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1.5fr;gap:8px;">
+            <input type="number" id="beds" placeholder="Beds"/>
+            <input type="number" id="baths" placeholder="Baths"/>
+            <input type="number" id="sqft" placeholder="Sqft"/>
+          </div>
+        </div>
+        <div><label class="form-label">Lot Size <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">optional</span></label><input type="text" id="lotSize" placeholder="e.g. 6,200 sqft"/></div>
+
+        <!-- Photo upload -->
+        <div>
+          <label class="form-label">Property Photos <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional — we'll search listings if not provided)</span></label>
+          <div class="photo-drop" id="photoDrop" onclick="document.getElementById('photoInput').click()">
+            <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoSelect(this.files)"/>
+            <div class="photo-drop-icon">📷</div>
+            <div class="photo-drop-label">Drop photos here or click to select</div>
+            <div class="photo-drop-sub">JPG, PNG, WebP · Max 5 photos · Listing photos will be searched automatically</div>
+          </div>
+          <div class="photo-grid" id="photoGrid"></div>
+        </div>
+      </div>
+
+      <!-- Right col -->
+      <div style="display:flex;flex-direction:column;gap:13px;">
+        <div class="grid-2">
+          <div>
+            <label class="form-label">Financing</label>
+            <select id="financing">
+              <option value="HML">Hard Money (HML)</option>
+              <option value="PML">Private Money (PML)</option>
+              <option value="HML+PML">HML + PML Gap</option>
+              <option value="Cash">All Cash</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label" style="display:flex;justify-content:space-between;">
+              Hold Period <span id="holdLabel" style="color:var(--navy);font-weight:700;">5 months</span>
+            </label>
+            <input type="range" id="holdMonths" min="2" max="12" step="1" value="5" oninput="el('holdLabel').textContent=this.value+' months'" style="margin-top:6px;"/>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label">Known Issues</label>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;">
+            <label class="check-item" id="lbl-roof"><input type="checkbox" id="chk-roof" onchange="toggleCheck('roof')">Roof</label>
+            <label class="check-item" id="lbl-hvac"><input type="checkbox" id="chk-hvac" onchange="toggleCheck('hvac')">HVAC</label>
+            <label class="check-item" id="lbl-electrical"><input type="checkbox" id="chk-electrical" onchange="toggleCheck('electrical')">Elec</label>
+            <label class="check-item" id="lbl-foundation"><input type="checkbox" id="chk-foundation" onchange="toggleCheck('foundation')">Found</label>
+            <label class="check-item" id="lbl-sewer"><input type="checkbox" id="chk-sewer" onchange="toggleCheck('sewer')">Sewer</label>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label">Notes</label>
+          <textarea id="condNotes" rows="2" placeholder="Any details about the property or deal..."></textarea>
+        </div>
+
+        <!-- Advanced overrides (collapsed by default) -->
+        <div class="override-section">
+          <button type="button" class="override-toggle" onclick="toggleOverrides()">
+            <span id="overrideArrow">▸</span> Advanced Overrides
+            <span style="font-weight:400;color:var(--steel);font-size:10px;margin-left:6px;">condition, renovation scope</span>
+          </button>
+          <div id="overridePanel" class="override-panel hidden">
+            <div style="display:flex;flex-direction:column;gap:12px;padding:12px 0 4px;">
+              <div>
+                <label class="form-label" style="display:flex;justify-content:space-between;">
+                  Property Condition Override <span id="condLabel" style="color:var(--navy);font-weight:700;">5 / 10</span>
+                </label>
+                <input type="range" id="conditionScore" min="1" max="10" step="1" value="5" oninput="el('condLabel').textContent=this.value+' / 10'"/>
+                <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--steel);margin-top:2px;">
+                  <span>Gut (1)</span><span>Average (5)</span><span>Excellent (10)</span>
+                </div>
+                <div style="font-size:11px;color:var(--steel);margin-top:3px;">Photos and AI will estimate this automatically — override only if you know the condition</div>
+              </div>
+              <div>
+                <label class="form-label">Renovation Scope Override</label>
+                <select id="rehabScope">
+                  <option value="auto" selected>Auto-detect from condition</option>
+                  <option value="minimal">Minimal ($0–5K)</option>
+                  <option value="cosmetic">Cosmetic ($25–40K)</option>
+                  <option value="moderate">Moderate ($45–65K)</option>
+                  <option value="heavy">Heavy ($65–90K)</option>
+                  <option value="gut">Gut ($90K+)</option>
+                </select>
+                <div style="font-size:11px;color:var(--steel);margin-top:3px;">Leave on auto to let the analysis determine renovation scope</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="err-box" id="formError"></div>
+    <div style="display:flex;gap:12px;align-items:center;margin-top:20px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--border);">
+      <button class="btn btn-primary" onclick="runAnalysis()" id="runBtn" style="padding:13px 32px;font-size:15px;">
+        Run Analysis →
+      </button>
+      <div style="font-size:12px;color:var(--steel);line-height:1.5;">
+        Researches comps, assesses condition, analyzes deal,<br/>and builds downloadable Excel + PDF reports
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ RESULTS ═════════════════════════════════════════════════ -->
+  <div id="viewResults" class="hidden">
+
+    <!-- Progress managed by checklist now -->
+
+    <!-- Progress checklist -->
+    <div class="progress-checklist" id="progressChecklist">
+      <div class="checklist-title">Analysis Progress</div>
+      <div class="check-step" id="step-comps">
+        <div class="check-icon" id="icon-comps">○</div>
+        <span id="label-comps">Researching comparable sales</span>
+      </div>
+      <div class="check-step" id="step-condition">
+        <div class="check-icon" id="icon-condition">○</div>
+        <span id="label-condition">Assessing property condition</span>
+      </div>
+      <div class="check-step" id="step-records">
+        <div class="check-icon" id="icon-records">○</div>
+        <span id="label-records">Checking public records</span>
+      </div>
+      <div class="check-step" id="step-analysis">
+        <div class="check-icon" id="icon-analysis">○</div>
+        <span id="label-analysis">Calculating deal financials</span>
+      </div>
+      <div class="check-step" id="step-verify">
+        <div class="check-icon" id="icon-verify">○</div>
+        <span id="label-verify">Verifying math</span>
+      </div>
+      <div class="check-step" id="step-excel">
+        <div class="check-icon" id="icon-excel">○</div>
+        <span id="label-excel">Building Excel report</span>
+      </div>
+    </div>
+
+    <!-- Top action bar -->
+    <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap;">
+      <button class="btn btn-outline btn-sm" onclick="resetForm()">← New Deal</button>
+      <button class="btn btn-gold btn-sm" id="xlsxBtn" onclick="downloadXLSX()" disabled>Download XLSX ↓</button>
+      <button class="btn btn-sm" id="pdfBtn" onclick="downloadPDF()" disabled style="background:var(--navy);color:#fff;">Download PDF ↓</button>
+    </div>
+
+    <!-- Deal header (hidden until Agent 1 done) -->
+    <div id="dealHeaderWrap" class="hidden">
+      <div class="deal-header">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;">
+          <div>
+            <div class="deal-address" id="rAddr">—</div>
+            <div class="deal-facts" id="rFacts">—</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:4px;" id="rCond">—</div>
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;" id="sourceBadges"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div class="grade-badge" id="gradeBadge">—</div>
+            <div>
+              <div style="font-size:14px;font-weight:600;" id="rVerdict">—</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:3px;" id="rMetrics">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key numbers -->
+      <div class="grid-4" style="margin-bottom:10px;">
+        <div class="stat-box"><div class="stat-label">Purchase Price</div><div class="stat-value" id="kPurchase">—</div></div>
+        <div class="stat-box"><div class="stat-label">Total Rehab</div><div class="stat-value sv-gold" id="kRehab">—</div></div>
+        <div class="stat-box"><div class="stat-label">ARV</div><div class="stat-value" id="kArv">—</div></div>
+        <div class="stat-box"><div class="stat-label">Net Profit</div><div class="stat-value" id="kProfit">—</div></div>
+      </div>
+      <div class="grid-4" style="margin-bottom:18px;">
+        <div class="stat-box"><div class="stat-label">All-In Cost</div><div class="stat-value" id="kAllin">—</div></div>
+        <div class="stat-box"><div class="stat-label">Cash Invested</div><div class="stat-value" id="kCash">—</div></div>
+        <div class="stat-box"><div class="stat-label">Suggested Offer</div><div class="stat-value sv-blue" id="kOffer">—</div></div>
+        <div class="stat-box"><div class="stat-label">Annualized ROI</div><div class="stat-value" id="kARoi">—</div></div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="setTab('overview')">Overview</button>
+        <button class="tab-btn" onclick="setTab('condition')">Condition</button>
+        <button class="tab-btn" onclick="setTab('comps')">Comps</button>
+        <button class="tab-btn" onclick="setTab('rehab')">Rehab</button>
+        <button class="tab-btn" onclick="setTab('financing')">Financing</button>
+        <button class="tab-btn" onclick="setTab('brrrr')">BRRRR</button>
+      </div>
+
+      <!-- Tab: Overview -->
+      <div id="tab-overview">
+        <div class="grid-2" style="gap:14px;">
+          <div class="card">
+            <div class="section-hdr">Cost Breakdown</div>
+            <div id="costBars"></div>
+            <div class="divider"></div>
+            <div id="costRows"></div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;padding-top:8px;border-top:1px solid var(--border);margin-top:4px;">
+              <span>NET PROFIT</span><span id="netProfitRow" style="font-size:15px;">—</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="card">
+              <div class="section-hdr">Max Offer Thresholds</div>
+              <div id="maxOfferRows"></div>
+            </div>
+            <div class="card" id="flagsCard">
+              <div class="section-hdr">Risk &amp; Permit Flags</div>
+              <div id="riskFlags"></div>
+            </div>
+            <div class="rec-box" id="recBox">
+              <div class="rec-label" id="recLabel">Recommendation</div>
+              <div class="rec-text" id="recText">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Condition -->
+      <div id="tab-condition" class="hidden">
+        <div class="grid-2" style="gap:14px;">
+          <div class="card">
+            <div class="section-hdr">Room-by-Room Assessment</div>
+            <div id="conditionTable"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="card">
+              <div class="section-hdr">Photo Source &amp; Confidence</div>
+              <div id="photoSourceInfo"></div>
+            </div>
+            <div class="card" id="condRedFlagsCard">
+              <div class="section-hdr">Visual Red Flags</div>
+              <div id="condRedFlags"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Comps -->
+      <div id="tab-comps" class="hidden">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+            <div class="section-hdr" style="margin:0;">Sold Comparables</div>
+            <div id="arvRangeDisplay" style="font-size:13px;color:var(--steel);"></div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="dt" id="compsTable">
+              <thead><tr>
+                <th>Address</th><th>Bd/Ba</th><th>Sqft</th>
+                <th class="num">Sold Price</th><th class="num">$/Sqft</th>
+                <th class="num">Adjusted</th><th>DOM</th><th>Date</th><th>Notes</th>
+              </tr></thead>
+              <tbody id="compsBody"></tbody>
+            </table>
+          </div>
+          <div id="compsNote" style="margin-top:12px;font-size:12px;color:var(--steel);"></div>
+        </div>
+      </div>
+
+      <!-- Tab: Rehab -->
+      <div id="tab-rehab" class="hidden">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+            <div class="section-hdr" style="margin:0;">Itemized Rehab Budget</div>
+            <div style="font-size:12px;color:var(--steel);">Blue = editable · Replace with contractor bids in XLSX</div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="dt">
+              <thead><tr><th>Line Item</th><th class="num">Labor</th><th class="num">Material</th><th class="num">Total</th><th>Notes</th></tr></thead>
+              <tbody id="rehabBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Financing -->
+      <div id="tab-financing" class="hidden">
+        <div class="grid-2" style="gap:14px;">
+          <div class="card">
+            <div class="section-hdr">Hard Money Loan (HML)</div>
+            <div id="hmlRows"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="card">
+              <div class="section-hdr">Private Money (PML)</div>
+              <div id="pmlRows"></div>
+            </div>
+            <div class="card">
+              <div class="section-hdr">Cash to Close</div>
+              <div id="cashRows"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: BRRRR -->
+      <div id="tab-brrrr" class="hidden">
+        <div class="grid-2" style="gap:14px;">
+          <div class="card">
+            <div class="section-hdr">BRRRR Analysis</div>
+            <div id="brrrrRows"></div>
+          </div>
+          <div class="card">
+            <div class="section-hdr">Strategy Comparison</div>
+            <div id="stratRows"></div>
+            <div class="divider"></div>
+            <div style="background:var(--light);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--steel);line-height:1.6;" id="brrrrVerdict"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /dealHeaderWrap -->
+  </div><!-- /viewResults -->
+</div><!-- /main -->
+
+<script>
+// ── Config ────────────────────────────────────────────────────────
+let DEAL = null, XL_DATA = null;
+let uploadedPhotos = [];
+
+const fmt = n => n != null ? "$" + Math.round(n).toLocaleString() : "$0";
+const pct = n => n != null ? (Math.round(n * 10) / 10) + "%" : "0%";
+const el  = id => document.getElementById(id);
+
+// ── Toast ─────────────────────────────────────────────────────────
+function toast(msg, dur = 3500) {
+  const t = el("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), dur);
+}
+
+// ── Photo handling ─────────────────────────────────────────────────
+function handlePhotoSelect(files) {
+  Array.from(files).slice(0, 5 - uploadedPhotos.length).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const b64 = e.target.result.split(",")[1];
+      const mediaType = file.type;
+      uploadedPhotos.push({ type: "base64", data: b64, mediaType, name: file.name });
+      renderPhotoGrid();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderPhotoGrid() {
+  const grid = el("photoGrid");
+  grid.innerHTML = uploadedPhotos.map((p, i) => `
+    <div class="photo-thumb-wrap">
+      <img class="photo-thumb" src="data:${p.mediaType};base64,${p.data}" alt="${p.name}"/>
+      <button class="photo-remove" onclick="removePhoto(${i})">✕</button>
+    </div>`).join("");
+  const drop = el("photoDrop");
+  drop.querySelector(".photo-drop-label").textContent =
+    uploadedPhotos.length > 0 ? `${uploadedPhotos.length} photo(s) selected` : "Drop photos here or click to select";
+}
+
+function removePhoto(i) {
+  uploadedPhotos.splice(i, 1);
+  renderPhotoGrid();
+}
+
+// Drag/drop
+const drop = el("photoDrop");
+drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("dragover"); });
+drop.addEventListener("dragleave", () => drop.classList.remove("dragover"));
+drop.addEventListener("drop", e => {
+  e.preventDefault();
+  drop.classList.remove("dragover");
+  handlePhotoSelect(e.dataTransfer.files);
+});
+
+// ── Form helpers ──────────────────────────────────────────────────
+function toggleCheck(name) {
+  const lbl = el("lbl-" + name);
+  if (lbl) lbl.classList.toggle("active", el("chk-" + name).checked);
+}
+
+function gradeStyle(g) {
+  if (!g) return { bg: "#f1efe8", color: "#5f5e5a" };
+  if (g === "A+" || g === "A")  return { bg: "#eaf3de", color: "#3b6d11" };
+  if (g === "B+")               return { bg: "#eaf3de", color: "#3b6d11" };
+  if (g === "B")                return { bg: "#faeeda", color: "#854f0b" };
+  if (g === "C")                return { bg: "#faece7", color: "#993c1d" };
+  return                               { bg: "#fcebeb", color: "#a32d2d" };
+}
+
+function setTab(name) {
+  const tabs = ["overview","condition","comps","rehab","financing","brrrr"];
+  tabs.forEach(t => el("tab-" + t).classList.toggle("hidden", t !== name));
+  document.querySelectorAll(".tab-btn").forEach((b, i) =>
+    b.classList.toggle("active", tabs[i] === name));
+}
+
+function toggleOverrides() {
+  const panel = el("overridePanel");
+  const arrow = el("overrideArrow");
+  if (panel.classList.contains("hidden")) {
+    panel.classList.remove("hidden");
+    panel.classList.add("visible");
+    arrow.textContent = "▾";
+  } else {
+    panel.classList.add("hidden");
+    panel.classList.remove("visible");
+    arrow.textContent = "▸";
+  }
+}
+
+function resetForm() {
+  el("viewInput").classList.remove("hidden");
+  el("viewResults").classList.add("hidden");
+  el("dealHeaderWrap").classList.add("hidden");
+  DEAL = null; XL_DATA = null;
+  el("xlsxBtn").disabled = true;
+  el("pdfBtn").disabled = true;
+  setAllAgents("idle");
+  setWave(0);
+}
+
+// ── Agent status helpers ─────────────────────────────────────────
+// ── Checklist step management ─────────────────────────────────────
+const STEPS = ["comps","condition","records","analysis","verify","excel"];
+
+function setStep(name, status) {
+  const step = el("step-" + name);
+  const icon = el("icon-" + name);
+  if (!step || !icon) return;
+  step.className = "check-step " + status;
+  if (status === "active") icon.textContent = "●";
+  else if (status === "done") icon.textContent = "✓";
+  else if (status === "error") icon.textContent = "✗";
+  else icon.textContent = "○";
+}
+
+function resetAllSteps() {
+  STEPS.forEach(s => setStep(s, ""));
+  // Reset labels to defaults
+  const defaults = {comps:"Researching comparable sales",condition:"Assessing property condition",
+    records:"Checking public records",analysis:"Calculating deal financials",
+    verify:"Verifying math",excel:"Building Excel report"};
+  Object.entries(defaults).forEach(([k,v]) => { const l = el("label-"+k); if (l) l.textContent = v; });
+}
+
+// Legacy compatibility wrappers
+function setAgent(id, status, msg = null) {
+  const map = { 3:"comps", 4:"condition", 5:"records", 1:"analysis", 7:"verify", 2:"excel" };
+  const step = map[id];
+  if (step) setStep(step, status === "running" ? "active" : status);
+}
+function setAllAgents(status) { resetAllSteps(); }
+function setWave(n) { /* no-op — waves hidden now */ }
+
+// ── Progress bar ──────────────────────────────────────────────────
+let progInterval = null;
+let progValue = 0;
+let hangTightInterval = null;
+let countdownInterval = null;
+let analysisStartTime = null;
+
+const HANG_TIGHT_MSGS = [
+  "Searching recent sales nearby…",
+  "Comparing property features…",
+  "Checking listing history…",
+  "Crunching the numbers…",
+  "Reviewing market conditions…",
+  "Calculating rehab estimates…",
+  "Cross-referencing public records…",
+  "Almost there — finalizing analysis…",
+  "Running the numbers one more time…",
+  "Putting together your report…",
+];
+
+function startProgress() {
+  progValue = 0;
+  analysisStartTime = Date.now();
+  const estimatedSeconds = 35;
+  let hangIdx = 0;
+
+  clearInterval(progInterval);
+  clearInterval(hangTightInterval);
+  clearInterval(countdownInterval);
+
+  // Progress bar
+  progInterval = setInterval(() => {
+    progValue = Math.min(progValue + (95 - progValue) * 0.025, 93);
+    el("progressBar").style.width = progValue + "%";
+  }, 500);
+
+  // Rotating hang tight messages
+  const htm = el("hangTightMsg");
+  if (htm) {
+    htm.style.opacity = "1";
+    htm.textContent = HANG_TIGHT_MSGS[0];
+    hangTightInterval = setInterval(() => {
+      hangIdx = (hangIdx + 1) % HANG_TIGHT_MSGS.length;
+      htm.style.opacity = "0";
+      setTimeout(() => {
+        htm.textContent = HANG_TIGHT_MSGS[hangIdx];
+        htm.style.opacity = "1";
+      }, 200);
+    }, 4000);
+  }
+
+  // Estimated time remaining
+  const tr = el("timeRemaining");
+  if (tr) {
+    countdownInterval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - analysisStartTime) / 1000);
+      const remaining = Math.max(0, estimatedSeconds - elapsed);
+      if (remaining > 0) {
+        tr.textContent = `~${remaining}s remaining`;
+      } else {
+        tr.textContent = "Wrapping up…";
+      }
+    }, 1000);
+  }
+}
+
+function completeProgress() {
+  clearInterval(progInterval);
+  clearInterval(hangTightInterval);
+  clearInterval(countdownInterval);
+  el("progressBar").style.width = "100%";
+  const htm = el("hangTightMsg");
+  const tr = el("timeRemaining");
+  if (htm) htm.textContent = "Done!";
+  if (tr) tr.textContent = "";
+}
+
+// ── Build deal prompt ─────────────────────────────────────────────
+function buildPrompt(f) {
+  const issues = ["roof","hvac","electrical","foundation","sewer"]
+    .filter(k => el("chk-"+k)?.checked).join(", ") || "None";
+  return `Address: ${f.address}
+Purchase Price (asking): $${f.purchasePrice}
+Offer Price: $${f.offerPrice}
+User ARV Estimate: ${f.arv ? "$" + f.arv : "None — use comp-derived ARV"}
+Beds/Baths/Sqft: ${f.beds||"?"}/${f.baths||"?"}/${f.sqft||"?"} sqft
+Year Built: ${f.yearBuilt||"Unknown"} | Lot: ${f.lotSize||"Unknown"}
+Manual Condition Score: ${f.conditionScore}/10
+Condition Notes: ${f.conditionNotes||"None"}
+Financing: ${f.financing} | Hold: ${f.holdMonths} months
+Rehab Scope: ${f.rehabScope === "auto" ? "Auto-detect from condition assessment" : f.rehabScope}
+Known Issues: ${issues}`;
+}
+
+function updateLoadingMsg(wave) {
+  const msgs = {
+    1: "Researching property details…",
+    2: "Analyzing deal financials…",
+    3: "Building your report…"
+  };
+  if (el("loadingMsg")) el("loadingMsg").textContent = msgs[wave] || "";
+  // Update estimated time based on wave
+  const tr = el("timeRemaining");
+  if (tr && analysisStartTime) {
+    const waveEstimates = { 1: 35, 2: 25, 3: 12 };
+    const elapsed = Math.floor((Date.now() - analysisStartTime) / 1000);
+    // Recalibrate remaining based on which wave we just entered
+    const totalEst = waveEstimates[wave] || 15;
+    // We'll let the countdown continue from current point
+  }
+}
+
+// ── Run analysis — 3-wave REST ─────────────────────────────────────
+async function runAnalysis() {
+  const addr = el("address").value.trim();
+  const pp   = el("purchasePrice").value;
+  if (!addr || !pp) {
+    const err = el("formError");
+    err.textContent = "Address and purchase price are required.";
+    err.style.display = "block";
+    return;
+  }
+  el("formError").style.display = "none";
+
+  const formData = {
+    address:       addr,
+    purchasePrice: parseFloat(pp),
+    offerPrice:    parseFloat(el("offerPrice").value) || parseFloat(pp),
+    arv:           parseFloat(el("arv").value) || null,
+    beds:          el("beds").value,
+    baths:         el("baths").value,
+    sqft:          el("sqft").value,
+    yearBuilt:     el("yearBuilt").value,
+    lotSize:       el("lotSize").value,
+    conditionScore:parseInt(el("conditionScore").value),
+    conditionNotes:el("condNotes").value,
+    financing:     el("financing").value,
+    holdMonths:    parseInt(el("holdMonths").value),
+    rehabScope:    el("rehabScope").value,
+  };
+  const prompt       = buildPrompt(formData);
+  const photos       = uploadedPhotos.map(p => ({ type:"base64", data:p.data, mediaType:p.mediaType }));
+  const needsRental  = false; // rental comps disabled
+
+  // Switch to results view
+  el("viewInput").classList.add("hidden");
+  el("viewResults").classList.remove("hidden");
+  el("loadingOverlay").classList.add("show");
+  setAllAgents("idle");
+  setWave(1);
+  startProgress();
+
+  const hdrs = { "Content-Type":"application/json", "x-access-token": ACCESS_TOKEN };
+
+  const apiCall = async (path, body) => {
+    const resp = await fetch(SERVER_URL + path, { method:"POST", headers:hdrs, body:JSON.stringify(body) });
+    if (!resp.ok) throw new Error(path + " returned HTTP " + resp.status);
+    const json = await resp.json();
+    if (!json.ok) throw new Error(path + " error: " + (json.error || "unknown"));
+    return json;
+  };
+
+  try {
+    // ── WAVE 1 ── Comps + Photos + Records in parallel ────────────
+    updateLoadingMsg(1);
+    setAgent(3,"running"); setAgent(4,"running"); setAgent(5,"running");
+
+    const w1 = await apiCall("/api/wave1", { prompt, address: addr, photos });
+
+    setAgent(3, w1.agentStatus?.agent3 || "done");
+    setAgent(4, w1.agentStatus?.agent4 || "done");
+    setAgent(5, w1.agentStatus?.agent5 || "done");
+
+    // Surface comp failures visibly
+    if (w1.comps?.error) {
+      setStep("comps", "error");
+      el("label-comps").textContent = "Comp search issue — using estimates";
+      console.warn("Comps error:", w1.comps.error, w1.comps.parseError || "");
+    }
+    if (w1.condition?.error) {
+      setStep("condition", "error");
+      el("label-condition").textContent = "Condition check issue — using defaults";
+    }
+
+    // ── WAVE 2 ── Core deal analysis ──────────────────────────────
+    setWave(2);
+    updateLoadingMsg(2);
+    setAgent(1, "running", "synthesizing research…");
+    setAgent(7, "running");
+
+    const w2 = await apiCall("/api/wave2", {
+      prompt,
+      address: addr,
+      wave1: { comps: w1.comps, condition: w1.condition, records: w1.records }
+    });
+
+    setAgent(1, w2.agentStatus?.agent1 === "done" ? "done" : "done");
+    setAgent(7, w2.agentStatus?.verifier === "done" ? "done" : "error");
+
+    // Render deal card
+    renderDeal(w2.deal);
+    el("dealHeaderWrap").classList.remove("hidden");
+    el("pdfBtn").disabled = false;
+    toast("✓ Deal analysis complete");
+
+    // ── WAVE 3 ── Excel + optional rental comps ───────────────────
+    setWave(3);
+    updateLoadingMsg(3);
+    setAgent(2, "running");
+    if (needsRental) setAgent(6, "running");
+
+    const w3 = await apiCall("/api/wave3", {
+      deal:             w2.deal,
+      prompt,
+      needsRentalComps: needsRental
+    });
+
+    setAgent(2, w3.agentStatus?.agent2 || "done");
+    if (needsRental) setAgent(6, w3.agentStatus?.agent6 || "done");
+
+    if (w3.excel) {
+      XL_DATA = w3.excel;
+      el("xlsxBtn").disabled = false;
+      toast("✓ Excel workbook ready — download above");
+    } else {
+      toast("⚠ Excel build failed — deal card is still valid");
+    }
+
+    completeProgress();
+    setTimeout(() => el("loadingOverlay").classList.remove("show"), 400);
+
+  } catch (err) {
+    console.error("Analysis error:", err);
+    completeProgress();
+    el("loadingOverlay").classList.remove("show");
+    alert("Analysis failed: " + err.message + "\n\nCheck that your server is running at:\n" + SERVER_URL);
+    el("viewInput").classList.remove("hidden");
+    el("viewResults").classList.add("hidden");
+    el("dealHeaderWrap").classList.add("hidden");
+    setAllAgents("idle");
+    setWave(0);
+  }
+}
+
+// ── Render deal card ──────────────────────────────────────────────
+function renderDeal(d) {
+  DEAL = d;
+  const gs  = gradeStyle(d.dealGrade);
+  const pos = d.netProfit > 0;
+
+  el("rAddr").textContent = d.address;
+  el("rFacts").textContent = `${d.propertyFacts?.beds||"?"}bd/${d.propertyFacts?.baths||"?"}ba · ${(d.propertyFacts?.sqft||0).toLocaleString()} sqft · Built ${d.propertyFacts?.yearBuilt||"?"} · ${d.propertyFacts?.lotSize||""}`;
+  el("rCond").textContent  = `Condition: ${d.conditionScore}/10 — ${d.conditionLabel} (${d.conditionSource})`;
+
+  const gb = el("gradeBadge");
+  gb.textContent = d.dealGrade;
+  Object.assign(gb.style, { background: gs.bg, color: gs.color });
+  el("rVerdict").textContent = d.verdict;
+  el("rVerdict").style.color = gs.bg;
+  el("rMetrics").textContent = `ROI ${pct(d.roi)} · Ann. ${pct(d.annualizedRoi)} · ${d.holdMonths}mo hold`;
+
+  // Source badges
+  const badges = [];
+  const pc = d.photoConfidence || "none";
+  const pcClass = { high:"sb-high", medium:"sb-medium", low:"sb-low", none:"sb-none" }[pc] || "sb-none";
+  badges.push(`<span class="source-badge ${pcClass}">📷 ${d.photoSource?.replace(/_/g," ") || "no photos"}</span>`);
+  if (d.arvSource === "comps") badges.push(`<span class="source-badge sb-high">📊 comp-derived ARV</span>`);
+  if (d.floodZone && d.floodZone !== "X" && d.floodZone !== "unknown")
+    badges.push(`<span class="source-badge sb-low">🌊 Flood zone ${d.floodZone}</span>`);
+  el("sourceBadges").innerHTML = badges.join("");
+
+  // Key numbers
+  el("kPurchase").textContent = fmt(d.purchasePrice);
+  el("kRehab").textContent    = fmt(d.totalRehab);
+  el("kArv").textContent      = fmt(d.arv);
+  el("kProfit").textContent   = fmt(d.netProfit);
+  el("kProfit").className     = "stat-value " + (pos ? "sv-green" : "sv-red");
+  el("kAllin").textContent    = fmt(d.allInCost);
+  el("kCash").textContent     = fmt(d.cashInvested);
+  el("kOffer").textContent    = fmt(d.suggestedOffer);
+  el("kARoi").textContent     = pct(d.annualizedRoi);
+  el("kARoi").className       = "stat-value " + (d.annualizedRoi >= 15 ? "sv-green" : d.annualizedRoi >= 10 ? "sv-gold" : "sv-red");
+
+  // Cost bars
+  const bars = [
+    ["Purchase", d.purchasePrice, "#0b1f3a"],
+    ["Rehab", d.totalRehab, "#c9973a"],
+    ["Buy Closing", d.purchaseClosing, "#888780"],
+    ["Holding", d.holdingCosts?.total, "#b4b2a9"],
+    ["Sale Costs", d.saleCosts?.total, "#d3d1c7"],
+  ];
+  el("costBars").innerHTML = bars.map(([l,v,c]) => {
+    const w = Math.max(2, Math.round(((v||0) / d.allInCost) * 100));
+    return `<div class="cbar-row"><div class="cbar-meta"><span>${l}</span><span>${fmt(v)}</span></div>
+      <div class="cbar-bg"><div class="cbar-fill" style="width:${w}%;background:${c}"></div></div></div>`;
+  }).join("");
+
+  // Cost rows
+  const cr = [
+    ["Purchase Price", d.purchasePrice],
+    ["Purchase Closing", d.purchaseClosing],
+    ["Total Rehab", d.totalRehab],
+    ["Insurance", d.holdingCosts?.insurance],
+    ["Property Tax", d.holdingCosts?.taxes],
+    ["Utilities", d.holdingCosts?.utilities],
+    ["HML Interest", d.holdingCosts?.hmlInterest],
+    ["HML Origination", d.holdingCosts?.hmlOrigination],
+    ["PML Interest", d.holdingCosts?.pmlInterest],
+    ["Buyer Commission (2.5%)", d.saleCosts?.buyerCommission],
+    ["Listing Costs", d.saleCosts?.kwListing],
+    ["Sale Closing (1.5%)", d.saleCosts?.saleClosing],
+  ].filter(([,v]) => v && v > 0);
+  el("costRows").innerHTML = cr.map(([l,v]) =>
+    `<div class="kv"><span class="kv-k">${l}</span><span class="kv-v">${fmt(v)}</span></div>`).join("") +
+    `<div class="kv" style="font-weight:700;border-top:1px solid var(--border);margin-top:3px;padding-top:6px;">
+      <span>All-In Cost</span><span>${fmt(d.allInCost)}</span></div>`;
+  el("netProfitRow").textContent = fmt(d.netProfit);
+  el("netProfitRow").style.color = pos ? "var(--green)" : "var(--red)";
+
+  // Max offer
+  el("maxOfferRows").innerHTML = [
+    ["Conservative (65%)", d.maxOffer?.conservative, "#888"],
+    ["Standard (70%)", d.maxOffer?.standard, "#378add"],
+    ["Aggressive (75%)", d.maxOffer?.aggressive, "#e24b4a"],
+  ].map(([l,v,c]) =>
+    `<div class="kv"><span class="kv-k">${l}</span><span class="kv-v" style="color:${c}">${fmt(v)}</span></div>`
+  ).join("");
+
+  // Risk flags
+  const allFlags = [...(d.riskFlags||[]), ...(d.permitFlags||[])];
+  el("riskFlags").innerHTML = allFlags.length
+    ? allFlags.map(f =>
+        `<div class="flag"><div class="fdot f${f.level==="red"?"red":f.level==="green"?"green":"yellow"}"></div>
+         <span class="ftext">${f.text}</span></div>`).join("")
+    : `<div style="font-size:13px;color:var(--steel);">No major flags identified.</div>`;
+
+  // Recommendation
+  const isGo = d.netProfit > 30000, isCau = d.netProfit > 0;
+  const rb = el("recBox");
+  rb.style.cssText = `border-radius:10px;padding:15px 18px;border-left:4px solid ${isGo?"var(--green)":isCau?"#ef9f27":"var(--red)"};background:${isGo?"var(--green-bg)":isCau?"var(--amber-bg)":"var(--red-bg)"};`;
+  el("recLabel").textContent = d.suggestedOffer && d.suggestedOffer !== d.purchasePrice
+    ? `Recommendation — Offer ${fmt(d.suggestedOffer)}` : "Recommendation";
+  el("recLabel").style.color = isGo?"var(--green)":isCau?"var(--amber)":"var(--red)";
+  el("recText").textContent  = d.recommendation;
+
+  // ── Condition tab ──
+  const rd = d.conditionRoomBreakdown || {};
+  const scoreColor = s => s >= 7 ? "#639922" : s >= 5 ? "#c9973a" : s >= 3 ? "#e85d26" : "#e24b4a";
+  el("conditionTable").innerHTML = Object.entries(rd).map(([area, v]) => {
+    const s = v.score || 0;
+    const c = scoreColor(s);
+    return `<div style="margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+        <span style="font-size:13px;font-weight:600;color:var(--navy);text-transform:capitalize;">${area}</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:11px;color:var(--steel);">weight ${Math.round((v.weight||0)*100)}%</span>
+          <span style="font-size:15px;font-weight:700;color:${c};">${s || "N/A"}</span>
+        </div>
+      </div>
+      <div class="score-bar"><div class="score-fill" style="width:${(s/10)*100}%;background:${c}"></div></div>
+      <div style="font-size:12px;color:var(--steel);margin-top:3px;">${v.notes||""}</div>
+    </div>`;
+  }).join("");
+
+  el("photoSourceInfo").innerHTML = `
+    <div class="kv"><span class="kv-k">Source</span><span class="kv-v">${(d.photoSource||"none").replace(/_/g," ")}</span></div>
+    <div class="kv"><span class="kv-k">Photos analyzed</span><span class="kv-v">${d.photosAnalyzed||0}</span></div>
+    <div class="kv"><span class="kv-k">Confidence</span><span class="kv-v">${d.photoConfidence||"none"}</span></div>
+    <div class="kv"><span class="kv-k">Rooms covered</span><span class="kv-v">${(d.roomsCovered||[]).join(", ")||"none"}</span></div>
+    <div class="kv"><span class="kv-k">Rooms missing</span><span class="kv-v" style="color:${(d.roomsMissing||[]).length?"var(--red)":"var(--green)"}">${(d.roomsMissing||[]).join(", ")||"none"}</span></div>
+    <div class="kv"><span class="kv-k">Staging detected</span><span class="kv-v">${d.stagingDetected?"Yes — scores adjusted conservatively":"No"}</span></div>`;
+
+  // ── Comps tab ──
+  const comps = d.soldComps || [];
+  if (d.arvRange) {
+    el("arvRangeDisplay").innerHTML = `ARV Range: <strong>${fmt(d.arvRange.low)}</strong> — <strong>${fmt(d.arvRange.mid)}</strong> — <strong>${fmt(d.arvRange.high)}</strong> · Using: <strong style="color:var(--gold)">${fmt(d.arv)}</strong>`;
+  }
+  el("compsBody").innerHTML = comps.length
+    ? comps.map(c =>
+        `<tr><td>${c.address||"—"}</td><td>${c.beds||""}/${c.baths||""}</td><td>${(c.sqft||0).toLocaleString()}</td>
+         <td class="num">${fmt(c.soldPrice)}</td><td class="num">${fmt(c.pricePerSqft)}/sqft</td>
+         <td class="num gold-v">${fmt(c.adjustedPrice)}</td>
+         <td>${c.daysOnMarket||"—"} days</td><td>${c.soldDate||"—"}</td>
+         <td style="font-size:12px;color:var(--steel);">${c.adjustmentNotes||""}</td></tr>`
+      ).join("")
+    : `<tr><td colspan="9" style="text-align:center;color:var(--steel);padding:20px;">No comps found — ARV based on user input</td></tr>`;
+
+  if (d.marketContext) {
+    el("compsNote").textContent = d.marketContext.marketComment || "";
+  }
+
+  // ── Rehab tab ──
+  const items = d.rehabLineItems || [];
+  el("rehabBody").innerHTML = items.filter(r => r.include !== false).map(r =>
+    `<tr><td>${r.item}</td>
+     <td class="num blue-v">${r.labor ? fmt(r.labor) : "—"}</td>
+     <td class="num blue-v">${r.material ? fmt(r.material) : "—"}</td>
+     <td class="num" style="font-weight:600">${fmt(r.total)}</td>
+     <td style="font-size:12px;color:var(--steel)">${r.notes||""}</td></tr>`
+  ).join("") +
+  `<tr class="tr-sub"><td>Subtotal</td><td></td><td></td><td class="num">${fmt(d.rehabBudget)}</td><td></td></tr>
+   <tr><td style="color:var(--steel)">Contingency (${d.rehabBudget>0?Math.round((d.rehabContingency/d.rehabBudget)*100):15}%)</td><td></td><td></td><td class="num gold-v">${fmt(d.rehabContingency)}</td><td></td></tr>
+   <tr class="tr-total"><td>GRAND TOTAL</td><td></td><td></td><td class="num" style="color:var(--gold);font-size:15px">${fmt(d.totalRehab)}</td><td></td></tr>`;
+
+  // ── Financing tab ──
+  const h = d.financing?.hml||{}, p = d.financing?.pml||{};
+  el("hmlRows").innerHTML = [
+    ["Loan Amount", fmt(h.loanAmount)], ["LTV", "90%"],
+    ["Rate", pct(h.rate)], ["Points", (h.points||1)+"pt"],
+    ["Origination Fee", fmt(h.originationFee)],
+    ["Monthly Payment", fmt(h.monthlyPayment)],
+    ["Hold Months", (d.holdMonths||5)+" mo"],
+    ["Total Interest", fmt(h.totalInterest)],
+    ["Total HML Cost", fmt((h.originationFee||0)+(h.totalInterest||0))],
+  ].map(([l,v]) => `<div class="kv"><span class="kv-k">${l}</span><span class="kv-v">${v}</span></div>`).join("");
+  el("pmlRows").innerHTML = [
+    ["Loan Amount", fmt(p.loanAmount)], ["Rate", pct(p.rate)],
+    ["Monthly Payment", fmt(p.monthlyPayment)], ["Total Cost", fmt(p.totalInterest)],
+  ].map(([l,v]) => `<div class="kv"><span class="kv-k">${l}</span><span class="kv-v">${v}</span></div>`).join("");
+  el("cashRows").innerHTML = [
+    ["Cash to Close", fmt(d.financing?.cashToClose)],
+    ["Total Financing Cost", fmt(d.financing?.totalFinancingCost)],
+    ["Total Cash Invested", fmt(d.cashInvested)],
+  ].map(([l,v]) => `<div class="kv"><span class="kv-k">${l}</span><span class="kv-v" style="font-weight:700">${v}</span></div>`).join("");
+
+  // ── BRRRR tab ──
+  const br = d.brrrr||{};
+  el("brrrrRows").innerHTML = [
+    ["Refi Amount (ARV×75%)", fmt(br.refiAmount)],
+    ["Cash Recovered", fmt(br.cashRecovered)],
+    ["Cash Left In Deal", fmt(br.cashLeftIn)],
+    ["Est. Rent / mo", fmt(br.estimatedRent)],
+    ["New Mortgage (30yr 7.5%)", fmt(br.monthlyMortgage)],
+    ["Monthly Cash Flow", fmt(br.monthlyCashFlow)],
+    ["Annual Cash Flow", fmt(br.annualCashFlow)],
+    ["Cash-on-Cash Return", pct(br.cashOnCash)],
+    ["Cap Rate", pct(br.capRate)],
+  ].map(([l,v]) => `<div class="kv"><span class="kv-k">${l}</span><span class="kv-v">${v}</span></div>`).join("");
+
+  const gs2 = gradeStyle(d.dealGrade);
+  el("stratRows").innerHTML = [
+    ["Flip Net Profit", fmt(d.netProfit), d.dealGrade],
+    ["Flip ROI", pct(d.roi), null],
+    ["Flip Annualized ROI", pct(d.annualizedRoi), null],
+    ["BRRRR Monthly CF", fmt(br.monthlyCashFlow), null],
+    ["BRRRR Cash-on-Cash", pct(br.cashOnCash), null],
+    ["BRRRR Cap Rate", pct(br.capRate), null],
+  ].map(([l,v,g]) => {
+    const badge = g ? `<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-right:6px;background:${gradeStyle(g).bg};color:${gradeStyle(g).color}">${g}</span>` : "";
+    return `<div class="kv"><span class="kv-k">${l}</span><span class="kv-v">${badge}${v}</span></div>`;
+  }).join("");
+  el("brrrrVerdict").textContent = br.verdict||"";
+}
+
+// ── PDF Download (3-page deal report) ─────────────────────────────
+function downloadPDF() {
+  if (!DEAL) { toast("Run analysis first"); return; }
+  const d = DEAL;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: "pt", format: "letter" });
+  const W = 612, H = 792;
+  const NAVY = "#0B1F3A", GOLD = "#C9973A", GOLD_L = "#E8C97A", STEEL = "#8896A5",
+        GREEN = "#3b6d11", GREEN_BG = "#eaf3de", RED = "#a32d2d", BLUE = "#185fa5",
+        LIGHT = "#F4F7FB", BORDER = "#DDE3EC", AMBER = "#854f0b", AMBER_BG = "#faeeda",
+        BLUE_BG = "#e6f1fb", WHITE = "#FFFFFF";
+
+  const fmtP = n => n != null ? "$" + Math.round(n).toLocaleString() : "$0";
+  const pctP = n => n != null ? (Math.round(n * 10) / 10) + "%" : "0%";
+  const today = new Date().toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric" });
+
+  function drawHeader(title, pageNum) {
+    doc.setFillColor(NAVY); doc.rect(0, 0, W, 48, "F");
+    doc.setFillColor(GOLD); doc.rect(0, 48, W, 2, "F");
+    doc.setFont("helvetica","bold"); doc.setFontSize(13); doc.setTextColor(WHITE);
+    doc.text("Streamline", 24, 33);
+    const sw = doc.getTextWidth("Streamline");
+    doc.setTextColor(GOLD); doc.text("AI", 24 + sw + 2, 33);
+    doc.setFontSize(6.5); doc.setTextColor(GOLD_L); doc.text("CONSULTING", 24, 42);
+    doc.setFontSize(9); doc.setFont("helvetica","bold"); doc.setTextColor(GOLD_L);
+    doc.text(title, W - 24, 30, { align: "right" });
+    doc.setFontSize(7); doc.setFont("helvetica","normal"); doc.setTextColor(STEEL);
+    doc.text(today, W - 24, 41, { align: "right" });
+    // Footer
+    doc.setDrawColor(GOLD); doc.setLineWidth(0.5); doc.line(24, H - 36, W - 24, H - 36);
+    doc.setFontSize(6.5); doc.setTextColor(STEEL);
+    doc.text("Streamline AI Consulting  ·  Flip Deal Analyzer  ·  For informational purposes only", 24, H - 24);
+    doc.text("Page " + pageNum + " of 3", W - 24, H - 24, { align: "right" });
+  }
+
+  function rRect(x, y, w, h, r, fill, stroke) {
+    if (fill) { doc.setFillColor(fill); doc.roundedRect(x, y, w, h, r, r, stroke ? "FD" : "F"); }
+    else if (stroke) { doc.setDrawColor(stroke); doc.roundedRect(x, y, w, h, r, r, "S"); }
+  }
+
+  function statBox(x, y, w, h, label, value, color) {
+    doc.setDrawColor(BORDER); doc.setLineWidth(0.5);
+    rRect(x, y, w, h, 6, WHITE, BORDER);
+    doc.setFont("helvetica","normal"); doc.setFontSize(7); doc.setTextColor(STEEL);
+    doc.text(label, x + 10, y + 14);
+    doc.setFont("helvetica","bold"); doc.setFontSize(15); doc.setTextColor(color || NAVY);
+    doc.text(value, x + 10, y + h - 10);
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // PAGE 1 — DEAL SUMMARY
+  // ═══════════════════════════════════════════════════════════════
+  drawHeader("Deal Summary", 1);
+
+  // Deal header card
+  const top = 66;
+  rRect(24, top, W - 48, 72, 10, NAVY);
+  doc.setFillColor(GOLD); doc.rect(24, top, W - 48, 2.5, "F");
+  doc.setFont("helvetica","bold"); doc.setFontSize(16); doc.setTextColor(WHITE);
+  doc.text(d.address || "—", 38, top + 24);
+  doc.setFont("helvetica","normal"); doc.setFontSize(9.5); doc.setTextColor("#ffffff70");
+  const facts = `${d.propertyFacts?.beds||"?"}bd / ${d.propertyFacts?.baths||"?"}ba  ·  ${(d.propertyFacts?.sqft||0).toLocaleString()} sqft  ·  Built ${d.propertyFacts?.yearBuilt||"?"}`;
+  doc.text(facts, 38, top + 38);
+  doc.setFontSize(8); doc.setTextColor("#ffffff40");
+  doc.text(`Condition: ${d.conditionScore||"?"}/10 — ${d.conditionLabel||""}`, 38, top + 52);
+
+  // Grade badge
+  const gx = W - 82, gy = top + 12;
+  const gBg = (d.dealGrade === "A+" || d.dealGrade === "A" || d.dealGrade === "B+") ? GREEN_BG : AMBER_BG;
+  const gFg = (d.dealGrade === "A+" || d.dealGrade === "A" || d.dealGrade === "B+") ? GREEN : AMBER;
+  rRect(gx, gy, 44, 44, 8, gBg);
+  doc.setFont("helvetica","bold"); doc.setFontSize(22); doc.setTextColor(gFg);
+  doc.text(d.dealGrade || "?", gx + 22, gy + 30, { align: "center" });
+
+  // Verdict
+  doc.setFont("helvetica","bold"); doc.setFontSize(9.5); doc.setTextColor("#ffffffcc");
+  doc.text(d.verdict || "", gx - 14, gy + 16, { align: "right" });
+  doc.setFont("helvetica","normal"); doc.setFontSize(7.5); doc.setTextColor("#ffffff55");
+  doc.text(`ROI ${pctP(d.roi)}  ·  Annualized ${pctP(d.annualizedRoi)}  ·  ${d.holdMonths||5}mo hold`, gx - 14, gy + 28, { align: "right" });
+
+  // Stat boxes
+  let y1 = top + 82;
+  const bw = (W - 48 - 24) / 4;
+  const r1 = [["PURCHASE PRICE", fmtP(d.purchasePrice), NAVY], ["TOTAL REHAB", fmtP(d.totalRehab), GOLD],
+              ["ARV", fmtP(d.arv), NAVY], ["NET PROFIT", fmtP(d.netProfit), GREEN]];
+  r1.forEach(([l,v,c], i) => statBox(24 + i * (bw + 8), y1, bw, 44, l, v, c));
+
+  const y2 = y1 + 52;
+  const r2 = [["ALL-IN COST", fmtP(d.allInCost), NAVY], ["CASH INVESTED", fmtP(d.cashInvested), NAVY],
+              ["SUGGESTED OFFER", fmtP(d.suggestedOffer), BLUE], ["ANNUALIZED ROI", pctP(d.annualizedRoi), GREEN]];
+  r2.forEach(([l,v,c], i) => statBox(24 + i * (bw + 8), y2, bw, 44, l, v, c));
+
+  // Rehab budget (left column)
+  const yBody = y2 + 60;
+  const colW = (W - 48 - 16) / 2;
+  doc.setFont("helvetica","bold"); doc.setFontSize(11); doc.setTextColor(NAVY);
+  doc.text("Rehab Budget", 24, yBody);
+  const rehabItems = d.rehabLineItems || [];
+  let ry = yBody + 16;
+  const topItems = rehabItems.filter(r => r.include !== false).slice(0, 8);
+  topItems.forEach(r => {
+    doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(NAVY);
+    doc.text(r.item || "", 26, ry);
+    doc.setFont("helvetica","bold"); doc.setTextColor(GOLD);
+    doc.text(fmtP(r.total), 150, ry, { align: "right" });
+    const barW = Math.max(3, Math.min(colW - 160, ((r.total || 0) / (d.totalRehab || 1)) * (colW - 160)));
+    doc.setFillColor(GOLD); doc.roundedRect(158, ry - 7, barW, 8, 3, 3, "F");
+    ry += 15;
+  });
+  ry += 4;
+  doc.setDrawColor(NAVY); doc.setLineWidth(0.8); doc.line(24, ry, 24 + colW, ry);
+  ry += 12;
+  doc.setFont("helvetica","bold"); doc.setFontSize(10); doc.setTextColor(NAVY);
+  doc.text("TOTAL REHAB", 26, ry);
+  doc.setTextColor(GOLD); doc.text(fmtP(d.totalRehab), 24 + colW, ry, { align: "right" });
+
+  // Cost summary (right column)
+  const rx = 24 + colW + 16;
+  doc.setFont("helvetica","bold"); doc.setFontSize(11); doc.setTextColor(NAVY);
+  doc.text("Cost Summary", rx, yBody);
+  const costs = [["Purchase Price", d.purchasePrice], ["Purchase Closing", d.purchaseClosing],
+    ["Total Rehab", d.totalRehab], ["Holding Costs", d.holdingCosts?.total], ["Sale Costs", d.saleCosts?.total]];
+  let cy = yBody + 16;
+  costs.forEach(([l,v]) => {
+    doc.setFont("helvetica","normal"); doc.setFontSize(8.5); doc.setTextColor(STEEL);
+    doc.text(l, rx + 4, cy);
+    doc.setTextColor(NAVY); doc.text(fmtP(v), rx + colW - 4, cy, { align: "right" });
+    cy += 14;
+  });
+  cy += 2;
+  doc.setDrawColor(BORDER); doc.setLineWidth(0.4); doc.line(rx, cy, rx + colW, cy);
+  cy += 12;
+  doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(NAVY);
+  doc.text("All-In Cost", rx + 4, cy);
+  doc.text(fmtP(d.allInCost), rx + colW - 4, cy, { align: "right" });
+  cy += 16;
+  doc.setFontSize(10); doc.setTextColor(GREEN);
+  doc.text("NET PROFIT", rx + 4, cy);
+  doc.text(fmtP(d.netProfit), rx + colW - 4, cy, { align: "right" });
+
+  // Max offers
+  cy += 28;
+  doc.setFont("helvetica","bold"); doc.setFontSize(11); doc.setTextColor(NAVY);
+  doc.text("Max Offer Thresholds", rx, cy);
+  cy += 16;
+  [["Conservative (65%)", d.maxOffer?.conservative, STEEL],
+   ["Standard (70%)", d.maxOffer?.standard, BLUE],
+   ["Aggressive (75%)", d.maxOffer?.aggressive, RED]].forEach(([l,v,c]) => {
+    doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(STEEL);
+    doc.text(l, rx + 4, cy);
+    doc.setFont("helvetica","bold"); doc.setTextColor(c);
+    doc.text(fmtP(v), rx + colW - 4, cy, { align: "right" });
+    cy += 14;
+  });
+
+  // Recommendation
+  rRect(24, H - 100, W - 48, 50, 8, GREEN_BG);
+  doc.setFillColor(GREEN); doc.rect(24, H - 100, 4, 50, "F");
+  doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(GREEN);
+  doc.text(`Recommendation — Offer ${fmtP(d.suggestedOffer)}`, 38, H - 86);
+  doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(NAVY);
+  const recLines = doc.splitTextToSize(d.recommendation || "", W - 80);
+  doc.text(recLines.slice(0, 3), 38, H - 74);
+
+  // ═══════════════════════════════════════════════════════════════
+  // PAGE 2 — COMPARABLE SALES & ARV
+  // ═══════════════════════════════════════════════════════════════
+  doc.addPage();
+  drawHeader("Comparable Sales & ARV", 2);
+
+  let y = 72;
+  doc.setFont("helvetica","bold"); doc.setFontSize(14); doc.setTextColor(NAVY);
+  doc.text("Comparable Sales Analysis", 24, y);
+  y += 14;
+  const comps = d.soldComps || [];
+  doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(STEEL);
+  doc.text(`${comps.length} comps  ·  Subject: ${(d.propertyFacts?.sqft||0).toLocaleString()} sqft, ${d.propertyFacts?.beds||"?"}bd/${d.propertyFacts?.baths||"?"}ba`, 24, y);
+  y += 18;
+
+  // Comp table header
+  const cols = [24, 175, 215, 260, 330, 385, 445, 490, 550];
+  const hdrs = ["ADDRESS", "BD/BA", "SQFT", "SOLD PRICE", "$/SQFT", "ADJ PRICE", "DOM", "SOLD", "DIST"];
+  rRect(20, y - 12, W - 40, 16, 4, NAVY);
+  doc.setFont("helvetica","bold"); doc.setFontSize(7); doc.setTextColor(WHITE);
+  hdrs.forEach((h, i) => doc.text(h, cols[i], y));
+  y += 12;
+
+  let totalPpsf = 0, totalAdj = 0;
+  comps.forEach((comp, i) => {
+    if (i % 2 === 1) { doc.setFillColor(LIGHT); doc.rect(20, y - 10, W - 40, 14, "F"); }
+    doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(NAVY);
+    doc.text((comp.address || "—").substring(0, 28), cols[0], y);
+    doc.setTextColor(STEEL);
+    doc.text(`${comp.beds||"?"}/${comp.baths||"?"}`, cols[1], y);
+    doc.text(`${(comp.sqft||0).toLocaleString()}`, cols[2], y);
+    doc.setFont("helvetica","bold"); doc.setTextColor(NAVY);
+    doc.text(fmtP(comp.soldPrice), cols[3], y);
+    doc.setFont("helvetica","normal"); doc.setTextColor(STEEL);
+    doc.text(`$${comp.pricePerSqft||0}`, cols[4], y);
+    doc.setFont("helvetica","bold"); doc.setTextColor(GOLD);
+    doc.text(fmtP(comp.adjustedPrice), cols[5], y);
+    doc.setFont("helvetica","normal"); doc.setTextColor(STEEL);
+    doc.text(`${comp.daysOnMarket||"?"}`, cols[6], y);
+    doc.text((comp.soldDate||"—").substring(0, 8), cols[7], y);
+    doc.text(comp.distance || "", cols[8], y);
+    totalPpsf += (comp.pricePerSqft || 0);
+    totalAdj += (comp.adjustedPrice || 0);
+    y += 16;
+  });
+
+  // Averages
+  if (comps.length > 0) {
+    y += 2;
+    rRect(20, y - 12, W - 40, 16, 4, "#132c52");
+    doc.setFont("helvetica","bold"); doc.setFontSize(8); doc.setTextColor(WHITE);
+    doc.text("AVERAGE", cols[0], y);
+    const avgPpsf = totalPpsf / comps.length;
+    const avgAdj = totalAdj / comps.length;
+    doc.text(`$${Math.round(avgPpsf)}`, cols[4], y);
+    doc.setTextColor(GOLD_L);
+    doc.text(fmtP(avgAdj), cols[5], y);
+    y += 22;
+
+    // Adjustment notes
+    doc.setFont("helvetica","bold"); doc.setFontSize(10); doc.setTextColor(NAVY);
+    doc.text("Adjustment Notes", 24, y);
+    y += 14;
+    comps.forEach(comp => {
+      doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(STEEL);
+      const short = (comp.address||"").split(",")[0];
+      doc.text(`•  ${short}: ${comp.adjustmentNotes||"no adjustments"}`, 28, y);
+      y += 12;
+    });
+
+    // ARV Calculation box
+    y += 12;
+    rRect(24, y, W - 48, 120, 10, LIGHT, BORDER);
+    doc.setFont("helvetica","bold"); doc.setFontSize(12); doc.setTextColor(NAVY);
+    doc.text("ARV Calculation", 40, y + 18);
+    doc.setFillColor(GOLD); doc.rect(40, y + 22, 50, 2, "F");
+
+    let ay = y + 38;
+    doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(STEEL);
+    doc.text("Method 1 — Average Adjusted Sale Price", 40, ay);
+    doc.setFont("helvetica","bold"); doc.setTextColor(NAVY);
+    doc.text(fmtP(avgAdj), W - 72, ay, { align: "right" });
+    ay += 16;
+
+    const ppsf_arv = avgPpsf * (d.propertyFacts?.sqft || 1450);
+    doc.setFont("helvetica","normal"); doc.setTextColor(STEEL);
+    doc.text(`Method 2 — Avg $/sqft ($${Math.round(avgPpsf)}) × Subject sqft (${(d.propertyFacts?.sqft||0).toLocaleString()})`, 40, ay);
+    doc.setFont("helvetica","bold"); doc.setTextColor(NAVY);
+    doc.text(fmtP(ppsf_arv), W - 72, ay, { align: "right" });
+    ay += 20;
+
+    doc.setDrawColor(BORDER); doc.line(40, ay, W - 72, ay);
+    ay += 16;
+    doc.setFont("helvetica","bold"); doc.setFontSize(11); doc.setTextColor(NAVY);
+    doc.text("SELECTED ARV", 40, ay);
+    doc.setFontSize(16); doc.setTextColor(GOLD);
+    doc.text(fmtP(d.arv), W - 72, ay, { align: "right" });
+    ay += 14;
+    doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(STEEL);
+    doc.text(`Average $/sqft: $${Math.round(avgPpsf)}  ·  Subject implied: ${fmtP(ppsf_arv)}  ·  Reconciled to ${fmtP(d.arv)}`, 40, ay);
+  }
+
+  // Market context
+  if (d.marketContext?.marketComment) {
+    const mcy = comps.length > 0 ? y + 132 : y + 20;
+    rRect(24, mcy, W - 48, 36, 6, BLUE_BG);
+    doc.setFont("helvetica","bold"); doc.setFontSize(8.5); doc.setTextColor(BLUE);
+    doc.text("Market Context", 38, mcy + 14);
+    doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(NAVY);
+    const mcLines = doc.splitTextToSize(d.marketContext.marketComment, W - 80);
+    doc.text(mcLines.slice(0, 2), 38, mcy + 26);
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // PAGE 3 — PROJECTED P&L
+  // ═══════════════════════════════════════════════════════════════
+  doc.addPage();
+  drawHeader("Projected Profit & Loss", 3);
+
+  y = 72;
+  doc.setFont("helvetica","bold"); doc.setFontSize(14); doc.setTextColor(NAVY);
+  doc.text("Projected Profit & Loss", 24, y);
+  y += 14;
+  doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(STEEL);
+  doc.text(`Purchase at ${fmtP(d.purchasePrice)}  ·  ${d.holdMonths||5}-month hold  ·  Sale at ARV ${fmtP(d.arv)}`, 24, y);
+  y += 20;
+
+  // Table header
+  const c1 = 28, c2 = 330, c3 = 430, c4 = 530;
+  rRect(20, y - 12, W - 40, 18, 4, NAVY);
+  doc.setFont("helvetica","bold"); doc.setFontSize(8); doc.setTextColor(WHITE);
+  doc.text("LINE ITEM", c1, y);
+  doc.text("AT ASKING", c2, y, { align: "right" });
+  doc.text("AT OFFER", c3, y, { align: "right" });
+  doc.text("NOTES", c4, y, { align: "right" });
+  y += 14;
+
+  function plRow(label, v1, v2, note, opts = {}) {
+    if (opts.section) {
+      y += 2;
+      doc.setFillColor(LIGHT); doc.rect(20, y - 10, W - 40, 14, "F");
+      doc.setFont("helvetica","bold"); doc.setFontSize(8.5); doc.setTextColor(NAVY);
+      doc.text(label, c1, y);
+      y += 14;
+      return;
+    }
+    if (opts.divider) { doc.setDrawColor(BORDER); doc.setLineWidth(0.3); doc.line(20, y - 4, W - 20, y - 4); y += 2; return; }
+    const f = opts.bold ? "bold" : "normal";
+    doc.setFont("helvetica", f); doc.setFontSize(opts.bold ? 8.5 : 8);
+    doc.setTextColor(opts.green ? GREEN : opts.bold ? NAVY : "#4a5568");
+    doc.text(label, c1 + (opts.bold ? 0 : 8), y);
+    doc.setFont("helvetica", f); doc.setFontSize(opts.bold ? 9 : 8.5);
+    const clr1 = opts.green ? (v1 > 0 ? GREEN : RED) : NAVY;
+    doc.setTextColor(clr1); doc.text(fmtP(v1), c2, y, { align: "right" });
+    const clr2 = opts.green ? (v2 > 0 ? GREEN : RED) : NAVY;
+    doc.setTextColor(clr2); doc.text(fmtP(v2), c3, y, { align: "right" });
+    if (note) { doc.setFont("helvetica","normal"); doc.setFontSize(7); doc.setTextColor(STEEL); doc.text(note, c4, y, { align: "right" }); }
+    y += 12;
+  }
+
+  const sale = d.arv || 0;
+  const offer = d.suggestedOffer || d.purchasePrice;
+  const askClose = d.purchaseClosing || Math.round(d.purchasePrice * 0.015);
+  const offClose = Math.round(offer * 0.015);
+  const offHolding = Math.round((d.holdingCosts?.total || 0) * offer / d.purchasePrice);
+
+  plRow("REVENUE", 0, 0, "", { section: true });
+  plRow("Projected Sale Price (ARV)", sale, sale, "Based on comps");
+  plRow("Total Revenue", sale, sale, "", { bold: true });
+  plRow("", 0, 0, "", { divider: true });
+
+  plRow("ACQUISITION COSTS", 0, 0, "", { section: true });
+  plRow("Purchase Price", d.purchasePrice, offer);
+  plRow("Purchase Closing (1.5%)", askClose, offClose, "Title, escrow");
+  plRow("Total Acquisition", d.purchasePrice + askClose, offer + offClose, "", { bold: true });
+  plRow("", 0, 0, "", { divider: true });
+
+  plRow("RENOVATION", 0, 0, "", { section: true });
+  rehabItems.filter(r => r.include !== false).slice(0, 6).forEach(r => {
+    plRow(r.item, r.total, r.total, r.notes || "");
+  });
+  if (rehabItems.length > 6) plRow("Other items", d.totalRehab - rehabItems.slice(0,6).reduce((s,r)=>s+(r.total||0),0), d.totalRehab - rehabItems.slice(0,6).reduce((s,r)=>s+(r.total||0),0));
+  plRow("Total Renovation", d.totalRehab, d.totalRehab, "", { bold: true });
+  plRow("", 0, 0, "", { divider: true });
+
+  plRow("HOLDING COSTS", 0, 0, "", { section: true });
+  plRow("HML Interest", d.holdingCosts?.hmlInterest || 0, Math.round((d.holdingCosts?.hmlInterest||0) * offer / d.purchasePrice), "12% annual");
+  plRow("Insurance", d.holdingCosts?.insurance || 0, d.holdingCosts?.insurance || 0);
+  plRow("Property Tax", d.holdingCosts?.taxes || 0, d.holdingCosts?.taxes || 0);
+  plRow("Total Holding", d.holdingCosts?.total || 0, offHolding, "", { bold: true });
+  plRow("", 0, 0, "", { divider: true });
+
+  plRow("SALE COSTS", 0, 0, "", { section: true });
+  plRow("Buyer Agent (2.5%)", d.saleCosts?.buyerCommission || 0, d.saleCosts?.buyerCommission || 0);
+  plRow("Listing Costs", d.saleCosts?.kwListing || 0, d.saleCosts?.kwListing || 0);
+  plRow("Sale Closing (1.5%)", d.saleCosts?.saleClosing || 0, d.saleCosts?.saleClosing || 0);
+  plRow("Total Sale Costs", d.saleCosts?.total || 0, d.saleCosts?.total || 0, "", { bold: true });
+  plRow("", 0, 0, "", { divider: true });
+
+  // Totals
+  const askTotal = d.allInCost + (d.saleCosts?.total || 0);
+  const offTotal = offer + offClose + d.totalRehab + offHolding + (d.saleCosts?.total || 0);
+  const askProfit = sale - askTotal;
+  const offProfit = sale - offTotal;
+
+  y += 2;
+  doc.setFillColor(LIGHT); doc.rect(20, y - 10, W - 40, 16, "F");
+  doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(NAVY);
+  doc.text("TOTAL COSTS", c1, y);
+  doc.text(fmtP(askTotal), c2, y, { align: "right" });
+  doc.text(fmtP(offTotal), c3, y, { align: "right" });
+  y += 18;
+
+  rRect(20, y - 12, W - 40, 20, 6, GREEN_BG);
+  doc.setFont("helvetica","bold"); doc.setFontSize(10); doc.setTextColor(GREEN);
+  doc.text("NET PROFIT", c1, y);
+  doc.setFontSize(12);
+  doc.text(fmtP(askProfit), c2, y, { align: "right" });
+  doc.text(fmtP(offProfit), c3, y, { align: "right" });
+  y += 20;
+
+  // ROI
+  const askRoi = askTotal > 0 ? (askProfit / askTotal * 100) : 0;
+  const offRoi = offTotal > 0 ? (offProfit / offTotal * 100) : 0;
+  doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(NAVY);
+  doc.text("ROI", c1, y);
+  doc.setTextColor(GREEN);
+  doc.text(askRoi.toFixed(1) + "%", c2, y, { align: "right" });
+  doc.text(offRoi.toFixed(1) + "%", c3, y, { align: "right" });
+  y += 14;
+  doc.setTextColor(NAVY); doc.text("Annualized ROI", c1, y);
+  doc.setTextColor(GREEN);
+  doc.text((askRoi * 12 / (d.holdMonths||5)).toFixed(1) + "%", c2, y, { align: "right" });
+  doc.text((offRoi * 12 / (d.holdMonths||5)).toFixed(1) + "%", c3, y, { align: "right" });
+
+  // Save
+  const safe = (d.address || "deal").replace(/[^a-z0-9]/gi, "_").slice(0, 30);
+  doc.save(`FlipAnalysis_${safe}_${new Date().toISOString().split("T")[0]}.pdf`);
+  toast("✓ PDF downloaded!");
+}
+
+// ── XLSX Download ─────────────────────────────────────────────────
+function downloadXLSX() {
+  if (!XL_DATA) { toast("Excel still building…"); return; }
+  const wb = XLSX.utils.book_new();
+  [
+    [XL_DATA.dealSummary,        "Deal Summary"],
+    [XL_DATA.arvAnalysis,        "ARV Analysis"],
+    [XL_DATA.renoBudget,         "Reno Budget"],
+    [XL_DATA.financing,          "Financing"],
+    [XL_DATA.exitComparison,     "Exit Strategy"],
+    [XL_DATA.conditionAssessment,"Condition"],
+  ].forEach(([data, name]) => {
+    if (!data?.length) return;
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    ws["!cols"] = (data[0]||[]).map((_,ci) => ({
+      wch: Math.min(42, Math.max(10, ...data.map(r => String(r[ci]??'').length + 2)))
+    }));
+    XLSX.utils.book_append_sheet(wb, ws, name);
+  });
+  const safe = (el("address").value||"deal").replace(/[^a-z0-9]/gi,"_").slice(0,30);
+  XLSX.writeFile(wb, `FlipAnalysis_${safe}_${new Date().toISOString().split("T")[0]}.xlsx`);
+  toast("✓ XLSX downloaded!");
+}
+</script>
+
+<!-- Footer -->
+<footer style="padding:20px 32px 24px;text-align:center;border-top:1px solid rgba(0,0,0,0.06);">
+  <div style="font-size:12px;color:var(--steel);font-weight:500;margin-bottom:4px;">
+    Streamline<span style="color:var(--gold);font-weight:700;">AI</span> Consulting
+  </div>
+  <div style="font-size:11px;color:#aeaeb2;">For informational purposes only — verify all figures independently</div>
+</footer>
+
+</body>
+</html>
