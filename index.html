@@ -437,11 +437,21 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
             </select>
           </div>
           <div>
-            <label class="form-label" style="display:flex;justify-content:space-between;">
-              Hold Period <span id="holdLabel" style="color:var(--navy);font-weight:700;">5 months</span>
-            </label>
-            <input type="range" id="holdMonths" min="2" max="12" step="1" value="5" oninput="el('holdLabel').textContent=this.value+' months'" style="margin-top:6px;"/>
+            <label class="form-label">Exit Strategy</label>
+            <select id="exitStrategy">
+              <option value="auto">Auto-detect (recommended)</option>
+              <option value="flip">Fix &amp; Flip</option>
+              <option value="brrrr">BRRRR</option>
+              <option value="hold">Buy &amp; Hold</option>
+              <option value="wholesale">Wholesale</option>
+            </select>
           </div>
+        </div>
+        <div>
+          <label class="form-label" style="display:flex;justify-content:space-between;">
+            Hold Period <span id="holdLabel" style="color:var(--navy);font-weight:700;">5 months</span>
+          </label>
+          <input type="range" id="holdMonths" min="2" max="12" step="1" value="5" oninput="el('holdLabel').textContent=this.value+' months'" style="margin-top:6px;"/>
         </div>
 
         <div>
@@ -558,11 +568,11 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
             <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:4px;" id="rCond">—</div>
             <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;" id="sourceBadges"></div>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div class="grade-badge" id="gradeBadge">—</div>
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div class="grade-badge" id="gradeBadge" style="width:72px;height:72px;border-radius:18px;font-size:32px;">—</div>
             <div>
-              <div style="font-size:14px;font-weight:600;" id="rVerdict">—</div>
-              <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:3px;" id="rMetrics">—</div>
+              <div style="font-size:22px;font-weight:800;letter-spacing:-0.5px;line-height:1.1;" id="rVerdict">—</div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.45);margin-top:5px;font-weight:500;" id="rMetrics">—</div>
             </div>
           </div>
         </div>
@@ -580,6 +590,19 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
         <div class="stat-box"><div class="stat-label">Cash Invested</div><div class="stat-value" id="kCash">—</div></div>
         <div class="stat-box"><div class="stat-label">Suggested Offer</div><div class="stat-value sv-blue" id="kOffer">—</div></div>
         <div class="stat-box"><div class="stat-label">Annualized ROI</div><div class="stat-value" id="kARoi">—</div></div>
+      </div>
+
+      <!-- Always-visible risks panel (outside tabs) -->
+      <div id="risksAlwaysPanel" class="hidden" style="margin-bottom:14px;">
+        <div style="background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+          border:1px solid rgba(0,0,0,0.06);border-left:4px solid var(--amber);border-radius:14px;padding:18px 22px;box-shadow:var(--shadow-sm);">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+            <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.3px;">⚠ Deal Risks &amp; Unknowns</div>
+            <span id="riskCountBadge" style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;
+              background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-b);"></span>
+          </div>
+          <div id="risksFlagsAlways"></div>
+        </div>
       </div>
 
       <!-- Tabs -->
@@ -962,6 +985,7 @@ Year Built: ${f.yearBuilt||"Unknown"} | Lot: ${f.lotSize||"Unknown"}
 Manual Condition Score: ${f.conditionScore}/10
 Condition Notes: ${f.conditionNotes||"None"}
 Financing: ${f.financing} | Hold: ${f.holdMonths} months
+Exit Strategy: ${f.exitStrategy === "auto" ? "Auto-detect from deal metrics" : f.exitStrategy}
 Rehab Scope: ${f.rehabScope === "auto" ? "Auto-detect from condition assessment" : f.rehabScope}
 Known Issues: ${issues}`;
 }
@@ -1001,6 +1025,7 @@ async function runAnalysis() {
     conditionNotes:el("condNotes").value,
     financing:     el("financing").value,
     holdMonths:    parseInt(el("holdMonths").value),
+    exitStrategy:  el("exitStrategy").value,
     rehabScope:    el("rehabScope").value,
   };
   const prompt       = buildPrompt(formData);
@@ -1201,13 +1226,26 @@ function renderDeal(d) {
     `<div class="kv"><span class="kv-k">${l}</span><span class="kv-v" style="color:${c}">${fmt(v)}</span></div>`
   ).join("");
 
-  // Risk flags
+  // Risk flags — render into both the tab card and the always-visible panel
   const allFlags = [...(d.riskFlags||[]), ...(d.permitFlags||[])];
-  el("riskFlags").innerHTML = allFlags.length
+  const flagHtml = allFlags.length
     ? allFlags.map(f =>
         `<div class="flag"><div class="fdot f${f.level==="red"?"red":f.level==="green"?"green":"yellow"}"></div>
          <span class="ftext">${f.text}</span></div>`).join("")
     : `<div style="font-size:13px;color:var(--steel);">No major flags identified.</div>`;
+  el("riskFlags").innerHTML = flagHtml;
+  // Always-visible panel
+  const redCount  = allFlags.filter(f => f.level === "red").length;
+  const warnCount = allFlags.filter(f => f.level !== "green").length;
+  if (allFlags.length > 0) {
+    el("risksFlagsAlways").innerHTML = flagHtml;
+    el("riskCountBadge").textContent = redCount > 0 ? `${redCount} critical` : `${warnCount} warning${warnCount!==1?"s":""}`;
+    el("risksAlwaysPanel").classList.remove("hidden");
+    // Tint border by severity
+    el("risksAlwaysPanel").querySelector("div").style.borderLeftColor = redCount > 0 ? "var(--red)" : "var(--amber)";
+  } else {
+    el("risksAlwaysPanel").classList.add("hidden");
+  }
 
   // Recommendation
   const isGo = d.netProfit > 30000, isCau = d.netProfit > 0;
