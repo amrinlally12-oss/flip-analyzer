@@ -208,8 +208,10 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 
 /* ── TABS (Apple segmented control style) ── */
 .tab-bar{display:flex;gap:1px;margin-bottom:24px;background:rgba(0,0,0,0.04);padding:3px;
-  border-radius:10px;width:fit-content;flex-wrap:wrap;
-  animation:fadeUp 0.4s cubic-bezier(0.4,0,0.2,1) 0.25s both;}
+  border-radius:10px;width:100%;max-width:fit-content;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;flex-shrink:0;
+  scrollbar-width:none;animation:fadeUp 0.4s cubic-bezier(0.4,0,0.2,1) 0.25s both;}
+.tab-bar::-webkit-scrollbar{display:none;}
 .tab-btn{font-family:inherit;font-size:13px;font-weight:500;padding:7px 16px;
   border-radius:8px;border:none;cursor:pointer;background:transparent;
   color:var(--steel);transition:all 0.2s cubic-bezier(0.4,0,0.2,1);}
@@ -286,19 +288,34 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 
 /* ── LOADING ── */
 .loading-overlay{display:none;position:fixed;inset:0;
-  background:rgba(255,255,255,0.65);backdrop-filter:saturate(180%) blur(20px);
-  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  background:rgba(248,248,250,0.80);backdrop-filter:saturate(180%) blur(24px);
+  -webkit-backdrop-filter:saturate(180%) blur(24px);
   z-index:200;align-items:center;justify-content:center;animation:fadeIn 0.15s ease;}
 .loading-overlay.show{display:flex;}
-.loading-card{background:rgba(255,255,255,0.85);border:1px solid rgba(0,0,0,0.06);
-  border-radius:20px;padding:32px 40px;
-  max-width:380px;width:90%;box-shadow:var(--shadow-lg);
+.loading-card{background:#fff;border:1px solid rgba(0,0,0,0.08);
+  border-radius:20px;padding:28px 32px;
+  max-width:440px;width:92%;box-shadow:var(--shadow-lg);
   animation:slideUp 0.35s cubic-bezier(0.4,0,0.2,1);}
-.spinner{width:32px;height:32px;border:2.5px solid rgba(0,0,0,0.08);border-top-color:var(--blue);
-  border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 16px;}
+.spinner{width:28px;height:28px;border:2.5px solid rgba(0,0,0,0.08);border-top-color:var(--blue);
+  border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 10px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 @keyframes slideUp{from{opacity:0;transform:translateY(8px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+
+/* ── LOADING CHECKLIST ── */
+.lc-steps{margin:16px 0 14px;border-top:1px solid rgba(0,0,0,0.06);padding-top:14px;}
+.lc-step{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;
+  color:#aeaeb2;border-bottom:1px solid rgba(0,0,0,0.04);transition:color 0.25s;}
+.lc-step:last-child{border-bottom:none;}
+.lc-step.active{color:var(--blue);font-weight:500;}
+.lc-step.done{color:var(--green);}
+.lc-step.error{color:var(--red);}
+.lcs-icon{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:10px;border:1.5px solid #d2d2d7;color:#d2d2d7;
+  flex-shrink:0;font-weight:700;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);}
+.lc-step.active .lcs-icon{border-color:var(--blue);color:var(--blue);animation:pulse 1.2s ease infinite;}
+.lc-step.done .lcs-icon{border-color:var(--green);background:var(--green);color:#fff;}
+.lc-step.error .lcs-icon{border-color:var(--red);background:var(--red);color:#fff;}
 
 @media(max-width:768px){
   .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
@@ -332,10 +349,22 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-card">
-    <div class="spinner"></div>
-    <div style="font-size:17px;font-weight:700;color:var(--text);text-align:center;margin-bottom:4px;letter-spacing:-0.3px;">Analyzing Deal</div>
-    <div style="font-size:13px;color:var(--steel);text-align:center;line-height:1.5;" id="loadingMsg">Starting analysis...</div>
-    <div style="height:4px;background:rgba(0,0,0,0.06);border-radius:99px;margin-top:16px;overflow:hidden;">
+    <div style="text-align:center;margin-bottom:4px;">
+      <div class="spinner"></div>
+      <div style="font-size:17px;font-weight:700;color:var(--text);letter-spacing:-0.3px;margin-bottom:3px;">Analyzing Deal</div>
+      <div style="font-size:13px;color:var(--steel);line-height:1.5;" id="loadingMsg">Starting analysis…</div>
+    </div>
+    <!-- Live step checklist -->
+    <div class="lc-steps">
+      <div class="lc-step" id="lcs-comps"><div class="lcs-icon" id="lcsi-comps">○</div><span id="lcsl-comps">Researching comparable sales</span></div>
+      <div class="lc-step" id="lcs-condition"><div class="lcs-icon" id="lcsi-condition">○</div><span id="lcsl-condition">Assessing property condition</span></div>
+      <div class="lc-step" id="lcs-records"><div class="lcs-icon" id="lcsi-records">○</div><span id="lcsl-records">Checking public records</span></div>
+      <div class="lc-step" id="lcs-analysis"><div class="lcs-icon" id="lcsi-analysis">○</div><span id="lcsl-analysis">Calculating deal financials</span></div>
+      <div class="lc-step" id="lcs-verify"><div class="lcs-icon" id="lcsi-verify">○</div><span id="lcsl-verify">Verifying math</span></div>
+      <div class="lc-step" id="lcs-excel"><div class="lcs-icon" id="lcsi-excel">○</div><span id="lcsl-excel">Building Excel report</span></div>
+    </div>
+    <!-- Progress bar -->
+    <div style="height:4px;background:rgba(0,0,0,0.06);border-radius:99px;overflow:hidden;">
       <div id="progressBar" style="height:100%;background:var(--blue);border-radius:99px;width:0%;transition:width 0.5s cubic-bezier(0.4,0,0.2,1);"></div>
     </div>
     <div style="display:flex;justify-content:space-between;margin-top:8px;">
@@ -352,10 +381,10 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
   <!-- ══ INPUT FORM ══════════════════════════════════════════════ -->
   <div id="viewInput">
     <div style="margin-bottom:22px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">NorCal Fix &amp; Flip</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Fix &amp; Flip · BRRRR · Buy &amp; Hold</div>
       <div style="font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-0.5px;line-height:1.1;">Deal Analyzer</div>
       <div style="font-size:14px;color:var(--steel);margin-top:5px;">
-        Automated comps · Photo assessment · Public records · Full deal report
+        Automated comps · AI condition assessment · Public records · Full deal report
       </div>
     </div>
 
@@ -799,23 +828,38 @@ function resetForm() {
 const STEPS = ["comps","condition","records","analysis","verify","excel"];
 
 function setStep(name, status) {
+  // Update results-view checklist
   const step = el("step-" + name);
   const icon = el("icon-" + name);
-  if (!step || !icon) return;
-  step.className = "check-step " + status;
-  if (status === "active") icon.textContent = "●";
-  else if (status === "done") icon.textContent = "✓";
-  else if (status === "error") icon.textContent = "✗";
-  else icon.textContent = "○";
+  if (step && icon) {
+    step.className = "check-step " + status;
+    if (status === "active") icon.textContent = "●";
+    else if (status === "done") icon.textContent = "✓";
+    else if (status === "error") icon.textContent = "✗";
+    else icon.textContent = "○";
+  }
+  // Mirror into loading overlay checklist
+  const lcs  = el("lcs-" + name);
+  const lcsi = el("lcsi-" + name);
+  if (lcs && lcsi) {
+    lcs.className = "lc-step " + status;
+    if (status === "active") lcsi.textContent = "●";
+    else if (status === "done") lcsi.textContent = "✓";
+    else if (status === "error") lcsi.textContent = "✗";
+    else lcsi.textContent = "○";
+  }
 }
 
 function resetAllSteps() {
   STEPS.forEach(s => setStep(s, ""));
-  // Reset labels to defaults
+  // Reset results-view labels
   const defaults = {comps:"Researching comparable sales",condition:"Assessing property condition",
     records:"Checking public records",analysis:"Calculating deal financials",
     verify:"Verifying math",excel:"Building Excel report"};
-  Object.entries(defaults).forEach(([k,v]) => { const l = el("label-"+k); if (l) l.textContent = v; });
+  Object.entries(defaults).forEach(([k,v]) => {
+    const l = el("label-"+k); if (l) l.textContent = v;
+    const ll = el("lcsl-"+k); if (ll) ll.textContent = v;
+  });
 }
 
 // Legacy compatibility wrappers
@@ -850,7 +894,7 @@ const HANG_TIGHT_MSGS = [
 function startProgress() {
   progValue = 0;
   analysisStartTime = Date.now();
-  const estimatedSeconds = 35;
+  const estimatedSeconds = 65;
   let hangIdx = 0;
 
   clearInterval(progInterval);
@@ -900,8 +944,9 @@ function completeProgress() {
   el("progressBar").style.width = "100%";
   const htm = el("hangTightMsg");
   const tr = el("timeRemaining");
-  if (htm) htm.textContent = "Done!";
+  if (htm) htm.textContent = "Complete!";
   if (tr) tr.textContent = "";
+  if (el("loadingMsg")) el("loadingMsg").textContent = "Analysis complete ✓";
 }
 
 // ── Build deal prompt ─────────────────────────────────────────────
@@ -923,20 +968,11 @@ Known Issues: ${issues}`;
 
 function updateLoadingMsg(wave) {
   const msgs = {
-    1: "Researching property details…",
-    2: "Analyzing deal financials…",
-    3: "Building your report…"
+    1: "Wave 1 — Researching comps, condition & records…",
+    2: "Wave 2 — Synthesizing analysis & financials…",
+    3: "Wave 3 — Building Excel workbook…"
   };
   if (el("loadingMsg")) el("loadingMsg").textContent = msgs[wave] || "";
-  // Update estimated time based on wave
-  const tr = el("timeRemaining");
-  if (tr && analysisStartTime) {
-    const waveEstimates = { 1: 35, 2: 25, 3: 12 };
-    const elapsed = Math.floor((Date.now() - analysisStartTime) / 1000);
-    // Recalibrate remaining based on which wave we just entered
-    const totalEst = waveEstimates[wave] || 15;
-    // We'll let the countdown continue from current point
-  }
 }
 
 // ── Run analysis — 3-wave REST ─────────────────────────────────────
@@ -994,7 +1030,12 @@ async function runAnalysis() {
     updateLoadingMsg(1);
     setAgent(3,"running"); setAgent(4,"running"); setAgent(5,"running");
 
-    const w1 = await apiCall("/api/wave1", { prompt, address: addr, photos });
+    const w1 = await apiCall("/api/wave1", {
+      prompt, address: addr, photos,
+      beds:  formData.beds  || null,
+      baths: formData.baths || null,
+      sqft:  formData.sqft  || null
+    });
 
     setAgent(3, w1.agentStatus?.agent3 || "done");
     setAgent(4, w1.agentStatus?.agent4 || "done");
@@ -1062,9 +1103,14 @@ async function runAnalysis() {
     console.error("Analysis error:", err);
     completeProgress();
     el("loadingOverlay").classList.remove("show");
-    alert("Analysis failed: " + err.message + "\n\nCheck that your server is running at:\n" + SERVER_URL);
-    el("viewInput").classList.remove("hidden");
-    el("viewResults").classList.add("hidden");
+    // Show inline error in results view (no alert)
+    el("progressChecklist").innerHTML = `
+      <div style="background:var(--red-bg);border:1px solid var(--red-b);border-radius:14px;padding:20px 22px;">
+        <div style="font-size:15px;font-weight:700;color:var(--red);margin-bottom:6px;">⚠ Analysis Failed</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:10px;">${err.message || "Unknown error — please try again."}</div>
+        <div style="font-size:11px;color:var(--steel);margin-bottom:14px;">Server: ${SERVER_URL}</div>
+        <button class="btn btn-outline btn-sm" onclick="resetForm()">← Try Again</button>
+      </div>`;
     el("dealHeaderWrap").classList.add("hidden");
     setAllAgents("idle");
     setWave(0);
