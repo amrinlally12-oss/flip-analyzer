@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Flip Deal Analyzer — Streamline AI</title>
+<title>Flip Deal Analyzer â Streamline AI</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -30,7 +30,7 @@ body{font-family:'Inter','Outfit',-apple-system,BlinkMacSystemFont,sans-serif;
 ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:99px;border:2px solid transparent;background-clip:padding-box;}
 ::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.25);border:2px solid transparent;background-clip:padding-box;}
 
-/* ── NAV ── */
+/* ââ NAV ââ */
 .topbar{background:rgba(11,31,58,0.92);backdrop-filter:saturate(180%) blur(20px);
   -webkit-backdrop-filter:saturate(180%) blur(20px);
   padding:0 32px;height:52px;display:flex;align-items:center;
@@ -43,12 +43,12 @@ body{font-family:'Inter','Outfit',-apple-system,BlinkMacSystemFont,sans-serif;
 .tag{font-size:11px;font-weight:600;color:var(--gold-l);background:rgba(201,151,58,0.1);
   padding:3px 10px;border-radius:99px;}
 
-/* ── LAYOUT — 8px rhythm ── */
+/* ââ LAYOUT â 8px rhythm ââ */
 .main{max-width:1080px;margin:0 auto;padding:32px 24px 80px;}
 .card{background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:32px;box-shadow:var(--shadow-sm);}
 
-/* ── FORM ── */
+/* ââ FORM ââ */
 .form-label{font-size:11px;font-weight:600;color:var(--steel);text-transform:uppercase;
   letter-spacing:0.6px;display:block;margin-bottom:6px;}
 input[type=text],input[type=number],select,textarea{
@@ -69,7 +69,7 @@ select{cursor:pointer;appearance:none;
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
 
-/* ── CUSTOM SLIDER (Apple-style pill thumb) ── */
+/* ââ CUSTOM SLIDER (Apple-style pill thumb) ââ */
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:36px;
   border:none;padding:0;background:transparent;cursor:pointer;outline:none;margin:4px 0;}
 input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:99px;
@@ -89,7 +89,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:16px;border-radius:8px;
   box-shadow:0 0.5px 1px rgba(0,0,0,0.1),0 1px 4px rgba(0,0,0,0.12);cursor:pointer;}
 input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:var(--gold);}
 
-/* ── BUTTONS ── */
+/* ââ BUTTONS ââ */
 .btn{font-family:inherit;font-size:14px;font-weight:600;padding:10px 24px;
   border-radius:980px;border:none;cursor:pointer;transition:all 0.15s;
   display:inline-flex;align-items:center;gap:6px;letter-spacing:-0.1px;}
@@ -104,7 +104,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .btn-outline:hover{border-color:var(--text);color:var(--text);}
 .btn-sm{font-size:13px;padding:7px 14px;}
 
-/* ── PHOTO UPLOAD ── */
+/* ââ PHOTO UPLOAD ââ */
 .photo-drop{
   border:1.5px dashed var(--border);border-radius:14px;padding:32px;
   text-align:center;cursor:pointer;transition:all 0.2s;background:var(--light);
@@ -126,7 +126,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .photo-thumb-wrap{position:relative;}
 .photo-thumb-wrap:hover .photo-remove{opacity:1;}
 
-/* ── CHECKBOXES ── */
+/* ââ CHECKBOXES ââ */
 .check-item{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;
   padding:8px 12px;background:var(--light);border-radius:10px;border:1px solid transparent;
   transition:all 0.15s;user-select:none;}
@@ -135,7 +135,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .check-item input{width:16px;height:16px;accent-color:var(--blue);cursor:pointer;flex-shrink:0;
   border-radius:4px;}
 
-/* ── ADVANCED OVERRIDES ── */
+/* ââ ADVANCED OVERRIDES ââ */
 .override-section{border-top:1px solid rgba(0,0,0,0.06);padding-top:12px;margin-top:4px;}
 .override-toggle{background:none;border:none;cursor:pointer;font-family:inherit;
   font-size:13px;font-weight:600;color:var(--blue);padding:4px 0;display:flex;align-items:center;gap:6px;
@@ -145,7 +145,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .override-panel.visible{max-height:300px;opacity:1;}
 .override-panel.hidden{max-height:0;opacity:0;}
 
-/* ── PROGRESS CHECKLIST ── */
+/* ââ PROGRESS CHECKLIST ââ */
 .progress-checklist{display:flex;flex-direction:column;gap:0;margin-bottom:24px;
   background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:20px 24px;box-shadow:var(--shadow-sm);}
@@ -165,7 +165,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .check-step.error .check-icon{border-color:var(--red);background:var(--red);color:#fff;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
 
-/* ── WAVE INDICATOR ── */
+/* ââ WAVE INDICATOR ââ */
 .wave-bar{display:flex;gap:6px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
 .wave-pill{
   display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;
@@ -175,7 +175,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .wave-pill.done{background:var(--green-bg);border-color:var(--green-b);color:var(--green);}
 .wave-arrow{color:var(--border);font-size:14px;}
 
-/* ── DEAL HEADER ── */
+/* ââ DEAL HEADER ââ */
 .deal-header{
   background:var(--navy);border-radius:16px;
   padding:28px 32px;margin-bottom:24px;position:relative;overflow:hidden;
@@ -187,7 +187,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .grade-badge{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;
   justify-content:center;font-size:28px;font-weight:800;flex-shrink:0;}
 
-/* ── STAT BOXES ── */
+/* ââ STAT BOXES ââ */
 .stat-box{background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border:1px solid rgba(0,0,0,0.06);border-radius:14px;
   padding:18px 20px;box-shadow:var(--shadow-sm);transition:all 0.2s cubic-bezier(0.4,0,0.2,1);
@@ -199,14 +199,14 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
   font-variant-numeric:tabular-nums;}
 .sv-green{color:var(--green);}.sv-red{color:var(--red);}.sv-gold{color:var(--gold);}.sv-blue{color:var(--blue);}
 
-/* ── STAGGER ANIMATIONS ── */
+/* ââ STAGGER ANIMATIONS ââ */
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 .grid-4 .stat-box:nth-child(1){animation-delay:0.05s;}
 .grid-4 .stat-box:nth-child(2){animation-delay:0.1s;}
 .grid-4 .stat-box:nth-child(3){animation-delay:0.15s;}
 .grid-4 .stat-box:nth-child(4){animation-delay:0.2s;}
 
-/* ── TABS (Apple segmented control style) ── */
+/* ââ TABS (Apple segmented control style) ââ */
 .tab-bar{display:flex;gap:1px;margin-bottom:24px;background:rgba(0,0,0,0.04);padding:3px;
   border-radius:10px;width:100%;max-width:fit-content;
   overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;flex-shrink:0;
@@ -219,7 +219,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .tab-btn.active{background:#fff;color:var(--text);font-weight:600;
   box-shadow:0 0.5px 1px rgba(0,0,0,0.06),0 1px 4px rgba(0,0,0,0.06);}
 
-/* ── TABLES ── */
+/* ââ TABLES ââ */
 .dt{width:100%;border-collapse:collapse;font-size:14px;}
 .dt th{background:var(--light);color:var(--steel);padding:10px 16px;text-align:left;
   font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;
@@ -236,30 +236,30 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .gold-v{color:var(--gold);}
 .green-v{color:var(--green);font-weight:600;}
 
-/* ── COST BARS ── */
+/* ââ COST BARS ââ */
 .cbar-row{margin-bottom:8px;}
 .cbar-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--steel);margin-bottom:4px;}
 .cbar-bg{height:4px;background:rgba(0,0,0,0.06);border-radius:99px;}
 .cbar-fill{height:100%;border-radius:99px;transition:width 0.7s cubic-bezier(0.4,0,0.2,1);}
 
-/* ── KV ROWS ── */
+/* ââ KV ROWS ââ */
 .kv{display:flex;justify-content:space-between;align-items:center;
   font-size:14px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.04);}
 .kv:last-child{border-bottom:none;}
 .kv-k{color:var(--steel);}.kv-v{font-weight:600;color:var(--text);}
 
-/* ── FLAGS ── */
+/* ââ FLAGS ââ */
 .flag{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;}
 .fdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:6px;}
 .fred{background:var(--red);}.fyellow{background:var(--amber);}.fgreen{background:var(--green);}
 .ftext{font-size:14px;color:var(--text);line-height:1.5;}
 
-/* ── REC BOX ── */
+/* ââ REC BOX ââ */
 .rec-box{border-radius:14px;padding:16px 20px;border-left:3px solid;}
 .rec-label{font-size:12px;font-weight:700;margin-bottom:6px;}
 .rec-text{font-size:14px;line-height:1.65;}
 
-/* ── SOURCE BADGE ── */
+/* ââ SOURCE BADGE ââ */
 .source-badge{
   display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;
   padding:3px 10px;border-radius:99px;border:none;}
@@ -268,11 +268,11 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .sb-low{background:rgba(215,0,21,0.1);color:var(--red);}
 .sb-none{background:rgba(0,0,0,0.04);color:var(--steel);}
 
-/* ── SCORE BAR ── */
+/* ââ SCORE BAR ââ */
 .score-bar{height:6px;background:var(--light);border-radius:3px;margin-top:5px;}
 .score-fill{height:100%;border-radius:3px;}
 
-/* ── MISC ── */
+/* ââ MISC ââ */
 .divider{border:none;border-top:1px solid rgba(0,0,0,0.06);margin:20px 0;}
 .section-hdr{font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px;letter-spacing:-0.3px;}
 .err-box{display:none;background:var(--red-bg);color:var(--red);border:1px solid var(--red-b);
@@ -286,7 +286,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
   transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
 
-/* ── LOADING ── */
+/* ââ LOADING ââ */
 .loading-overlay{display:none;position:fixed;inset:0;
   background:rgba(248,248,250,0.80);backdrop-filter:saturate(180%) blur(24px);
   -webkit-backdrop-filter:saturate(180%) blur(24px);
@@ -302,7 +302,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 @keyframes slideUp{from{opacity:0;transform:translateY(8px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
 
-/* ── LOADING CHECKLIST ── */
+/* ââ LOADING CHECKLIST ââ */
 .lc-steps{margin:16px 0 14px;border-top:1px solid rgba(0,0,0,0.06);padding-top:14px;}
 .lc-step{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;
   color:#aeaeb2;border-bottom:1px solid rgba(0,0,0,0.04);transition:color 0.25s;}
@@ -352,16 +352,16 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
     <div style="text-align:center;margin-bottom:4px;">
       <div class="spinner"></div>
       <div style="font-size:17px;font-weight:700;color:var(--text);letter-spacing:-0.3px;margin-bottom:3px;">Analyzing Deal</div>
-      <div style="font-size:13px;color:var(--steel);line-height:1.5;" id="loadingMsg">Starting analysis…</div>
+      <div style="font-size:13px;color:var(--steel);line-height:1.5;" id="loadingMsg">Starting analysisâ¦</div>
     </div>
     <!-- Live step checklist -->
     <div class="lc-steps">
-      <div class="lc-step" id="lcs-comps"><div class="lcs-icon" id="lcsi-comps">○</div><span id="lcsl-comps">Researching comparable sales</span></div>
-      <div class="lc-step" id="lcs-condition"><div class="lcs-icon" id="lcsi-condition">○</div><span id="lcsl-condition">Assessing property condition</span></div>
-      <div class="lc-step" id="lcs-records"><div class="lcs-icon" id="lcsi-records">○</div><span id="lcsl-records">Checking public records</span></div>
-      <div class="lc-step" id="lcs-analysis"><div class="lcs-icon" id="lcsi-analysis">○</div><span id="lcsl-analysis">Calculating deal financials</span></div>
-      <div class="lc-step" id="lcs-verify"><div class="lcs-icon" id="lcsi-verify">○</div><span id="lcsl-verify">Verifying math</span></div>
-      <div class="lc-step" id="lcs-excel"><div class="lcs-icon" id="lcsi-excel">○</div><span id="lcsl-excel">Building Excel report</span></div>
+      <div class="lc-step" id="lcs-comps"><div class="lcs-icon" id="lcsi-comps">â</div><span id="lcsl-comps">Researching comparable sales</span></div>
+      <div class="lc-step" id="lcs-condition"><div class="lcs-icon" id="lcsi-condition">â</div><span id="lcsl-condition">Assessing property condition</span></div>
+      <div class="lc-step" id="lcs-records"><div class="lcs-icon" id="lcsi-records">â</div><span id="lcsl-records">Checking public records</span></div>
+      <div class="lc-step" id="lcs-analysis"><div class="lcs-icon" id="lcsi-analysis">â</div><span id="lcsl-analysis">Calculating deal financials</span></div>
+      <div class="lc-step" id="lcs-verify"><div class="lcs-icon" id="lcsi-verify">â</div><span id="lcsl-verify">Verifying math</span></div>
+      <div class="lc-step" id="lcs-excel"><div class="lcs-icon" id="lcsi-excel">â</div><span id="lcsl-excel">Building Excel report</span></div>
     </div>
     <!-- Progress bar -->
     <div style="height:4px;background:rgba(0,0,0,0.06);border-radius:99px;overflow:hidden;">
@@ -378,13 +378,13 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 
 <div class="main">
 
-  <!-- ══ INPUT FORM ══════════════════════════════════════════════ -->
+  <!-- ââ INPUT FORM ââââââââââââââââââââââââââââââââââââââââââââââ -->
   <div id="viewInput">
     <div style="margin-bottom:22px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Fix &amp; Flip · BRRRR · Buy &amp; Hold</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Fix &amp; Flip Â· BRRRR Â· Buy &amp; Hold</div>
       <div style="font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-0.5px;line-height:1.1;">Deal Analyzer</div>
       <div style="font-size:14px;color:var(--steel);margin-top:5px;">
-        Automated comps · AI condition assessment · Public records · Full deal report
+        Automated comps Â· AI condition assessment Â· Public records Â· Full deal report
       </div>
     </div>
 
@@ -399,7 +399,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
           <div><label class="form-label">Asking Price <span style="color:var(--red);font-weight:400;">*</span></label><input type="number" id="purchasePrice" placeholder="e.g. 350000"/></div>
           <div><label class="form-label">Your Offer <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">optional</span></label><input type="number" id="offerPrice" placeholder="Defaults to asking price"/></div>
           <div><label class="form-label">Estimated After-Repair Value <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">optional</span></label><input type="number" id="arv" placeholder="Leave blank for auto-estimate"/></div>
-          <div><label class="form-label">Year Built <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">optional</span></label><input type="number" id="yearBuilt" placeholder="e.g. 1978"/></div>
+          <div><label class="form-label">YXar Built <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">optional</span></label><input type="number" id="yearBuilt" placeholder="e.g. 1978"/></div>
         </div>
         <div>
           <label class="form-label">Beds / Baths / Sqft <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">optional</span></label>
@@ -411,16 +411,37 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
         </div>
         <div><label class="form-label">Lot Size <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">optional</span></label><input type="text" id="lotSize" placeholder="e.g. 6,200 sqft"/></div>
 
-        <!-- Photo upload -->
+        <!-- Photo upload â Guided Coverage UI -->
         <div>
-          <label class="form-label">Property Photos <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional — we'll search listings if not provided)</span></label>
-          <div class="photo-drop" id="photoDrop" onclick="document.getElementById('photoInput').click()">
-            <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoSelect(this.files)"/>
-            <div class="photo-drop-icon">📷</div>
-            <div class="photo-drop-label">Drop photos here or click to select</div>
-            <div class="photo-drop-sub">JPG, PNG, WebP · Max 5 photos · Listing photos will be searched automatically</div>
+          <label class="form-label">Property Photos
+            <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">optional â more coverage = higher confidence</span>
+          </label>
+
+          <!-- Coverage bar -->
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div style="flex:1;height:6px;background:var(--navy-mid);border-radius:3px;overflow:hidden;">
+              <div id="coverageBar" style="height:100%;width:0%;background:var(--gold);border-radius:3px;transition:width 0.3s;"></div>
+            </div>
+            <span id="coverageLabel" style="font-size:11px;color:var(--steel);white-space:nowrap;">0 / 7 areas</span>
           </div>
-          <div class="photo-grid" id="photoGrid"></div>
+
+          <!-- Labeled photo slots -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;" id="photoSlots">
+            <!-- slots injected by JS -->
+          </div>
+
+          <!-- Fallback: any extra photos -->
+          <div style="margin-top:8px;">
+            <label id="addMorePhotosLabel" style="font-size:11px;color:var(--steel);cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
+              <input type="file" id="extraPhotos" accept="image/*" multiple style="display:none;" onchange="handleExtraPhotos(this)">
+              + Add more photos
+            </label>
+          </div>
+
+          <!-- Confidence note -->
+          <div id="photoCoverageNote" style="margin-top:8px;font-size:11px;color:var(--amber);display:none;">
+            â  Limited coverage â AI will infer from web search. Add interior photos to improve confidence.
+          </div>
         </div>
       </div>
 
@@ -473,7 +494,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
         <!-- Advanced overrides (collapsed by default) -->
         <div class="override-section">
           <button type="button" class="override-toggle" onclick="toggleOverrides()">
-            <span id="overrideArrow">▸</span> Advanced Overrides
+            <span id="overrideArrow">â¸</span> Advanced Overrides
             <span style="font-weight:400;color:var(--steel);font-size:10px;margin-left:6px;">condition, renovation scope</span>
           </button>
           <div id="overridePanel" class="override-panel hidden">
@@ -486,16 +507,16 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
                 <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--steel);margin-top:2px;">
                   <span>Gut (1)</span><span>Average (5)</span><span>Excellent (10)</span>
                 </div>
-                <div style="font-size:11px;color:var(--steel);margin-top:3px;">Photos and AI will estimate this automatically — override only if you know the condition</div>
+                <div style="font-size:11px;color:var(--steel);margin-top:3px;">Photos and AI will estimate this automatically â override only if you know the condition</div>
               </div>
               <div>
                 <label class="form-label">Renovation Scope Override</label>
                 <select id="rehabScope">
                   <option value="auto" selected>Auto-detect from condition</option>
-                  <option value="minimal">Minimal ($0–5K)</option>
-                  <option value="cosmetic">Cosmetic ($25–40K)</option>
-                  <option value="moderate">Moderate ($45–65K)</option>
-                  <option value="heavy">Heavy ($65–90K)</option>
+                  <option value="minimal">Minimal ($0â5K)</option>
+                  <option value="cosmetic">Cosmetic ($25â40K)</option>
+                  <option value="moderate">Moderate ($45â65K)</option>
+                  <option value="heavy">Heavy ($65â90K)</option>
                   <option value="gut">Gut ($90K+)</option>
                 </select>
                 <div style="font-size:11px;color:var(--steel);margin-top:3px;">Leave on auto to let the analysis determine renovation scope</div>
@@ -509,7 +530,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
     <div class="err-box" id="formError"></div>
     <div style="display:flex;gap:12px;align-items:center;margin-top:20px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--border);">
       <button class="btn btn-primary" onclick="runAnalysis()" id="runBtn" style="padding:13px 32px;font-size:15px;">
-        Run Analysis →
+        Run Analysis â
       </button>
       <div style="font-size:12px;color:var(--steel);line-height:1.5;">
         Researches comps, assesses condition, analyzes deal,<br/>and builds downloadable Excel + PDF reports
@@ -517,7 +538,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
     </div>
   </div>
 
-  <!-- ══ RESULTS ═════════════════════════════════════════════════ -->
+  <!-- ââ RESULTS âââââââââââââââââââââââââââââââââââââââââââââââââ -->
   <div id="viewResults" class="hidden">
 
     <!-- Progress managed by checklist now -->
@@ -526,36 +547,36 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
     <div class="progress-checklist" id="progressChecklist">
       <div class="checklist-title">Analysis Progress</div>
       <div class="check-step" id="step-comps">
-        <div class="check-icon" id="icon-comps">○</div>
+        <div class="check-icon" id="icon-comps">â</div>
         <span id="label-comps">Researching comparable sales</span>
       </div>
       <div class="check-step" id="step-condition">
-        <div class="check-icon" id="icon-condition">○</div>
+        <div class="check-icon" id="icon-condition">â</div>
         <span id="label-condition">Assessing property condition</span>
       </div>
       <div class="check-step" id="step-records">
-        <div class="check-icon" id="icon-records">○</div>
+        <div class="check-icon" id="icon-records">â</div>
         <span id="label-records">Checking public records</span>
       </div>
       <div class="check-step" id="step-analysis">
-        <div class="check-icon" id="icon-analysis">○</div>
+        <div class="check-icon" id="icon-analysis">â</div>
         <span id="label-analysis">Calculating deal financials</span>
       </div>
       <div class="check-step" id="step-verify">
-        <div class="check-icon" id="icon-verify">○</div>
+        <div class="check-icon" id="icon-verify">â</div>
         <span id="label-verify">Verifying math</span>
       </div>
       <div class="check-step" id="step-excel">
-        <div class="check-icon" id="icon-excel">○</div>
+        <div class="check-icon" id="icon-excel">â</div>
         <span id="label-excel">Building Excel report</span>
       </div>
     </div>
 
     <!-- Top action bar -->
     <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap;">
-      <button class="btn btn-outline btn-sm" onclick="resetForm()">← New Deal</button>
-      <button class="btn btn-gold btn-sm" id="xlsxBtn" onclick="downloadXLSX()" disabled>Download XLSX ↓</button>
-      <button class="btn btn-sm" id="pdfBtn" onclick="downloadPDF()" disabled style="background:var(--navy);color:#fff;">Download PDF ↓</button>
+      <button class="btn btn-outline btn-sm" onclick="resetForm()">â New Deal</button>
+      <button class="btn btn-gold btn-sm" id="xlsxBtn" onclick="downloadXLSX()" disabled>Download XLSX â</button>
+      <button class="btn btn-sm" id="pdfBtn" onclick="downloadPDF()" disabled style="background:var(--navy);color:#fff;">Download PDF â</button>
     </div>
 
     <!-- Deal header (hidden until Agent 1 done) -->
@@ -563,16 +584,16 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
       <div class="deal-header">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;">
           <div>
-            <div class="deal-address" id="rAddr">—</div>
-            <div class="deal-facts" id="rFacts">—</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:4px;" id="rCond">—</div>
+            <div class="deal-address" id="rAddr">â</div>
+            <div class="deal-facts" id="rFacts">â</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:4px;" id="rCond">â</div>
             <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;" id="sourceBadges"></div>
           </div>
           <div style="display:flex;align-items:center;gap:16px;">
-            <div class="grade-badge" id="gradeBadge" style="width:72px;height:72px;border-radius:18px;font-size:32px;">—</div>
+            <div class="grade-badge" id="gradeBadge" style="width:72px;height:72px;border-radius:18px;font-size:32px;">â</div>
             <div>
-              <div style="font-size:22px;font-weight:800;letter-spacing:-0.5px;line-height:1.1;" id="rVerdict">—</div>
-              <div style="font-size:13px;color:rgba(255,255,255,0.45);margin-top:5px;font-weight:500;" id="rMetrics">—</div>
+              <div style="font-size:22px;font-weight:800;letter-spacing:-0.5px;line-height:1.1;" id="rVerdict">â</div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.45);margin-top:5px;font-weight:500;" id="rMetrics">â</div>
             </div>
           </div>
         </div>
@@ -580,16 +601,16 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 
       <!-- Key numbers -->
       <div class="grid-4" style="margin-bottom:10px;">
-        <div class="stat-box"><div class="stat-label">Purchase Price</div><div class="stat-value" id="kPurchase">—</div></div>
-        <div class="stat-box"><div class="stat-label">Total Rehab</div><div class="stat-value sv-gold" id="kRehab">—</div></div>
-        <div class="stat-box"><div class="stat-label">ARV</div><div class="stat-value" id="kArv">—</div></div>
-        <div class="stat-box"><div class="stat-label">Net Profit</div><div class="stat-value" id="kProfit">—</div></div>
+        <div class="stat-box"><div class="stat-label">Purchase Price</div><div class="stat-value" id="kPurchase">â</div></div>
+        <div class="stat-box"><div class="stat-label">Total Rehab</div><div class="stat-value sv-gold" id="kRehab">â</div></div>
+        <div class="stat-box"><div class="stat-label">ARV</div><div class="stat-value" id="kArv">â</div></div>
+        <div class="stat-box"><div class="stat-label">Net Profit</div><div class="stat-value" id="kProfit">â</div></div>
       </div>
       <div class="grid-4" style="margin-bottom:18px;">
-        <div class="stat-box"><div class="stat-label">All-In Cost</div><div class="stat-value" id="kAllin">—</div></div>
-        <div class="stat-box"><div class="stat-label">Cash Invested</div><div class="stat-value" id="kCash">—</div></div>
-        <div class="stat-box"><div class="stat-label">Suggested Offer</div><div class="stat-value sv-blue" id="kOffer">—</div></div>
-        <div class="stat-box"><div class="stat-label">Annualized ROI</div><div class="stat-value" id="kARoi">—</div></div>
+        <div class="stat-box"><div class="stat-label">All-In Cost</div><div class="stat-value" id="kAllin">â</div></div>
+        <div class="stat-box"><div class="stat-label">Cash Invested</div><div class="stat-value" id="kCash">â</div></div>
+        <div class="stat-box"><div class="stat-label">Suggested Offer</div><div class="stat-value sv-blue" id="kOffer">â</div></div>
+        <div class="stat-box"><div class="stat-label">Annualized ROI</div><div class="stat-value" id="kARoi">â</div></div>
       </div>
 
       <!-- Always-visible risks panel (outside tabs) -->
@@ -597,7 +618,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
         <div style="background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
           border:1px solid rgba(0,0,0,0.06);border-left:4px solid var(--amber);border-radius:14px;padding:18px 22px;box-shadow:var(--shadow-sm);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-            <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.3px;">⚠ Deal Risks &amp; Unknowns</div>
+            <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.3px;">â  Deal Risks &amp; Unknowns</div>
             <span id="riskCountBadge" style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;
               background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-b);"></span>
           </div>
@@ -624,7 +645,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
             <div class="divider"></div>
             <div id="costRows"></div>
             <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;padding-top:8px;border-top:1px solid var(--border);margin-top:4px;">
-              <span>NET PROFIT</span><span id="netProfitRow" style="font-size:15px;">—</span>
+              <span>NET PROFIT</span><span id="netProfitRow" style="font-size:15px;">â</span>
             </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:12px;">
@@ -638,7 +659,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
             </div>
             <div class="rec-box" id="recBox">
               <div class="rec-label" id="recLabel">Recommendation</div>
-              <div class="rec-text" id="recText">—</div>
+              <div class="rec-text" id="recText">â</div>
             </div>
           </div>
         </div>
@@ -690,7 +711,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
         <div class="card">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
             <div class="section-hdr" style="margin:0;">Itemized Rehab Budget</div>
-            <div style="font-size:12px;color:var(--steel);">Blue = editable · Replace with contractor bids in XLSX</div>
+            <div style="font-size:12px;color:var(--steel);">Blue = editable Â· Replace with contractor bids in XLSX</div>
           </div>
           <div style="overflow-x:auto;">
             <table class="dt">
@@ -737,12 +758,83 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
         </div>
       </div>
 
+      <!-- âââ SCENARIO MODELING âââââââââââââââââââââââââââââââââââââââ -->
+      <div id="scenarioPanel" class="hidden" style="margin-top:20px;padding:20px;background:var(--navy-mid);border-radius:10px;border:1px solid var(--border);">
+        <div style="font-size:13px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">
+          â¡ Scenario Modeling â Adjust &amp; Recalculate
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
+
+          <div>
+            <label style="font-size:11px;color:var(--steel);display:block;margin-bottom:4px;">Purchase Price</label>
+            <input type="number" id="sc_purchasePrice" style="width:100%;background:var(--navy);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
+          </div>
+
+          <div>
+            <label style="font-size:11px;color:var(--steel);display:block;margin-bottom:4px;">ARV</label>
+            <input type="number" id="sc_arv" style="width:100%;background:var(--navy);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
+          </div>
+
+          <div>
+            <label style="font-size:11px;color:var(--steel);display:block;margin-bottom:4px;">Hold Months</label>
+            <input type="number" id="sc_holdMonths" min="1" max="24" style="width:100%;background:var(--navy);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
+          </div>
+
+          <div>
+            <label style="font-size:11px;color:var(--steel);display:block;margin-bottom:4px;">Rehab Budget</label>
+            <input type="number" id="sc_rehabBudget" style="width:100%;background:var(--navy);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
+          </div>
+
+          <div>
+            <label style="font-size:11px;color:var(--steel);display:block;margin-bottom:4px;">Contingency %</label>
+            <input type="number" id="sc_contingencyPct" min="0" max="50" style="width:100%;background:var(--navy);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
+          </div>
+
+          <div>
+            <label style="font-size:11px;color:var(--steel);display:block;margin-bottom:4px;">Financing</label>
+            <select id="sc_financing" style="width:100%;background:var(--navy);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" onchange="runScenario()">
+              <option value="HML">HML (Hard Money)</option>
+              <option value="CASH">Cash</option>
+              <option value="PML">PML (Private)</option>
+              <option value="HML+PML">HML + PML</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Scenario results row -->
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding-top:14px;border-top:1px solid var(--border);">
+          <div style="text-align:center;">
+            <div style="font-size:11px;color:var(--steel);margin-bottom:2px;">All-In Cost</div>
+            <div id="sc_allInCost" style="font-size:14px;font-weight:700;color:var(--text);">â</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:11px;color:var(--steel);margin-bottom:2px;">Net Profit</div>
+            <div id="sc_netProfit" style="font-size:14px;font-weight:700;">â</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:11px;color:var(--steel);margin-bottom:2px;">Cash to Close</div>
+            <div id="sc_cashToClose" style="font-size:14px;font-weight:700;color:var(--text);">â</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:11px;color:var(--steel);margin-bottom:2px;">ROI</div>
+            <div id="sc_roi" style="font-size:14px;font-weight:700;color:var(--text);">â</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:11px;color:var(--steel);margin-bottom:2px;">Grade</div>
+            <div id="sc_grade" style="font-size:14px;font-weight:700;color:var(--gold);">â</div>
+          </div>
+        </div>
+
+      </div>
+
     </div><!-- /dealHeaderWrap -->
   </div><!-- /viewResults -->
 </div><!-- /main -->
 
 <script>
-// ── Config ────────────────────────────────────────────────────────
+// ââ Config ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 let DEAL = null, XL_DATA = null;
 let uploadedPhotos = [];
 
@@ -750,7 +842,7 @@ const fmt = n => n != null ? "$" + Math.round(n).toLocaleString() : "$0";
 const pct = n => n != null ? (Math.round(n * 10) / 10) + "%" : "0%";
 const el  = id => document.getElementById(id);
 
-// ── Toast ─────────────────────────────────────────────────────────
+// ââ Toast âââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function toast(msg, dur = 3500) {
   const t = el("toast");
   t.textContent = msg;
@@ -758,48 +850,93 @@ function toast(msg, dur = 3500) {
   setTimeout(() => t.classList.remove("show"), dur);
 }
 
-// ── Photo handling ─────────────────────────────────────────────────
-function handlePhotoSelect(files) {
-  Array.from(files).slice(0, 5 - uploadedPhotos.length).forEach(file => {
+// âââ PHOTO COVERAGE ââââââââââââââââââââââââââââââââââââââââââââââ
+const PHOTO_SLOTS = [
+  { id: "slot_exterior",  label: "Front Exterior", icon: "ð ", weight: 0.15 },
+  { id: "slot_kitchen",   label: "Kitchen",        icon: "ð³", weight: 0.25 },
+  { id: "slot_bathrooms", label: "Bathrooms",      icon: "ð¿", weight: 0.20 },
+  { id: "slot_living",    label: "Living Areas",   icon: "ð", weight: 0.10 },
+  { id: "slot_bedrooms",  label: "Bedrooms",       icon: "ð", weight: 0.10 },
+  { id: "slot_roof",      label: "Roof / Attic",   icon: "ð", weight: 0.10 },
+  { id: "slot_systems",   label: "HVAC / Systems", icon: "â", weight: 0.10 },
+];
+
+let slotPhotos = {}; // slotId â { data, mediaType, file }
+
+function initPhotoSlots() {
+  const container = document.getElementById("photoSlots");
+  if (!container) return;
+  container.innerHTML = PHOTO_SLOTS.map(s => `
+    <div id="${s.id}_wrap" style="position:relative;cursor:pointer;" onclick="triggerSlotUpload('${s.id}')">
+      <input type="file" id="${s.id}_input" accept="image/*" style="display:none;"
+             onchange="handleSlotPhoto('${s.id}', this)">
+      <div id="${s.id}_thumb" style="height:72px;background:var(--navy-mid);border:1.5px dashed var(--steel);
+           border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+           font-size:18px;gap:2px;transition:border-color 0.2s;">
+        <span>${s.icon}</span>
+        <span style="font-size:9px;color:var(--steel);text-align:center;line-height:1.2;">${s.label}</span>
+      </div>
+    </div>
+  `).join("");
+}
+
+function triggerSlotUpload(slotId) {
+  document.getElementById(slotId + "_input").click();
+}
+
+function handleSlotPhoto(slotId, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const data = e.target.result.split(",")[1];
+    slotPhotos[slotId] = { data, mediaType: file.type, file };
+    // Show thumbnail
+    const thumb = document.getElementById(slotId + "_thumb");
+    thumb.style.backgroundImage = `url(${e.target.result})`;
+    thumb.style.backgroundSize = "cover";
+    thumb.style.backgroundPosition = "center";
+    thumb.style.border = "1.5px solid var(--gold)";
+    thumb.innerHTML = `<div style="position:absolute;top:2px;right:3px;font-size:10px;background:var(--gold);color:var(--navy);padding:1px 4px;border-radius:3px;font-weight:700;">â</div>`;
+    updateCoverage();
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleExtraPhotos(input) {
+  Array.from(input.files).forEach((file, i) => {
     const reader = new FileReader();
     reader.onload = e => {
-      const b64 = e.target.result.split(",")[1];
-      const mediaType = file.type;
-      uploadedPhotos.push({ type: "base64", data: b64, mediaType, name: file.name });
-      renderPhotoGrid();
+      const data = e.target.result.split(",")[1];
+      slotPhotos[`extra_${i}`] = { data, mediaType: file.type, file };
+      updateCoverage();
     };
     reader.readAsDataURL(file);
   });
 }
 
-function renderPhotoGrid() {
-  const grid = el("photoGrid");
-  grid.innerHTML = uploadedPhotos.map((p, i) => `
-    <div class="photo-thumb-wrap">
-      <img class="photo-thumb" src="data:${p.mediaType};base64,${p.data}" alt="${p.name}"/>
-      <button class="photo-remove" onclick="removePhoto(${i})">✕</button>
-    </div>`).join("");
-  const drop = el("photoDrop");
-  drop.querySelector(".photo-drop-label").textContent =
-    uploadedPhotos.length > 0 ? `${uploadedPhotos.length} photo(s) selected` : "Drop photos here or click to select";
+function updateCoverage() {
+  const slotCount = Object.keys(slotPhotos).filter(k => !k.startsWith("extra_")).length;
+  const total = PHOTO_SLOTS.length;
+  const pct = Math.round((slotCount / total) * 100);
+  document.getElementById("coverageBar").style.width = pct + "%";
+  document.getElementById("coverageLabel").textContent = `${slotCount} / ${total} areas`;
+  // Change bar color by coverage
+  const bar = document.getElementById("coverageBar");
+  bar.style.background = pct >= 70 ? "var(--green, #22c55e)" : pct >= 40 ? "var(--gold)" : "var(--amber)";
+  // Show warning if low coverage
+  const note = document.getElementById("photoCoverageNote");
+  if (note) note.style.display = slotCount < 3 && slotCount > 0 ? "block" : "none";
 }
 
-function removePhoto(i) {
-  uploadedPhotos.splice(i, 1);
-  renderPhotoGrid();
+function getAllPhotos() {
+  return Object.values(slotPhotos).map(p => ({ data: p.data, mediaType: p.mediaType }));
 }
 
-// Drag/drop
-const drop = el("photoDrop");
-drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("dragover"); });
-drop.addEventListener("dragleave", () => drop.classList.remove("dragover"));
-drop.addEventListener("drop", e => {
-  e.preventDefault();
-  drop.classList.remove("dragover");
-  handlePhotoSelect(e.dataTransfer.files);
-});
+// Initialize on load
+document.addEventListener("DOMContentLoaded", initPhotoSlots);
 
-// ── Form helpers ──────────────────────────────────────────────────
+// ââ Form helpers ââââââââââââââââââââââââââââââââââââââââââââââââââ
 function toggleCheck(name) {
   const lbl = el("lbl-" + name);
   if (lbl) lbl.classList.toggle("active", el("chk-" + name).checked);
@@ -827,11 +964,11 @@ function toggleOverrides() {
   if (panel.classList.contains("hidden")) {
     panel.classList.remove("hidden");
     panel.classList.add("visible");
-    arrow.textContent = "▾";
+    arrow.textContent = "â¾";
   } else {
     panel.classList.add("hidden");
     panel.classList.remove("visible");
-    arrow.textContent = "▸";
+    arrow.textContent = "â¸";
   }
 }
 
@@ -846,8 +983,8 @@ function resetForm() {
   setWave(0);
 }
 
-// ── Agent status helpers ─────────────────────────────────────────
-// ── Checklist step management ─────────────────────────────────────
+// ââ Agent status helpers âââââââââââââââââââââââââââââââââââââââââ
+// ââ Checklist step management âââââââââââââââââââââââââââââââââââââ
 const STEPS = ["comps","condition","records","analysis","verify","excel"];
 
 function setStep(name, status) {
@@ -856,20 +993,20 @@ function setStep(name, status) {
   const icon = el("icon-" + name);
   if (step && icon) {
     step.className = "check-step " + status;
-    if (status === "active") icon.textContent = "●";
-    else if (status === "done") icon.textContent = "✓";
-    else if (status === "error") icon.textContent = "✗";
-    else icon.textContent = "○";
+    if (status === "active") icon.textContent = "â";
+    else if (status === "done") icon.textContent = "â";
+    else if (status === "error") icon.textContent = "â";
+    else icon.textContent = "â";
   }
   // Mirror into loading overlay checklist
   const lcs  = el("lcs-" + name);
   const lcsi = el("lcsi-" + name);
   if (lcs && lcsi) {
     lcs.className = "lc-step " + status;
-    if (status === "active") lcsi.textContent = "●";
-    else if (status === "done") lcsi.textContent = "✓";
-    else if (status === "error") lcsi.textContent = "✗";
-    else lcsi.textContent = "○";
+    if (status === "active") lcsi.textContent = "â";
+    else if (status === "done") lcsi.textContent = "â";
+    else if (status === "error") lcsi.textContent = "â";
+    else lcsi.textContent = "â";
   }
 }
 
@@ -892,9 +1029,9 @@ function setAgent(id, status, msg = null) {
   if (step) setStep(step, status === "running" ? "active" : status);
 }
 function setAllAgents(status) { resetAllSteps(); }
-function setWave(n) { /* no-op — waves hidden now */ }
+function setWave(n) { /* no-op â waves hidden now */ }
 
-// ── Progress bar ──────────────────────────────────────────────────
+// ââ Progress bar ââââââââââââââââââââââââââââââââââââââââââââââââââ
 let progInterval = null;
 let progValue = 0;
 let hangTightInterval = null;
@@ -902,16 +1039,16 @@ let countdownInterval = null;
 let analysisStartTime = null;
 
 const HANG_TIGHT_MSGS = [
-  "Searching recent sales nearby…",
-  "Comparing property features…",
-  "Checking listing history…",
-  "Crunching the numbers…",
-  "Reviewing market conditions…",
-  "Calculating rehab estimates…",
-  "Cross-referencing public records…",
-  "Almost there — finalizing analysis…",
-  "Running the numbers one more time…",
-  "Putting together your report…",
+  "Searching recent sales nearbyâ¦",
+  "Comparing property featuresâ¦",
+  "Checking listing historyâ¦",
+  "Crunching the numbersâ¦",
+  "Reviewing market conditionsâ¦",
+  "Calculating rehab estimatesâ¦",
+  "Cross-referencing public recordsâ¦",
+  "Almost there â finalizing analysisâ¦",
+  "Running the numbers one more timeâ¦",
+  "Putting together your reportâ¦",
 ];
 
 function startProgress() {
@@ -954,7 +1091,7 @@ function startProgress() {
       if (remaining > 0) {
         tr.textContent = `~${remaining}s remaining`;
       } else {
-        tr.textContent = "Wrapping up…";
+        tr.textContent = "Wrapping upâ¦";
       }
     }, 1000);
   }
@@ -969,17 +1106,17 @@ function completeProgress() {
   const tr = el("timeRemaining");
   if (htm) htm.textContent = "Complete!";
   if (tr) tr.textContent = "";
-  if (el("loadingMsg")) el("loadingMsg").textContent = "Analysis complete ✓";
+  if (el("loadingMsg")) el("loadingMsg").textContent = "Analysis complete â";
 }
 
-// ── Build deal prompt ─────────────────────────────────────────────
+// ââ Build deal prompt âââââââââââââââââââââââââââââââââââââââââââââ
 function buildPrompt(f) {
   const issues = ["roof","hvac","electrical","foundation","sewer"]
     .filter(k => el("chk-"+k)?.checked).join(", ") || "None";
   return `Address: ${f.address}
 Purchase Price (asking): $${f.purchasePrice}
 Offer Price: $${f.offerPrice}
-User ARV Estimate: ${f.arv ? "$" + f.arv : "None — use comp-derived ARV"}
+User ARV Estimate: ${f.arv ? "$" + f.arv : "None â use comp-derived ARV"}
 Beds/Baths/Sqft: ${f.beds||"?"}/${f.baths||"?"}/${f.sqft||"?"} sqft
 Year Built: ${f.yearBuilt||"Unknown"} | Lot: ${f.lotSize||"Unknown"}
 Manual Condition Score: ${f.conditionScore}/10
@@ -992,14 +1129,14 @@ Known Issues: ${issues}`;
 
 function updateLoadingMsg(wave) {
   const msgs = {
-    1: "Wave 1 — Researching comps, condition & records…",
-    2: "Wave 2 — Synthesizing analysis & financials…",
-    3: "Wave 3 — Building Excel workbook…"
+    1: "Wave 1 â Researching comps, condition & recordsâ¦",
+    2: "Wave 2 â Synthesizing analysis & financialsâ¦",
+    3: "Wave 3 â Building Excel workbookâ¦"
   };
   if (el("loadingMsg")) el("loadingMsg").textContent = msgs[wave] || "";
 }
 
-// ── Run analysis — 3-wave REST ─────────────────────────────────────
+// ââ Run analysis â 3-wave REST âââââââââââââââââââââââââââââââââââââ
 async function runAnalysis() {
   const addr = el("address").value.trim();
   const pp   = el("purchasePrice").value;
@@ -1029,7 +1166,7 @@ async function runAnalysis() {
     rehabScope:    el("rehabScope").value,
   };
   const prompt       = buildPrompt(formData);
-  const photos       = uploadedPhotos.map(p => ({ type:"base64", data:p.data, mediaType:p.mediaType }));
+  const photos       = getAllPhotos();
   const needsRental  = false; // rental comps disabled
 
   // Switch to results view
@@ -1051,7 +1188,7 @@ async function runAnalysis() {
   };
 
   try {
-    // ── WAVE 1 ── Comps + Photos + Records in parallel ────────────
+    // ââ WAVE 1 ââ Comps + Photos + Records in parallel ââââââââââââ
     updateLoadingMsg(1);
     setAgent(3,"running"); setAgent(4,"running"); setAgent(5,"running");
 
@@ -1069,18 +1206,18 @@ async function runAnalysis() {
     // Surface comp failures visibly
     if (w1.comps?.error) {
       setStep("comps", "error");
-      el("label-comps").textContent = "Comp search issue — using estimates";
+      el("label-comps").textContent = "Comp search issue â using estimates";
       console.warn("Comps error:", w1.comps.error, w1.comps.parseError || "");
     }
     if (w1.condition?.error) {
       setStep("condition", "error");
-      el("label-condition").textContent = "Condition check issue — using defaults";
+      el("label-condition").textContent = "Condition check issue â using defaults";
     }
 
-    // ── WAVE 2 ── Core deal analysis ──────────────────────────────
+    // ââ WAVE 2 ââ Core deal analysis ââââââââââââââââââââââââââââââ
     setWave(2);
     updateLoadingMsg(2);
-    setAgent(1, "running", "synthesizing research…");
+    setAgent(1, "running", "synthesizing researchâ¦");
     setAgent(7, "running");
 
     const w2 = await apiCall("/api/wave2", {
@@ -1096,9 +1233,9 @@ async function runAnalysis() {
     renderDeal(w2.deal);
     el("dealHeaderWrap").classList.remove("hidden");
     el("pdfBtn").disabled = false;
-    toast("✓ Deal analysis complete");
+    toast("â Deal analysis complete");
 
-    // ── WAVE 3 ── Excel + optional rental comps ───────────────────
+    // ââ WAVE 3 ââ Excel + optional rental comps âââââââââââââââââââ
     setWave(3);
     updateLoadingMsg(3);
     setAgent(2, "running");
@@ -1116,9 +1253,9 @@ async function runAnalysis() {
     if (w3.excel) {
       XL_DATA = w3.excel;
       el("xlsxBtn").disabled = false;
-      toast("✓ Excel workbook ready — download above");
+      toast("â Excel workbook ready â download above");
     } else {
-      toast("⚠ Excel build failed — deal card is still valid");
+      toast("â  Excel build failed â deal card is still valid");
     }
 
     completeProgress();
@@ -1131,10 +1268,10 @@ async function runAnalysis() {
     // Show inline error in results view (no alert)
     el("progressChecklist").innerHTML = `
       <div style="background:var(--red-bg);border:1px solid var(--red-b);border-radius:14px;padding:20px 22px;">
-        <div style="font-size:15px;font-weight:700;color:var(--red);margin-bottom:6px;">⚠ Analysis Failed</div>
-        <div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:10px;">${err.message || "Unknown error — please try again."}</div>
+        <div style="font-size:15px;font-weight:700;color:var(--red);margin-bottom:6px;">â  Analysis Failed</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:10px;">${err.message || "Unknown error â please try again."}</div>
         <div style="font-size:11px;color:var(--steel);margin-bottom:14px;">Server: ${SERVER_URL}</div>
-        <button class="btn btn-outline btn-sm" onclick="resetForm()">← Try Again</button>
+        <button class="btn btn-outline btn-sm" onclick="resetForm()">â Try Again</button>
       </div>`;
     el("dealHeaderWrap").classList.add("hidden");
     setAllAgents("idle");
@@ -1142,31 +1279,31 @@ async function runAnalysis() {
   }
 }
 
-// ── Render deal card ──────────────────────────────────────────────
+// ââ Render deal card ââââââââââââââââââââââââââââââââââââââââââââââ
 function renderDeal(d) {
   DEAL = d;
   const gs  = gradeStyle(d.dealGrade);
   const pos = d.netProfit > 0;
 
   el("rAddr").textContent = d.address;
-  el("rFacts").textContent = `${d.propertyFacts?.beds||"?"}bd/${d.propertyFacts?.baths||"?"}ba · ${(d.propertyFacts?.sqft||0).toLocaleString()} sqft · Built ${d.propertyFacts?.yearBuilt||"?"} · ${d.propertyFacts?.lotSize||""}`;
-  el("rCond").textContent  = `Condition: ${d.conditionScore}/10 — ${d.conditionLabel} (${d.conditionSource})`;
+  el("rFacts").textContent = `${d.propertyFacts?.beds||"?"}bd/${d.propertyFacts?.baths||"?"}ba Â· ${(d.propertyFacts?.sqft||0).toLocaleString()} sqft Â· Built ${d.propertyFacts?.yearBuilt||"?"} Â· ${d.propertyFacts?.lotSize||""}`;
+  el("rCond").textContent  = `Condition: ${d.conditionScore}/10 â ${d.conditionLabel} (${d.conditionSource})`;
 
   const gb = el("gradeBadge");
   gb.textContent = d.dealGrade;
   Object.assign(gb.style, { background: gs.bg, color: gs.color });
   el("rVerdict").textContent = d.verdict;
   el("rVerdict").style.color = gs.bg;
-  el("rMetrics").textContent = `ROI ${pct(d.roi)} · Ann. ${pct(d.annualizedRoi)} · ${d.holdMonths}mo hold`;
+  el("rMetrics").textContent = `ROI ${pct(d.roi)} Â· Ann. ${pct(d.annualizedRoi)} Â· ${d.holdMonths}mo hold`;
 
   // Source badges
   const badges = [];
   const pc = d.photoConfidence || "none";
   const pcClass = { high:"sb-high", medium:"sb-medium", low:"sb-low", none:"sb-none" }[pc] || "sb-none";
-  badges.push(`<span class="source-badge ${pcClass}">📷 ${d.photoSource?.replace(/_/g," ") || "no photos"}</span>`);
-  if (d.arvSource === "comps") badges.push(`<span class="source-badge sb-high">📊 comp-derived ARV</span>`);
+  badges.push(`<span class="source-badge ${pcClass}">ð· ${d.photoSource?.replace(/_/g," ") || "no photos"}</span>`);
+  if (d.arvSource === "comps") badges.push(`<span class="source-badge sb-high">ð comp-derived ARV</span>`);
   if (d.floodZone && d.floodZone !== "X" && d.floodZone !== "unknown")
-    badges.push(`<span class="source-badge sb-low">🌊 Flood zone ${d.floodZone}</span>`);
+    badges.push(`<span class="source-badge sb-low">ð Flood zone ${d.floodZone}</span>`);
   el("sourceBadges").innerHTML = badges.join("");
 
   // Key numbers
@@ -1226,8 +1363,8 @@ function renderDeal(d) {
     `<div class="kv"><span class="kv-k">${l}</span><span class="kv-v" style="color:${c}">${fmt(v)}</span></div>`
   ).join("");
 
-  // Risk flags — render into both the tab card and the always-visible panel
-  const allFlags = [...(d.riskFlags||[]), ...(d.permitFlags||[])];
+  // Risk flags â render into both the tab card and the always-visible panel
+  const allFlags = [...(d.riskFlags || []), ...(d.permitFlags||[])];
   const flagHtml = allFlags.length
     ? allFlags.map(f =>
         `<div class="flag"><div class="fdot f${f.level==="red"?"red":f.level==="green"?"green":"yellow"}"></div>
@@ -1252,11 +1389,11 @@ function renderDeal(d) {
   const rb = el("recBox");
   rb.style.cssText = `border-radius:10px;padding:15px 18px;border-left:4px solid ${isGo?"var(--green)":isCau?"#ef9f27":"var(--red)"};background:${isGo?"var(--green-bg)":isCau?"var(--amber-bg)":"var(--red-bg)"};`;
   el("recLabel").textContent = d.suggestedOffer && d.suggestedOffer !== d.purchasePrice
-    ? `Recommendation — Offer ${fmt(d.suggestedOffer)}` : "Recommendation";
+    ? `Recommendation â Offer ${fmt(d.suggestedOffer)}` : "Recommendation";
   el("recLabel").style.color = isGo?"var(--green)":isCau?"var(--amber)":"var(--red)";
   el("recText").textContent  = d.recommendation;
 
-  // ── Condition tab ──
+  // ââ Condition tab ââ
   const rd = d.conditionRoomBreakdown || {};
   const scoreColor = s => s >= 7 ? "#639922" : s >= 5 ? "#c9973a" : s >= 3 ? "#e85d26" : "#e24b4a";
   el("conditionTable").innerHTML = Object.entries(rd).map(([area, v]) => {
@@ -1270,44 +1407,44 @@ function renderDeal(d) {
           <span style="font-size:15px;font-weight:700;color:${c};">${s || "N/A"}</span>
         </div>
       </div>
-      <div class="score-bar"><div class="score-fill" style="width:${(s/10)*100}%;background:${c}"></div></div>
+      <div class="score-bar"><div class="score-fill" style="width:$x(s/10)*100}%;background:${c}"></div></div>
       <div style="font-size:12px;color:var(--steel);margin-top:3px;">${v.notes||""}</div>
     </div>`;
   }).join("");
 
   el("photoSourceInfo").innerHTML = `
-    <div class="kv"><span class="kv-k">Source</span><span class="kv-v">${(d.photoSource||"none").replace(/_/g," ")}</span></div>
+  <div class="kv"><span class="kv-k">Source</span><span class="kv-v">${(d.photoSource||"none").replace(/_/g," ")}</span></div>
     <div class="kv"><span class="kv-k">Photos analyzed</span><span class="kv-v">${d.photosAnalyzed||0}</span></div>
-    <div class="kv"><span class="kv-k">Confidence</span><span class="kv-v">${d.photoConfidence||"none"}</span></div>
+    <div class="kj"><span class="kv-k">Confidence</span><span class="kv-v">${d.photoConfidence||"none"}</span></div>
     <div class="kv"><span class="kv-k">Rooms covered</span><span class="kv-v">${(d.roomsCovered||[]).join(", ")||"none"}</span></div>
     <div class="kv"><span class="kv-k">Rooms missing</span><span class="kv-v" style="color:${(d.roomsMissing||[]).length?"var(--red)":"var(--green)"}">${(d.roomsMissing||[]).join(", ")||"none"}</span></div>
-    <div class="kv"><span class="kv-k">Staging detected</span><span class="kv-v">${d.stagingDetected?"Yes — scores adjusted conservatively":"No"}</span></div>`;
+    <div class="kv"><span class="kv-k">Staging detected</span><span class="kv-v">${d.stagingDetected?"Yes â scores adjusted conservatively":"No"}</span></div>`;
 
-  // ── Comps tab ──
+  // ââ Comps tab ââ
   const comps = d.soldComps || [];
   if (d.arvRange) {
-    el("arvRangeDisplay").innerHTML = `ARV Range: <strong>${fmt(d.arvRange.low)}</strong> — <strong>${fmt(d.arvRange.mid)}</strong> — <strong>${fmt(d.arvRange.high)}</strong> · Using: <strong style="color:var(--gold)">${fmt(d.arv)}</strong>`;
+    el("arvRangeDisplay").innerHTML = `ARV Range: <strong>${fmt(d.arvRange.low)}</strong> â <strong>${fmt(d.arvRange.mid)}</strong> â <strong style="color:var(--gold)">${fmt(d.arv)}</strong>`;
   }
   el("compsBody").innerHTML = comps.length
     ? comps.map(c =>
-        `<tr><td>${c.address||"—"}</td><td>${c.beds||""}/${c.baths||""}</td><td>${(c.sqft||0).toLocaleString()}</td>
+        `<tr><td>${c.address||"â"}</td><td>${c.beds||""}/${c.baths||""}</td><td>${(c.sqft||0).toLocaleString()}</td>
          <td class="num">${fmt(c.soldPrice)}</td><td class="num">${fmt(c.pricePerSqft)}/sqft</td>
          <td class="num gold-v">${fmt(c.adjustedPrice)}</td>
-         <td>${c.daysOnMarket||"—"} days</td><td>${c.soldDate||"—"}</td>
+         <td>${c.daysOnMarket||"â"} days</td><td>${c.soldDate||"â"}</td>
          <td style="font-size:12px;color:var(--steel);">${c.adjustmentNotes||""}</td></tr>`
       ).join("")
-    : `<tr><td colspan="9" style="text-align:center;color:var(--steel);padding:20px;">No comps found — ARV based on user input</td></tr>`;
+    : `<tr><td colspan="9" style="text-align:center;color:var(--steel);padding:20px;">No comps found â ARV based on user input</td></tr>`;
 
   if (d.marketContext) {
     el("compsNote").textContent = d.marketContext.marketComment || "";
   }
 
-  // ── Rehab tab ──
+  // ââ Rehab tab ââ
   const items = d.rehabLineItems || [];
   el("rehabBody").innerHTML = items.filter(r => r.include !== false).map(r =>
     `<tr><td>${r.item}</td>
-     <td class="num blue-v">${r.labor ? fmt(r.labor) : "—"}</td>
-     <td class="num blue-v">${r.material ? fmt(r.material) : "—"}</td>
+     <td class="num blue-v">${r.labor ? fmt(r.labor) : "â"}</td>
+     <td class="num blue-v">${r.material ? fmt(r.material) : "â"}</td>
      <td class="num" style="font-weight:600">${fmt(r.total)}</td>
      <td style="font-size:12px;color:var(--steel)">${r.notes||""}</td></tr>`
   ).join("") +
@@ -1315,7 +1452,7 @@ function renderDeal(d) {
    <tr><td style="color:var(--steel)">Contingency (${d.rehabBudget>0?Math.round((d.rehabContingency/d.rehabBudget)*100):15}%)</td><td></td><td></td><td class="num gold-v">${fmt(d.rehabContingency)}</td><td></td></tr>
    <tr class="tr-total"><td>GRAND TOTAL</td><td></td><td></td><td class="num" style="color:var(--gold);font-size:15px">${fmt(d.totalRehab)}</td><td></td></tr>`;
 
-  // ── Financing tab ──
+  // ââ Financing tab ââ
   const h = d.financing?.hml||{}, p = d.financing?.pml||{};
   el("hmlRows").innerHTML = [
     ["Loan Amount", fmt(h.loanAmount)], ["LTV", "90%"],
@@ -1336,10 +1473,10 @@ function renderDeal(d) {
     ["Total Cash Invested", fmt(d.cashInvested)],
   ].map(([l,v]) => `<div class="kv"><span class="kv-k">${l}</span><span class="kv-v" style="font-weight:700">${v}</span></div>`).join("");
 
-  // ── BRRRR tab ──
+  // ââ BRRRR tab ââ
   const br = d.brrrr||{};
   el("brrrrRows").innerHTML = [
-    ["Refi Amount (ARV×75%)", fmt(br.refiAmount)],
+    ["Refi Amount (ARVÃ75%)", fmt(br.refiAmount)],
     ["Cash Recovered", fmt(br.cashRecovered)],
     ["Cash Left In Deal", fmt(br.cashLeftIn)],
     ["Est. Rent / mo", fmt(br.estimatedRent)],
@@ -1363,9 +1500,100 @@ function renderDeal(d) {
     return `<div class="kv"><span class="kv-k">${l}</span><span class="kv-v">${badge}${v}</span></div>`;
   }).join("");
   el("brrrrVerdict").textContent = br.verdict||"";
+
+  // Initialize scenario modeling panel
+  initScenarioPanel(d);
 }
 
-// ── PDF Download (3-page deal report) ─────────────────────────────
+// âââ SCENARIO MODELING âââââââââââââââââââââââââââââââââââââââââââ
+// Client-side port of computeDealMath for instant recalculation
+
+function clientComputeDealMath(purchasePrice, arv, holdMonths, rehabBudget, contingencyPct, financingType) {
+  const fType  = (financingType || "HML").toUpperCase();
+  const isCash = fType === "CASH";
+  const hasPml = fType === "PML" || fType === "HML+PML";
+  const hasHml = !isCash && (fType === "HML" || fType === "HML+PML");
+
+  const hmlLtv        = fType === "HML+PML" ? 0.70 : 0.90;
+  const hmlRate       = 10;
+  const hmlLoanAmount = hasHml ? Math.round(purchasePrice * hmlLtv) : 0;
+  const hmlOriginFee  = Math.round(hmlLoanAmount * 0.01);
+  const hmlMonthly    = Math.round((hmlLoanAmount * hmlRate / 100) / 12);
+  const hmlInterest   = hmlMonthly * holdMonths;
+
+  const pmlRate       = 12;
+  const pmlLoanAmount = hasPml
+    ? (fType === "HML+PML" ? Math.round(purchasePrice * 0.20) : Math.round(purchasePrice * 0.85))
+    : 0;
+  const pmlMonthly  = Math.round((pmlLoanAmount * pmlRate / 100) / 12);
+  const pmlInterest = pmlMonthly * holdMonths;
+
+  const purchaseClosing = isCash ? Math.round(purchasePrice * 0.015) : Math.round(purchasePrice * 0.03);
+
+  const insurance = 200 * holdMonths;
+  const utilities = 200 * holdMonths;
+  const taxes     = Math.round((4500 / 12) * holdMonths);
+  const holdTotal = insurance + utilities + taxes + hmlInterest + hmlOriginFee + pmlInterest;
+
+  const rehabContingency = Math.round(rehabBudget * contingencyPct / 100);
+  const totalRehab       = rehabBudget + rehabContingency;
+
+  const buyerComm = Math.round(arv * 0.025);
+  const saleClose = Math.round(arv * 0.015);
+  const saleTotal = buyerComm + 8000 + saleClose;
+
+  const allInCost    = purchasePrice + purchaseClosing + totalRehab + holdTotal + saleTotal;
+  const netProfit    = arv - allInCost;
+  const cashToClose  = allInCost - hmlLoanAmount - pmlLoanAmount;
+  const cashInvested = Math.max(0, cashToClose);
+  const roi          = cashInvested > 0 ? Math.round((netProfit / cashInvested) * 1000) / 10 : 0;
+
+  const profitRatio = cashInvested > 0 ? (netProfit / cashInvested) * 100 : 0;
+  const grade       = profitRatio > 30 ? "A+" : profitRatio > 20 ? "A" : profitRatio > 15 ? "B+" :
+                      profitRatio > 10 ? "B"  : profitRatio > 5  ? "C" : "D";
+
+  return { allInCost, netProfit, cashToClose: cashInvested, roi, grade };
+}
+
+let _scenarioDeal = null; // set when renderDeal() runs
+
+function initScenarioPanel(deal) {
+  _scenarioDeal = deal;
+  el("sc_purchasePrice").value = deal.purchasePrice || "";
+  el("sc_arv").value           = deal.arv           || "";
+  el("sc_holdMonths").value    = deal.holdMonths     || 5;
+  el("sc_rehabBudget").value   = deal.rehabBudget    || "";
+  el("sc_contingencyPct").value = deal.rehabContingency && deal.rehabBudget
+    ? Math.round(deal.rehabContingency / deal.rehabBudget * 100) : 15;
+  const finType = (deal.financing?.type || "HML").toUpperCase();
+  el("sc_financing").value = finType;
+  el("scenarioPanel").classList.remove("hidden");
+  runScenario();
+}
+
+function runScenario() {
+  const pp   = parseFloat(el("sc_purchasePrice").value) || 0;
+  const arv  = parseFloat(el("sc_arv").value)           || 0;
+  const hold = parseInt(el("sc_holdMonths").value)       || 5;
+  const reh  = parseFloat(el("sc_rehabBudget").value)    || 0;
+  const con  = parseFloat(el("sc_contingencyPct").value) || 15;
+  const fin  = el("sc_financing").value                  || "HML";
+
+  if (!pp || !arv) return;
+
+  const r = clientComputeDealMath(pp, arv, hold, reh, con, fin);
+
+  const fmtVal = v => "$" + Math.abs(Math.round(v)).toLocaleString();
+  el("sc_allInCost").textContent  = fmtVal(r.allInCost);
+  el("sc_cashToClose").textContent = fmtVal(r.cashToClose);
+  el("sc_roi").textContent        = r.roi + "%";
+  el("sc_grade").textContent      = r.grade;
+
+  const profitEl = el("sc_netProfit");
+  profitEl.textContent = (r.netProfit >= 0 ? "+" : "-") + fmtVal(r.netProfit);
+  profitEl.style.color = r.netProfit >= 0 ? "var(--green, #22c55e)" : "var(--red, #ef4444)";
+}
+.// ââ PDF Download (3-page deal report) âââââââââââââââââââââââââââââ
 function downloadPDF() {
   if (!DEAL) { toast("Run analysis first"); return; }
   const d = DEAL;
@@ -1374,132 +1602,7 @@ function downloadPDF() {
   const W = 612, H = 792;
   const NAVY = "#0B1F3A", GOLD = "#C9973A", GOLD_L = "#E8C97A", STEEL = "#8896A5",
         GREEN = "#3b6d11", GREEN_BG = "#eaf3de", RED = "#a32d2d", BLUE = "#185fa5",
-        LIGHT = "#F4F7FB", BORDER = "#DDE3EC", AMBER = "#854f0b", AMBER_BG = "#faeeda",
-        BLUE_BG = "#e6f1fb", WHITE = "#FFFFFF";
-
-  const fmtP = n => n != null ? "$" + Math.round(n).toLocaleString() : "$0";
-  const pctP = n => n != null ? (Math.round(n * 10) / 10) + "%" : "0%";
-  const today = new Date().toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric" });
-
-  function drawHeader(title, pageNum) {
-    doc.setFillColor(NAVY); doc.rect(0, 0, W, 48, "F");
-    doc.setFillColor(GOLD); doc.rect(0, 48, W, 2, "F");
-    doc.setFont("helvetica","bold"); doc.setFontSize(13); doc.setTextColor(WHITE);
-    doc.text("Streamline", 24, 33);
-    const sw = doc.getTextWidth("Streamline");
-    doc.setTextColor(GOLD); doc.text("AI", 24 + sw + 2, 33);
-    doc.setFontSize(6.5); doc.setTextColor(GOLD_L); doc.text("CONSULTING", 24, 42);
-    doc.setFontSize(9); doc.setFont("helvetica","bold"); doc.setTextColor(GOLD_L);
-    doc.text(title, W - 24, 30, { align: "right" });
-    doc.setFontSize(7); doc.setFont("helvetica","normal"); doc.setTextColor(STEEL);
-    doc.text(today, W - 24, 41, { align: "right" });
-    // Footer
-    doc.setDrawColor(GOLD); doc.setLineWidth(0.5); doc.line(24, H - 36, W - 24, H - 36);
-    doc.setFontSize(6.5); doc.setTextColor(STEEL);
-    doc.text("Streamline AI Consulting  ·  Flip Deal Analyzer  ·  For informational purposes only", 24, H - 24);
-    doc.text("Page " + pageNum + " of 3", W - 24, H - 24, { align: "right" });
-  }
-
-  function rRect(x, y, w, h, r, fill, stroke) {
-    if (fill) { doc.setFillColor(fill); doc.roundedRect(x, y, w, h, r, r, stroke ? "FD" : "F"); }
-    else if (stroke) { doc.setDrawColor(stroke); doc.roundedRect(x, y, w, h, r, r, "S"); }
-  }
-
-  function statBox(x, y, w, h, label, value, color) {
-    doc.setDrawColor(BORDER); doc.setLineWidth(0.5);
-    rRect(x, y, w, h, 6, WHITE, BORDER);
-    doc.setFont("helvetica","normal"); doc.setFontSize(7); doc.setTextColor(STEEL);
-    doc.text(label, x + 10, y + 14);
-    doc.setFont("helvetica","bold"); doc.setFontSize(15); doc.setTextColor(color || NAVY);
-    doc.text(value, x + 10, y + h - 10);
-  }
-
-  // ═══════════════════════════════════════════════════════════════
-  // PAGE 1 — DEAL SUMMARY
-  // ═══════════════════════════════════════════════════════════════
-  drawHeader("Deal Summary", 1);
-
-  // Deal header card
-  const top = 66;
-  rRect(24, top, W - 48, 72, 10, NAVY);
-  doc.setFillColor(GOLD); doc.rect(24, top, W - 48, 2.5, "F");
-  doc.setFont("helvetica","bold"); doc.setFontSize(16); doc.setTextColor(WHITE);
-  doc.text(d.address || "—", 38, top + 24);
-  doc.setFont("helvetica","normal"); doc.setFontSize(9.5); doc.setTextColor("#ffffff70");
-  const facts = `${d.propertyFacts?.beds||"?"}bd / ${d.propertyFacts?.baths||"?"}ba  ·  ${(d.propertyFacts?.sqft||0).toLocaleString()} sqft  ·  Built ${d.propertyFacts?.yearBuilt||"?"}`;
-  doc.text(facts, 38, top + 38);
-  doc.setFontSize(8); doc.setTextColor("#ffffff40");
-  doc.text(`Condition: ${d.conditionScore||"?"}/10 — ${d.conditionLabel||""}`, 38, top + 52);
-
-  // Grade badge
-  const gx = W - 82, gy = top + 12;
-  const gBg = (d.dealGrade === "A+" || d.dealGrade === "A" || d.dealGrade === "B+") ? GREEN_BG : AMBER_BG;
-  const gFg = (d.dealGrade === "A+" || d.dealGrade === "A" || d.dealGrade === "B+") ? GREEN : AMBER;
-  rRect(gx, gy, 44, 44, 8, gBg);
-  doc.setFont("helvetica","bold"); doc.setFontSize(22); doc.setTextColor(gFg);
-  doc.text(d.dealGrade || "?", gx + 22, gy + 30, { align: "center" });
-
-  // Verdict
-  doc.setFont("helvetica","bold"); doc.setFontSize(9.5); doc.setTextColor("#ffffffcc");
-  doc.text(d.verdict || "", gx - 14, gy + 16, { align: "right" });
-  doc.setFont("helvetica","normal"); doc.setFontSize(7.5); doc.setTextColor("#ffffff55");
-  doc.text(`ROI ${pctP(d.roi)}  ·  Annualized ${pctP(d.annualizedRoi)}  ·  ${d.holdMonths||5}mo hold`, gx - 14, gy + 28, { align: "right" });
-
-  // Stat boxes
-  let y1 = top + 82;
-  const bw = (W - 48 - 24) / 4;
-  const r1 = [["PURCHASE PRICE", fmtP(d.purchasePrice), NAVY], ["TOTAL REHAB", fmtP(d.totalRehab), GOLD],
-              ["ARV", fmtP(d.arv), NAVY], ["NET PROFIT", fmtP(d.netProfit), GREEN]];
-  r1.forEach(([l,v,c], i) => statBox(24 + i * (bw + 8), y1, bw, 44, l, v, c));
-
-  const y2 = y1 + 52;
-  const r2 = [["ALL-IN COST", fmtP(d.allInCost), NAVY], ["CASH INVESTED", fmtP(d.cashInvested), NAVY],
-              ["SUGGESTED OFFER", fmtP(d.suggestedOffer), BLUE], ["ANNUALIZED ROI", pctP(d.annualizedRoi), GREEN]];
-  r2.forEach(([l,v,c], i) => statBox(24 + i * (bw + 8), y2, bw, 44, l, v, c));
-
-  // Rehab budget (left column)
-  const yBody = y2 + 60;
-  const colW = (W - 48 - 16) / 2;
-  doc.setFont("helvetica","bold"); doc.setFontSize(11); doc.setTextColor(NAVY);
-  doc.text("Rehab Budget", 24, yBody);
-  const rehabItems = d.rehabLineItems || [];
-  let ry = yBody + 16;
-  const topItems = rehabItems.filter(r => r.include !== false).slice(0, 8);
-  topItems.forEach(r => {
-    doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(NAVY);
-    doc.text(r.item || "", 26, ry);
-    doc.setFont("helvetica","bold"); doc.setTextColor(GOLD);
-    doc.text(fmtP(r.total), 150, ry, { align: "right" });
-    const barW = Math.max(3, Math.min(colW - 160, ((r.total || 0) / (d.totalRehab || 1)) * (colW - 160)));
-    doc.setFillColor(GOLD); doc.roundedRect(158, ry - 7, barW, 8, 3, 3, "F");
-    ry += 15;
-  });
-  ry += 4;
-  doc.setDrawColor(NAVY); doc.setLineWidth(0.8); doc.line(24, ry, 24 + colW, ry);
-  ry += 12;
-  doc.setFont("helvetica","bold"); doc.setFontSize(10); doc.setTextColor(NAVY);
-  doc.text("TOTAL REHAB", 26, ry);
-  doc.setTextColor(GOLD); doc.text(fmtP(d.totalRehab), 24 + colW, ry, { align: "right" });
-
-  // Cost summary (right column)
-  const rx = 24 + colW + 16;
-  doc.setFont("helvetica","bold"); doc.setFontSize(11); doc.setTextColor(NAVY);
-  doc.text("Cost Summary", rx, yBody);
-  const costs = [["Purchase Price", d.purchasePrice], ["Purchase Closing", d.purchaseClosing],
-    ["Total Rehab", d.totalRehab], ["Holding Costs", d.holdingCosts?.total], ["Sale Costs", d.saleCosts?.total]];
-  let cy = yBody + 16;
-  costs.forEach(([l,v]) => {
-    doc.setFont("helvetica","normal"); doc.setFontSize(8.5); doc.setTextColor(STEEL);
-    doc.text(l, rx + 4, cy);
-    doc.setTextColor(NAVY); doc.text(fmtP(v), rx + colW - 4, cy, { align: "right" });
-    cy += 14;
-  });
-  cy += 2;
-  doc.setDrawColor(BORDER); doc.setLineWidth(0.4); doc.line(rx, cy, rx + colW, cy);
-  cy += 12;
-  doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(NAVY);
-  doc.text("All-In Cost", rx + 4, cy);
-  doc.text(fmtP(d.allInCost), rx + colW - 4, cy, { align: "right" });
+   : "right" });
   cy += 16;
   doc.setFontSize(10); doc.setTextColor(GREEN);
   doc.text("NET PROFIT", rx + 4, cy);
@@ -1524,14 +1627,14 @@ function downloadPDF() {
   rRect(24, H - 100, W - 48, 50, 8, GREEN_BG);
   doc.setFillColor(GREEN); doc.rect(24, H - 100, 4, 50, "F");
   doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(GREEN);
-  doc.text(`Recommendation — Offer ${fmtP(d.suggestedOffer)}`, 38, H - 86);
+  doc.text(`Recommendation â Offer ${fmtP(d.suggestedOffer)}`, 38, H - 86);
   doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(NAVY);
   const recLines = doc.splitTextToSize(d.recommendation || "", W - 80);
   doc.text(recLines.slice(0, 3), 38, H - 74);
 
-  // ═══════════════════════════════════════════════════════════════
-  // PAGE 2 — COMPARABLE SALES & ARV
-  // ═══════════════════════════════════════════════════════════════
+  // âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+  // PAGE 2 â COMPARABLE SALES & ARV
+  // âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
   doc.addPage();
   drawHeader("Comparable Sales & ARV", 2);
 
@@ -1541,7 +1644,7 @@ function downloadPDF() {
   y += 14;
   const comps = d.soldComps || [];
   doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(STEEL);
-  doc.text(`${comps.length} comps  ·  Subject: ${(d.propertyFacts?.sqft||0).toLocaleString()} sqft, ${d.propertyFacts?.beds||"?"}bd/${d.propertyFacts?.baths||"?"}ba`, 24, y);
+  doc.text(`${comps.length} comps  Â·  Subject: ${(d.propertyFacts?.sqft||0).toLocaleString()} sqft, ${d.propertyFacts?.beds||"?"}bd/${d.propertyFacts?.baths||"?"}ba`, 24, y);
   y += 18;
 
   // Comp table header
@@ -1556,7 +1659,7 @@ function downloadPDF() {
   comps.forEach((comp, i) => {
     if (i % 2 === 1) { doc.setFillColor(LIGHT); doc.rect(20, y - 10, W - 40, 14, "F"); }
     doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(NAVY);
-    doc.text((comp.address || "—").substring(0, 28), cols[0], y);
+    doc.text((comp.address || "â").substring(0, 28), cols[0], y);
     doc.setTextColor(STEEL);
     doc.text(`${comp.beds||"?"}/${comp.baths||"?"}`, cols[1], y);
     doc.text(`${(comp.sqft||0).toLocaleString()}`, cols[2], y);
@@ -1568,7 +1671,7 @@ function downloadPDF() {
     doc.text(fmtP(comp.adjustedPrice), cols[5], y);
     doc.setFont("helvetica","normal"); doc.setTextColor(STEEL);
     doc.text(`${comp.daysOnMarket||"?"}`, cols[6], y);
-    doc.text((comp.soldDate||"—").substring(0, 8), cols[7], y);
+    doc.text((comp.soldDate||"â").substring(0, 8), cols[7], y);
     doc.text(comp.distance || "", cols[8], y);
     totalPpsf += (comp.pricePerSqft || 0);
     totalAdj += (comp.adjustedPrice || 0);
@@ -1595,7 +1698,7 @@ function downloadPDF() {
     comps.forEach(comp => {
       doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(STEEL);
       const short = (comp.address||"").split(",")[0];
-      doc.text(`•  ${short}: ${comp.adjustmentNotes||"no adjustments"}`, 28, y);
+      doc.text(`â¢  ${short}: ${comp.adjustmentNotes||"no adjustments"}`, 28, y);
       y += 12;
     });
 
@@ -1608,14 +1711,14 @@ function downloadPDF() {
 
     let ay = y + 38;
     doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(STEEL);
-    doc.text("Method 1 — Average Adjusted Sale Price", 40, ay);
+    doc.text("Method 1 â Average Adjusted Sale Price", 40, ay);
     doc.setFont("helvetica","bold"); doc.setTextColor(NAVY);
     doc.text(fmtP(avgAdj), W - 72, ay, { align: "right" });
     ay += 16;
 
     const ppsf_arv = avgPpsf * (d.propertyFacts?.sqft || 1450);
     doc.setFont("helvetica","normal"); doc.setTextColor(STEEL);
-    doc.text(`Method 2 — Avg $/sqft ($${Math.round(avgPpsf)}) × Subject sqft (${(d.propertyFacts?.sqft||0).toLocaleString()})`, 40, ay);
+    doc.text(`Method 2 â Avg $/sqft ($${Math.round(avgPpsf)}) Ã Subject sqft (${(d.propertyFacts?.sqft||0).toLocaleString()})`, 40, ay);
     doc.setFont("helvetica","bold"); doc.setTextColor(NAVY);
     doc.text(fmtP(ppsf_arv), W - 72, ay, { align: "right" });
     ay += 20;
@@ -1628,7 +1731,7 @@ function downloadPDF() {
     doc.text(fmtP(d.arv), W - 72, ay, { align: "right" });
     ay += 14;
     doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(STEEL);
-    doc.text(`Average $/sqft: $${Math.round(avgPpsf)}  ·  Subject implied: ${fmtP(ppsf_arv)}  ·  Reconciled to ${fmtP(d.arv)}`, 40, ay);
+    doc.text(`Average $/sqft: $${Math.round(avgPpsf)}  Â·  Subject implied: ${fmtP(ppsf_arv)}  Â·  Reconciled to ${fmtP(d.arv)}`, 40, ay);
   }
 
   // Market context
@@ -1642,9 +1745,9 @@ function downloadPDF() {
     doc.text(mcLines.slice(0, 2), 38, mcy + 26);
   }
 
-  // ═══════════════════════════════════════════════════════════════
-  // PAGE 3 — PROJECTED P&L
-  // ═══════════════════════════════════════════════════════════════
+  // âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+  // PAGE 3 â PROJECTED P&L
+  // ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
   doc.addPage();
   drawHeader("Projected Profit & Loss", 3);
 
@@ -1653,7 +1756,7 @@ function downloadPDF() {
   doc.text("Projected Profit & Loss", 24, y);
   y += 14;
   doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(STEEL);
-  doc.text(`Purchase at ${fmtP(d.purchasePrice)}  ·  ${d.holdMonths||5}-month hold  ·  Sale at ARV ${fmtP(d.arv)}`, 24, y);
+  doc.text(`Purchase at ${fmtP(d.purchasePrice)}  Â·  ${d.holdMonths||5}-month hold  Â·  Sale at ARV ${fmtP(d.arv)}`, 24, y);
   y += 20;
 
   // Table header
@@ -1767,12 +1870,12 @@ function downloadPDF() {
   // Save
   const safe = (d.address || "deal").replace(/[^a-z0-9]/gi, "_").slice(0, 30);
   doc.save(`FlipAnalysis_${safe}_${new Date().toISOString().split("T")[0]}.pdf`);
-  toast("✓ PDF downloaded!");
+  toast("â PDF downloaded!");
 }
 
-// ── XLSX Download ─────────────────────────────────────────────────
+// ââ XLSX Download âââââââââââââââââââââââââââââââââââââââââââââââââ
 function downloadXLSX() {
-  if (!XL_DATA) { toast("Excel still building…"); return; }
+  if (!XL_DATA) { toast("Excel still buildingâ¦"); return; }
   const wb = XLSX.utils.book_new();
   [
     [XL_DATA.dealSummary,        "Deal Summary"],
@@ -1791,7 +1894,7 @@ function downloadXLSX() {
   });
   const safe = (el("address").value||"deal").replace(/[^a-z0-9]/gi,"_").slice(0,30);
   XLSX.writeFile(wb, `FlipAnalysis_${safe}_${new Date().toISOString().split("T")[0]}.xlsx`);
-  toast("✓ XLSX downloaded!");
+  toast("â XLSX downloaded!");
 }
 </script>
 
@@ -1800,7 +1903,7 @@ function downloadXLSX() {
   <div style="font-size:12px;color:var(--steel);font-weight:500;margin-bottom:4px;">
     Streamline<span style="color:var(--gold);font-weight:700;">AI</span> Consulting
   </div>
-  <div style="font-size:11px;color:#aeaeb2;">For informational purposes only — verify all figures independently</div>
+  <div style="font-size:11px;color:#aeaeb2;">For informational purposes only â verify all figures independently</div>
 </footer>
 
 </body>
