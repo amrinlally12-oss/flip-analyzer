@@ -4,22 +4,22 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Flip Deal Analyzer &#8212; Streamline AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Figtree:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{
-  --navy:#0B1F3A;--navy2:#132c52;--gold:#C9973A;--gold-l:#E8C97A;
-  --white:#FFFFFF;--cream:#F8F8FA;--steel:#86868b;--border:#d2d2d7;
-  --text:#1d1d1f;--light:#F5F5F7;
-  --green:#248a3d;--green-bg:#e8f5e9;--green-b:#a5d6a7;
-  --amber:#bf5600;--amber-bg:#fff3e0;--amber-b:#ffcc80;
-  --red:#d70015;--red-bg:#ffebee;--red-b:#ef9a9a;
-  --blue:#0071e3;--blue-bg:#e3f2fd;
+  --navy:#0a0f1a;--navy2:#111827;--gold:#C9973A;--gold-l:#E8C97A;
+  --white:#ffffff;--cream:#04070f;--steel:rgba(255,255,255,0.55);--border:rgba(255,255,255,0.10);
+  --text:#ffffff;--light:rgba(255,255,255,0.04);
+  --green:#8fda3a;--green-bg:rgba(99,153,34,0.15);--green-b:rgba(99,153,34,0.3);
+  --amber:#E8C97A;--amber-bg:rgba(201,151,58,0.15);--amber-b:rgba(201,151,58,0.3);
+  --red:#f07a5a;--red-bg:rgba(200,80,50,0.15);--red-b:rgba(200,80,50,0.3);
+  --blue:#5ab4f0;--blue-bg:rgba(90,180,240,0.1);
   --radius:12px;
-  --shadow-sm:0 0.5px 1px rgba(0,0,0,0.04),0 1px 3px rgba(0,0,0,0.06);
-  --shadow-md:0 2px 8px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.04);
-  --shadow-lg:0 4px 12px rgba(0,0,0,0.08),0 12px 40px rgba(0,0,0,0.06);
+  --shadow-sm:0 0.5px 1px rgba(0,0,0,0.2),0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md:0 2px 8px rgba(0,0,0,0.3),0 4px 16px rgba(0,0,0,0.2);
+  --shadow-lg:0 4px 12px rgba(0,0,0,0.3),0 12px 40px rgba(0,0,0,0.4);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
@@ -27,11 +27,11 @@ body{font-family:'Inter','Outfit',-apple-system,BlinkMacSystemFont,sans-serif;
   background:var(--cream);color:var(--text);min-height:100vh;font-size:15px;line-height:1.47;}
 ::-webkit-scrollbar{width:8px;height:8px;}
 ::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:99px;border:2px solid transparent;background-clip:padding-box;}
-::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.25);border:2px solid transparent;background-clip:padding-box;}
+::-webkit-scrollbar-thumb{background:rgba(201,151,58,0.3);border-radius:99px;border:2px solid transparent;background-clip:padding-box;}
+::-webkit-scrollbar-thumb:hover{background:rgba(201,151,58,0.5);border:2px solid transparent;background-clip:padding-box;}
 
 /* &#9472;&#9472; NAV &#9472;&#9472; */
-.topbar{background:rgba(11,31,58,0.92);backdrop-filter:saturate(180%) blur(20px);
+.topbar{background:rgba(4,7,15,0.6);position:relative;z-index:100;backdrop-filter:saturate(180%) blur(20px);
   -webkit-backdrop-filter:saturate(180%) blur(20px);
   padding:0 32px;height:52px;display:flex;align-items:center;
   justify-content:space-between;border-bottom:1px solid rgba(201,151,58,0.3);
@@ -44,26 +44,26 @@ body{font-family:'Inter','Outfit',-apple-system,BlinkMacSystemFont,sans-serif;
   padding:3px 10px;border-radius:99px;}
 
 /* &#9472;&#9472; LAYOUT &#8212; 8px rhythm &#9472;&#9472; */
-.main{max-width:1080px;margin:0 auto;padding:32px 24px 80px;}
-.card{background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:32px;box-shadow:var(--shadow-sm);}
+.main{max-width:1080px;position:relative;z-index:2;margin:0 auto;padding:32px 24px 80px;}
+.card{background:rgba(255,255,255,0.04);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.10);border-radius:18px;padding:32px;box-shadow:var(--shadow-sm);}
 
 /* &#9472;&#9472; FORM &#9472;&#9472; */
 .form-label{font-size:11px;font-weight:600;color:var(--steel);text-transform:uppercase;
   letter-spacing:0.6px;display:block;margin-bottom:6px;}
 input[type=text],input[type=number],select,textarea{
   font-family:inherit;font-size:15px;color:var(--text);
-  background:rgba(255,255,255,0.8);
-  border:1px solid var(--border);border-radius:10px;padding:11px 14px;outline:none;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.10);border-radius:10px;padding:11px 14px;outline:none;
   transition:all 0.2s;width:100%;height:44px;}
 textarea{height:auto;min-height:72px;resize:vertical;}
 input[type=text]::placeholder,input[type=number]::placeholder,textarea::placeholder{
-  color:#aeaeb2;font-weight:400;}
-input:focus,select:focus,textarea:focus{border-color:var(--blue);
-  box-shadow:0 0 0 4px rgba(0,113,227,0.15);}
-input:hover:not(:focus),select:hover:not(:focus),textarea:hover:not(:focus){border-color:#aeaeb2;}
+  color:rgba(255,255,255,0.25);font-weight:400;}
+input:focus,select:focus,textarea:focus{border-color:rgba(201,151,58,0.5);
+  box-shadow:0 0 0 4px rgba(201,151,58,0.12);}
+input:hover:not(:focus),select:hover:not(:focus),textarea:hover:not(:focus){border-color:rgba(255,255,255,0.2);}
 select{cursor:pointer;appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%2386868b' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23999999' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
@@ -73,43 +73,44 @@ select{cursor:pointer;appearance:none;
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:36px;
   border:none;padding:0;background:transparent;cursor:pointer;outline:none;margin:4px 0;}
 input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:99px;
-  background:var(--border);}
+  background:rgba(255,255,255,0.15);}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
   width:26px;height:16px;border-radius:8px;margin-top:-5.5px;
-  background:#fff;border:0.5px solid rgba(0,0,0,0.1);
-  box-shadow:0 0.5px 1px rgba(0,0,0,0.1),0 1px 4px rgba(0,0,0,0.12);
+  background:rgba(255,255,255,0.9);border:0.5px solid rgba(255,255,255,0.2);
+  box-shadow:0 0.5px 1px rgba(0,0,0,0.4),0 1px 4px rgba(0,0,0,0.3);
   cursor:pointer;transition:box-shadow 0.15s,transform 0.1s;}
 input[type=range]::-webkit-slider-thumb:hover{
-  box-shadow:0 1px 3px rgba(0,0,0,0.14),0 2px 8px rgba(0,0,0,0.12);}
+  box-shadow:0 1px 3px rgba(0,0,0,0.14),0 2px 8px rgba(0,0,0,0.3);}
 input[type=range]::-webkit-slider-thumb:active{transform:scaleX(0.94);
   box-shadow:0 0.5px 2px rgba(0,0,0,0.16);}
 input[type=range]::-moz-range-track{height:5px;border-radius:99px;background:var(--border);border:none;}
 input[type=range]::-moz-range-thumb{width:26px;height:16px;border-radius:8px;
-  background:#fff;border:0.5px solid rgba(0,0,0,0.1);
-  box-shadow:0 0.5px 1px rgba(0,0,0,0.1),0 1px 4px rgba(0,0,0,0.12);cursor:pointer;}
+  background:rgba(255,255,255,0.9);border:0.5px solid rgba(255,255,255,0.2);
+  box-shadow:0 0.5px 1px rgba(0,0,0,0.4),0 1px 4px rgba(0,0,0,0.3);cursor:pointer;}
 input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:var(--gold);}
 
 /* &#9472;&#9472; BUTTONS &#9472;&#9472; */
 .btn{font-family:inherit;font-size:14px;font-weight:600;padding:10px 24px;
   border-radius:980px;border:none;cursor:pointer;transition:all 0.15s;
   display:inline-flex;align-items:center;gap:6px;letter-spacing:-0.1px;}
-.btn-primary{background:var(--navy);color:#fff;}
-.btn-primary:hover:not(:disabled){background:var(--navy2);}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-l));color:#04070f;}
+.btn-primary:hover:not(:disabled){background:linear-gradient(135deg,var(--gold-l),var(--gold));transform:translateY(-1px);box-shadow:0 8px 24px rgba(201,151,58,0.3);}
 .btn-primary:active:not(:disabled){transform:scale(0.98);opacity:0.9;}
-.btn-primary:disabled{background:#d2d2d7;color:#86868b;cursor:not-allowed;}
+.btn-primary:disabled{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.25);cursor:not-allowed;}
 .btn-gold{background:var(--gold);color:#fff;}
 .btn-gold:hover:not(:disabled){background:var(--gold-l);color:var(--navy);}
-.btn-gold:disabled{background:#d2d2d7;color:#86868b;cursor:not-allowed;}
-.btn-outline{background:transparent;color:var(--steel);border:1px solid var(--border);font-weight:500;}
-.btn-outline:hover{border-color:var(--text);color:var(--text);}
+.btn-gold:disabled{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.25);cursor:not-allowed;}
+.btn-outline{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.10);font-weight:500;}
+.btn-outline:hover{border-color:rgba(255,255,255,0.2);color:#fff;background:rgba(255,255,255,0.08);}
 .btn-sm{font-size:13px;padding:7px 14px;}
 
 /* &#9472;&#9472; PHOTO UPLOAD &#9472;&#9472; */
+
 .photo-drop{
-  border:1.5px dashed var(--border);border-radius:14px;padding:32px;
-  text-align:center;cursor:pointer;transition:all 0.2s;background:var(--light);
+  border:1.5px dashed rgba(255,255,255,0.15);border-radius:14px;padding:32px;
+  text-align:center;cursor:pointer;transition:all 0.2s;background:rgba(255,255,255,0.03);
   position:relative;}
-.photo-drop:hover,.photo-drop.dragover{border-color:var(--blue);background:rgba(0,113,227,0.03);}
+.photo-drop:hover,.photo-drop.dragover{border-color:var(--gold);background:rgba(201,151,58,0.05);}
 .photo-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .photo-drop-icon{font-size:28px;margin-bottom:8px;opacity:0.4;}
 .photo-drop-label{font-size:14px;color:var(--steel);font-weight:500;}
@@ -128,7 +129,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 
 /* &#9472;&#9472; CHECKBOXES &#9472;&#9472; */
 .check-item{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;
-  padding:8px 12px;background:var(--light);border-radius:10px;border:1px solid transparent;
+  padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px;border:1px solid transparent;
   transition:all 0.15s;user-select:none;}
 .check-item:hover{background:#ececf0;}
 .check-item.active{border-color:var(--blue);background:rgba(0,113,227,0.06);}
@@ -136,7 +137,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
   border-radius:4px;}
 
 /* &#9472;&#9472; ADVANCED OVERRIDES &#9472;&#9472; */
-.override-section{border-top:1px solid rgba(0,0,0,0.06);padding-top:12px;margin-top:4px;}
+.override-section{border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;margin-top:4px;}
 .override-toggle{background:none;border:none;cursor:pointer;font-family:inherit;
   font-size:13px;font-weight:600;color:var(--blue);padding:4px 0;display:flex;align-items:center;gap:6px;
   transition:opacity 0.15s;}
@@ -148,10 +149,10 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 /* &#9472;&#9472; PROGRESS CHECKLIST &#9472;&#9472; */
 .progress-checklist{display:flex;flex-direction:column;gap:0;margin-bottom:24px;
   background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:20px 24px;box-shadow:var(--shadow-sm);}
+  border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 24px;box-shadow:var(--shadow-sm);}
 .checklist-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-0.2px;}
 .check-step{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:14px;color:var(--steel);
-  transition:all 0.25s;border-bottom:1px solid rgba(0,0,0,0.04);}
+  transition:all 0.25s;border-bottom:1px solid rgba(255,255,255,0.06);}
 .check-step:last-child{border-bottom:none;}
 .check-step.active{color:var(--blue);font-weight:500;}
 .check-step.done{color:var(--green);}
@@ -169,7 +170,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .wave-bar{display:flex;gap:6px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
 .wave-pill{
   display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;
-  font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--light);
+  font-size:12px;font-weight:600;border:1px solid var(--border);background:rgba(255,255,255,0.04);
   color:var(--steel);transition:all 0.2s;}
 .wave-pill.active{background:var(--blue-bg);border-color:#378add;color:#185fa5;}
 .wave-pill.done{background:var(--green-bg);border-color:var(--green-b);color:var(--green);}
@@ -177,7 +178,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 
 /* &#9472;&#9472; DEAL HEADER &#9472;&#9472; */
 .deal-header{
-  background:var(--navy);border-radius:16px;
+  background:rgba(4,7,15,0.6);border-radius:16px;
   padding:28px 32px;margin-bottom:24px;position:relative;overflow:hidden;
   box-shadow:var(--shadow-lg);animation:fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) both;}
 .deal-header::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
@@ -189,7 +190,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 
 /* &#9472;&#9472; STAT BOXES &#9472;&#9472; */
 .stat-box{background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border:1px solid rgba(0,0,0,0.06);border-radius:14px;
+  border:1px solid rgba(255,255,255,0.08);border-radius:14px;
   padding:18px 20px;box-shadow:var(--shadow-sm);transition:all 0.2s cubic-bezier(0.4,0,0.2,1);
   animation:fadeUp 0.4s cubic-bezier(0.4,0,0.2,1) both;}
 .stat-box:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);}
@@ -207,7 +208,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .grid-4 .stat-box:nth-child(4){animation-delay:0.2s;}
 
 /* &#9472;&#9472; TABS (Apple segmented control style) &#9472;&#9472; */
-.tab-bar{display:flex;gap:1px;margin-bottom:24px;background:rgba(0,0,0,0.04);padding:3px;
+.tab-bar{display:flex;gap:1px;margin-bottom:24px;background:rgba(255,255,255,0.06);padding:3px;
   border-radius:10px;width:100%;max-width:fit-content;
   overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;flex-shrink:0;
   scrollbar-width:none;animation:fadeUp 0.4s cubic-bezier(0.4,0,0.2,1) 0.25s both;}
@@ -216,20 +217,20 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
   border-radius:8px;border:none;cursor:pointer;background:transparent;
   color:var(--steel);transition:all 0.2s cubic-bezier(0.4,0,0.2,1);}
 .tab-btn:hover:not(.active){color:var(--text);}
-.tab-btn.active{background:#fff;color:var(--text);font-weight:600;
-  box-shadow:0 0.5px 1px rgba(0,0,0,0.06),0 1px 4px rgba(0,0,0,0.06);}
+.tab-btn.active{background:rgba(255,255,255,0.04);color:var(--text);font-weight:600;
+  box-shadow:0 0.5px 1px rgba(255,255,255,0.08),0 1px 4px rgba(255,255,255,0.08);}
 
 /* &#9472;&#9472; TABLES &#9472;&#9472; */
 .dt{width:100%;border-collapse:collapse;font-size:14px;}
-.dt th{background:var(--light);color:var(--steel);padding:10px 16px;text-align:left;
+.dt th{background:rgba(255,255,255,0.04);color:var(--steel);padding:10px 16px;text-align:left;
   font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;
   border-bottom:1px solid var(--border);}
 .dt th:first-child{border-radius:10px 0 0 0;}.dt th:last-child{border-radius:0 10px 0 0;}
-.dt td{padding:12px 16px;border-bottom:1px solid rgba(0,0,0,0.04);}
+.dt td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06);}
 .dt tr:last-child td{border-bottom:none;}
 .dt tr:nth-child(even) td{background:rgba(0,0,0,0.015);}
 .dt tr:hover td{background:rgba(0,0,0,0.025);}
-.dt .tr-total td{font-weight:700;background:var(--light);border-top:1px solid var(--border);}
+.dt .tr-total td{font-weight:700;background:rgba(255,255,255,0.04);border-top:1px solid var(--border);}
 .dt .tr-sub td{font-weight:600;color:var(--text);}
 .num{text-align:right;font-variant-numeric:tabular-nums;}
 .blue-v{color:var(--blue);font-weight:500;}
@@ -239,12 +240,12 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 /* &#9472;&#9472; COST BARS &#9472;&#9472; */
 .cbar-row{margin-bottom:8px;}
 .cbar-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--steel);margin-bottom:4px;}
-.cbar-bg{height:4px;background:rgba(0,0,0,0.06);border-radius:99px;}
+.cbar-bg{height:4px;background:rgba(255,255,255,0.08);border-radius:99px;}
 .cbar-fill{height:100%;border-radius:99px;transition:width 0.7s cubic-bezier(0.4,0,0.2,1);}
 
 /* &#9472;&#9472; KV ROWS &#9472;&#9472; */
 .kv{display:flex;justify-content:space-between;align-items:center;
-  font-size:14px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.04);}
+  font-size:14px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);}
 .kv:last-child{border-bottom:none;}
 .kv-k{color:var(--steel);}.kv-v{font-weight:600;color:var(--text);}
 
@@ -266,14 +267,14 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .sb-high{background:rgba(36,138,61,0.1);color:var(--green);}
 .sb-medium{background:rgba(191,86,0,0.1);color:var(--amber);}
 .sb-low{background:rgba(215,0,21,0.1);color:var(--red);}
-.sb-none{background:rgba(0,0,0,0.04);color:var(--steel);}
+.sb-none{background:rgba(255,255,255,0.06);color:var(--steel);}
 
 /* &#9472;&#9472; SCORE BAR &#9472;&#9472; */
-.score-bar{height:6px;background:var(--light);border-radius:3px;margin-top:5px;}
+.score-bar{height:6px;background:rgba(255,255,255,0.04);border-radius:3px;margin-top:5px;}
 .score-fill{height:100%;border-radius:3px;}
 
 /* &#9472;&#9472; MISC &#9472;&#9472; */
-.divider{border:none;border-top:1px solid rgba(0,0,0,0.06);margin:20px 0;}
+.divider{border:none;border-top:1px solid rgba(255,255,255,0.08);margin:20px 0;}
 .section-hdr{font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px;letter-spacing:-0.3px;}
 .err-box{display:none;background:var(--red-bg);color:var(--red);border:1px solid var(--red-b);
   border-radius:8px;padding:10px 14px;font-size:13px;margin-top:12px;}
@@ -292,20 +293,20 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
   -webkit-backdrop-filter:saturate(180%) blur(24px);
   z-index:200;align-items:center;justify-content:center;animation:fadeIn 0.15s ease;}
 .loading-overlay.show{display:flex;}
-.loading-card{background:#fff;border:1px solid rgba(0,0,0,0.08);
+.loading-card{background:rgba(255,255,255,0.04);border:1px solid rgba(0,0,0,0.3);
   border-radius:20px;padding:28px 32px;
   max-width:440px;width:92%;box-shadow:var(--shadow-lg);
   animation:slideUp 0.35s cubic-bezier(0.4,0,0.2,1);}
-.spinner{width:28px;height:28px;border:2.5px solid rgba(0,0,0,0.08);border-top-color:var(--blue);
+.spinner{width:28px;height:28px;border:2.5px solid rgba(0,0,0,0.3);border-top-color:var(--blue);
   border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 10px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 @keyframes slideUp{from{opacity:0;transform:translateY(8px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
 
 /* &#9472;&#9472; LOADING CHECKLIST &#9472;&#9472; */
-.lc-steps{margin:16px 0 14px;border-top:1px solid rgba(0,0,0,0.06);padding-top:14px;}
+.lc-steps{margin:16px 0 14px;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;}
 .lc-step{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;
-  color:#aeaeb2;border-bottom:1px solid rgba(0,0,0,0.04);transition:color 0.25s;}
+  color:#aeaeb2;border-bottom:1px solid rgba(255,255,255,0.06);transition:color 0.25s;}
 .lc-step:last-child{border-bottom:none;}
 .lc-step.active{color:var(--blue);font-weight:500;}
 .lc-step.done{color:var(--green);}
@@ -325,9 +326,20 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
   .stat-value{font-size:17px;}
   .topbar{padding:0 16px;}
 }
+/* DARK THEME: Animated BG */
+.bg-canvas{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.35;animation:float 20s infinite ease-in-out;}
+.orb1{width:600px;height:600px;background:#1a3a6e;top:-100px;left:-150px;animation-delay:0s;}
+.orb2{width:500px;height:500px;background:#6e1a4a;top:30%;right:-100px;animation-delay:-7s;}
+.orb3{width:400px;height:400px;background:#1a6e5a;bottom:-50px;left:20%;animation-delay:-13s;}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1);}25%{transform:translate(40px,-60px) scale(1.08);}50%{transform:translate(-30px,40px) scale(0.95);}75%{transform:translate(60px,20px) scale(1.05);}}
+.noise{position:fixed;inset:0;z-index:1;opacity:0.03;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px;}
 </style>
 </head>
 <body>
+<!-- Dark Theme Background -->
+<div class="bg-canvas"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
+<div class="noise"></div>
 
 <script>
   const SERVER_URL   = "https://flip-analyzer-server-production.up.railway.app";
@@ -364,7 +376,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
       <div class="lc-step" id="lcs-excel"><div class="lcs-icon" id="lcsi-excel">&#9675;</div><span id="lcsl-excel">Building Excel report</span></div>
     </div>
     <!-- Progress bar -->
-    <div style="height:4px;background:rgba(0,0,0,0.06);border-radius:99px;overflow:hidden;">
+    <div style="height:4px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden;">
       <div id="progressBar" style="height:100%;background:var(--blue);border-radius:99px;width:0%;transition:width 0.5s cubic-bezier(0.4,0,0.2,1);"></div>
     </div>
     <div style="display:flex;justify-content:space-between;margin-top:8px;">
@@ -382,7 +394,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
   <div id="viewInput">
     <div style="margin-bottom:22px;">
       <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Fix &amp; Flip &#183; BRRRR &#183; Buy &amp; Hold</div>
-      <div style="font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-0.5px;line-height:1.1;">Deal Analyzer</div>
+      <div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-0.5px;line-height:1.1;">Deal Analyzer</div>
       <div style="font-size:14px;color:var(--steel);margin-top:5px;">
         Automated comps &#183; AI condition assessment &#183; Public records &#183; Full deal report
       </div>
@@ -470,7 +482,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
         </div>
         <div>
           <label class="form-label" style="display:flex;justify-content:space-between;">
-            Hold Period <span id="holdLabel" style="color:var(--navy);font-weight:700;">5 months</span>
+            Hold Period <span id="holdLabel" style="color:var(--gold);font-weight:700;">5 months</span>
           </label>
           <input type="range" id="holdMonths" min="2" max="12" step="1" value="5" oninput="el('holdLabel').textContent=this.value+' months'" style="margin-top:6px;"/>
         </div>
@@ -501,7 +513,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
             <div style="display:flex;flex-direction:column;gap:12px;padding:12px 0 4px;">
               <div>
                 <label class="form-label" style="display:flex;justify-content:space-between;">
-                  Property Condition Override <span id="condLabel" style="color:var(--navy);font-weight:700;">5 / 10</span>
+                  Property Condition Override <span id="condLabel" style="color:var(--gold);font-weight:700;">5 / 10</span>
                 </label>
                 <input type="range" id="conditionScore" min="1" max="10" step="1" value="5" oninput="el('condLabel').textContent=this.value+' / 10'"/>
                 <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--steel);margin-top:2px;">
@@ -576,7 +588,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
     <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap;">
       <button class="btn btn-outline btn-sm" onclick="resetForm()">&#8592; New Deal</button>
       <button class="btn btn-gold btn-sm" id="xlsxBtn" onclick="downloadXLSX()" disabled>Download XLSX &#8595;</button>
-      <button class="btn btn-sm" id="pdfBtn" onclick="downloadPDF()" disabled style="background:var(--navy);color:#fff;">Download PDF &#8595;</button>
+      <button class="btn btn-sm" id="pdfBtn" onclick="downloadPDF()" disabled style="background:rgba(4,7,15,0.6);color:#fff;">Download PDF &#8595;</button>
     </div>
 
     <!-- Deal header (hidden until Agent 1 done) -->
@@ -616,7 +628,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
       <!-- Always-visible risks panel (outside tabs) -->
       <div id="risksAlwaysPanel" class="hidden" style="margin-bottom:14px;">
         <div style="background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-          border:1px solid rgba(0,0,0,0.06);border-left:4px solid var(--amber);border-radius:14px;padding:18px 22px;box-shadow:var(--shadow-sm);">
+          border:1px solid rgba(255,255,255,0.08);border-left:4px solid var(--amber);border-radius:14px;padding:18px 22px;box-shadow:var(--shadow-sm);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
             <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.3px;">&#9888; Deal Risks &amp; Unknowns</div>
             <span id="riskCountBadge" style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;
@@ -753,7 +765,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
             <div class="section-hdr">Strategy Comparison</div>
             <div id="stratRows"></div>
             <div class="divider"></div>
-            <div style="background:var(--light);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--steel);line-height:1.6;" id="brrrrVerdict"></div>
+            <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--steel);line-height:1.6;" id="brrrrVerdict"></div>
           </div>
         </div>
       </div>
@@ -768,32 +780,32 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 
           <div>
             <label style="font-size:11px;color:var(--steel);display:block;margin-bottom:4px;">Purchase Price</label>
-            <input type="number" id="sc_purchasePrice" style="width:100%;background:var(--navy);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
+            <input type="number" id="sc_purchasePrice" style="width:100%;background:rgba(4,7,15,0.6);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
           </div>
 
           <div>
             <label style="font-size:11px;color:var(--steel);display:block;margin-bottom:4px;">ARV</label>
-            <input type="number" id="sc_arv" style="width:100%;background:var(--navy);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
+            <input type="number" id="sc_arv" style="width:100%;background:rgba(4,7,15,0.6);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
           </div>
 
           <div>
             <label style="font-size:11px;color:var(--steel);display:block;margin-bottom:4px;">Hold Months</label>
-            <input type="number" id="sc_holdMonths" min="1" max="24" style="width:100%;background:var(--navy);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
+            <input type="number" id="sc_holdMonths" min="1" max="24" style="width:100%;background:rgba(4,7,15,0.6);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
           </div>
 
           <div>
             <label style="font-size:11px;color:var(--steel);display:block;margin-bottom:4px;">Rehab Budget</label>
-            <input type="number" id="sc_rehabBudget" style="width:100%;background:var(--navy);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
+            <input type="number" id="sc_rehabBudget" style="width:100%;background:rgba(4,7,15,0.6);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
           </div>
 
           <div>
             <label style="font-size:11px;color:var(--steel);display:block;margin-bottom:4px;">Contingency %</label>
-            <input type="number" id="sc_contingencyPct" min="0" max="50" style="width:100%;background:var(--navy);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
+            <input type="number" id="sc_contingencyPct" min="0" max="50" style="width:100%;background:rgba(4,7,15,0.6);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" oninput="runScenario()">
           </div>
 
           <div>
             <label style="font-size:11px;color:var(--steel);display:block;margin-bottom:4px;">Financing</label>
-            <select id="sc_financing" style="width:100%;background:var(--navy);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" onchange="runScenario()">
+            <select id="sc_financing" style="width:100%;background:rgba(4,7,15,0.6);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;" onchange="runScenario()">
               <option value="HML">HML (Hard Money)</option>
               <option value="CASH">Cash</option>
               <option value="PML">PML (Private)</option>
@@ -1402,7 +1414,7 @@ function renderDeal(d) {
     const c = scoreColor(s);
     return `<div style="margin-bottom:12px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
-        <span style="font-size:13px;font-weight:600;color:var(--navy);text-transform:capitalize;">${area}</span>
+        <span style="font-size:13px;font-weight:600;color:var(--gold);text-transform:capitalize;">${area}</span>
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:11px;color:var(--steel);">weight ${Math.round((v.weight||0)*100)}%</span>
           <span style="font-size:15px;font-weight:700;color:${c};">${s || "N/A"}</span>
@@ -2026,7 +2038,7 @@ function downloadXLSX() {
 </script>
 
 <!-- Footer -->
-<footer style="padding:20px 32px 24px;text-align:center;border-top:1px solid rgba(0,0,0,0.06);">
+<footer style="padding:20px 32px 24px;text-align:center;border-top:1px solid rgba(255,255,255,0.08);">
   <div style="font-size:12px;color:var(--steel);font-weight:500;margin-bottom:4px;">
     Streamline<span style="color:var(--gold);font-weight:700;">AI</span> Consulting
   </div>
