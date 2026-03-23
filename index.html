@@ -345,6 +345,7 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 @keyframes float{0%,100%{transform:translate(0,0) scale(1);}25%{transform:translate(40px,-60px) scale(1.08);}50%{transform:translate(-30px,40px) scale(0.95);}75%{transform:translate(60px,20px) scale(1.05);}}
 .noise{position:fixed;inset:0;z-index:1;opacity:0.03;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px;}
 </style>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0Z7cTFJoblTdfJSzax9xDoA8lHXYVqJY&libraries=places&loading=async"></script>
 </head>
 <body>
 <!-- Dark Theme Background -->
@@ -960,7 +961,45 @@ function getAllPhotos() {
 }
 
 // Initialize on load
-document.addEventListener("DOMContentLoaded", initPhotoSlots);
+document.addEventListener("DOMContentLoaded", function() {
+  initPhotoSlots();
+  initAddressAutocomplete();
+});
+
+// ── Google Places Address Autocomplete ──────────────────────────
+function initAddressAutocomplete() {
+  const input = el("address");
+  if (!input || !window.google?.maps?.places) {
+    console.warn("[Places] Google Maps Places not loaded — autocomplete disabled");
+    return;
+  }
+  const autocomplete = new google.maps.places.Autocomplete(input, {
+    types: ["address"],
+    componentRestrictions: { country: "us" },
+    fields: ["formatted_address", "address_components", "geometry"]
+  });
+  autocomplete.addListener("place_changed", function() {
+    const place = autocomplete.getPlace();
+    if (place.formatted_address) {
+      input.value = place.formatted_address;
+      input.style.borderColor = "rgba(143,218,58,0.4)";
+      setTimeout(function() { input.style.borderColor = ""; }, 2000);
+    }
+  });
+  // Style the pac-container dropdown to match dark theme
+  const style = document.createElement("style");
+  style.textContent = `
+    .pac-container { background: #0d1117; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; margin-top: 4px; font-family: 'Figtree', sans-serif; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+    .pac-item { padding: 8px 14px; color: rgba(255,255,255,0.7); border-top: 1px solid rgba(255,255,255,0.06); cursor: pointer; font-size: 13px; }
+    .pac-item:first-child { border-top: none; }
+    .pac-item:hover, .pac-item-selected { background: rgba(201,151,58,0.12); }
+    .pac-item-query { color: #fff; font-weight: 600; }
+    .pac-icon { display: none; }
+    .pac-matched { color: var(--gold, #C9973A); font-weight: 700; }
+  `;
+  document.head.appendChild(style);
+  console.log("[Places] Address autocomplete initialized");
+}
 
 // \u2500\u2500 Form helpers \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function toggleCheck(name) {
