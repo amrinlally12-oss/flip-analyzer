@@ -1299,7 +1299,7 @@ async function runAnalysis() {
       address: addr,
       wave1: { comps: w1.comps, condition: w1.condition, records: w1.records },
       userArv: formData.arv || null,
-      userRehabBudget: parseFloat(el("userRehabBudget")?.value) || null,
+      userRehabBudget: el("userRehabBudget")?.value !== "" ? parseFloat(el("userRehabBudget").value) : null,
       userConditionScore: formData.conditionScore || null
     });
 
