@@ -1300,7 +1300,8 @@ async function runAnalysis() {
       wave1: { comps: w1.comps, condition: w1.condition, records: w1.records },
       userArv: formData.arv || null,
       userRehabBudget: el("userRehabBudget")?.value !== "" ? parseFloat(el("userRehabBudget").value) : null,
-      userConditionScore: formData.conditionScore || null
+      userConditionScore: formData.conditionScore || null,
+      userHoldMonths: formData.holdMonths || null
     });
 
     setAgent(1, w2.agentStatus?.agent1 === "done" ? "done" : "error");
