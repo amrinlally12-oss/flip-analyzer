@@ -328,6 +328,30 @@ input[type=range]::-moz-range-progress{height:5px;border-radius:99px;background:
 .lc-step.done .lcs-icon{border-color:var(--green);background:var(--green);color:#fff;}
 .lc-step.error .lcs-icon{border-color:var(--red);background:var(--red);color:#fff;}
 
+/* ── OPTION D: CENTER LOGO + AGENT GRID ── */
+.logo-ring{
+  width:90px;height:90px;border-radius:50%;
+  border:2px solid rgba(201,151,58,0.25);
+  display:flex;align-items:center;justify-content:center;
+  animation:ringPulse 3s ease-in-out infinite;
+}
+@keyframes ringPulse{0%,100%{border-color:rgba(201,151,58,0.25);box-shadow:0 0 0 0 rgba(201,151,58,0);}50%{border-color:rgba(201,151,58,0.45);box-shadow:0 0 20px 4px rgba(201,151,58,0.08);}}
+.agent-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+@media(max-width:400px){.agent-grid{grid-template-columns:1fr 1fr;}}
+.agent-chip{
+  font-size:12px;font-weight:500;padding:8px 10px;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;display:flex;align-items:center;gap:8px;
+  color:rgba(255,255,255,0.35);transition:all 0.3s;
+}
+.agent-chip.active{color:var(--blue);border-color:rgba(90,180,240,0.25);background:rgba(90,180,240,0.06);}
+.agent-chip.done{color:var(--green);border-color:rgba(143,218,58,0.25);background:rgba(143,218,58,0.06);}
+.agent-chip.error{color:var(--red);border-color:rgba(240,122,90,0.25);background:rgba(240,122,90,0.06);}
+.ac-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.15);flex-shrink:0;transition:background 0.3s;}
+.agent-chip.active .ac-dot{background:var(--blue);animation:pulse 1.2s ease infinite;}
+.agent-chip.done .ac-dot{background:var(--green);}
+.agent-chip.error .ac-dot{background:var(--red);}
+
 @media(max-width:768px){
   .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
   .main{padding:16px 12px 48px;}
@@ -379,28 +403,36 @@ window.initGooglePlaces = function() { if (typeof initAddressAutocomplete === 'f
 
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-card">
-    <div style="text-align:center;margin-bottom:4px;">
-      <div class="spinner"></div>
-      <div style="font-size:17px;font-weight:700;color:var(--text);letter-spacing:-0.3px;margin-bottom:3px;">Analyzing Deal</div>
-      <div style="font-size:13px;color:var(--steel);line-height:1.5;" id="loadingMsg">Starting analysis&#8230;</div>
-    </div>
-    <!-- Live step checklist -->
-    <div class="lc-steps">
-      <div class="lc-step" id="lcs-comps"><div class="lcs-icon" id="lcsi-comps">&#9675;</div><span id="lcsl-comps">Researching comparable sales</span></div>
-      <div class="lc-step" id="lcs-condition"><div class="lcs-icon" id="lcsi-condition">&#9675;</div><span id="lcsl-condition">Assessing property condition</span></div>
-      <div class="lc-step" id="lcs-records"><div class="lcs-icon" id="lcsi-records">&#9675;</div><span id="lcsl-records">Checking public records</span></div>
-      <div class="lc-step" id="lcs-analysis"><div class="lcs-icon" id="lcsi-analysis">&#9675;</div><span id="lcsl-analysis">Calculating deal financials</span></div>
-      <div class="lc-step" id="lcs-verify"><div class="lcs-icon" id="lcsi-verify">&#9675;</div><span id="lcsl-verify">Verifying math</span></div>
-      <div class="lc-step" id="lcs-excel"><div class="lcs-icon" id="lcsi-excel">&#9675;</div><span id="lcsl-excel">Building Excel report</span></div>
-    </div>
     <!-- Progress bar -->
-    <div style="height:4px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden;">
+    <div style="height:4px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden;margin-bottom:6px;">
       <div id="progressBar" style="height:100%;background:var(--blue);border-radius:99px;width:0%;transition:width 0.5s cubic-bezier(0.4,0,0.2,1);"></div>
     </div>
-    <div style="display:flex;justify-content:space-between;margin-top:8px;">
-      <div style="font-size:11px;color:#aeaeb2;transition:opacity 0.3s;" id="hangTightMsg"></div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:20px;">
+      <div style="font-size:11px;color:#aeaeb2;" id="loadingMsg">Starting analysis&#8230;</div>
       <div style="font-size:11px;color:#aeaeb2;font-variant-numeric:tabular-nums;" id="timeRemaining"></div>
     </div>
+    <!-- Center logo focal point -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:22px;">
+      <div class="logo-ring">
+        <svg width="44" height="44" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="7" fill="rgba(201,151,58,0.15)"/>
+          <path d="M4 11 C7.5 7,12 17,16 11 C20 5,24.5 15,28 11" stroke="#C9973A" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+          <path d="M4 17 C7.5 13,12 23,16 17 C20 11,24.5 21,28 17" stroke="#E8C97A" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <path d="M4 23 C7.5 19,12 29,16 23 C20 17,24.5 27,28 23" stroke="rgba(255,255,255,0.25)" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+      <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:rgba(255,255,255,0.5);">Streamline<span style="color:var(--gold);"> AI</span></div>
+    </div>
+    <!-- Agent grid -->
+    <div class="agent-grid">
+      <div class="agent-chip" id="lcs-comps"><div class="ac-dot" id="lcsi-comps"></div><span id="lcsl-comps">Comps</span></div>
+      <div class="agent-chip" id="lcs-condition"><div class="ac-dot" id="lcsi-condition"></div><span id="lcsl-condition">Condition</span></div>
+      <div class="agent-chip" id="lcs-records"><div class="ac-dot" id="lcsi-records"></div><span id="lcsl-records">Records</span></div>
+      <div class="agent-chip" id="lcs-analysis"><div class="ac-dot" id="lcsi-analysis"></div><span id="lcsl-analysis">Analysis</span></div>
+      <div class="agent-chip" id="lcs-verify"><div class="ac-dot" id="lcsi-verify"></div><span id="lcsl-verify">Math</span></div>
+      <div class="agent-chip" id="lcs-excel"><div class="ac-dot" id="lcsi-excel"></div><span id="lcsl-excel">Excel</span></div>
+    </div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.25);text-align:center;margin-top:16px;font-style:italic;" id="hangTightMsg"></div>
   </div>
 </div>
 
@@ -1081,15 +1113,10 @@ function setStep(name, status) {
     else if (status === "error") icon.textContent = "\u2717";
     else icon.textContent = "\u25CB";
   }
-  // Mirror into loading overlay checklist
+  // Mirror into loading overlay agent grid
   const lcs  = el("lcs-" + name);
-  const lcsi = el("lcsi-" + name);
-  if (lcs && lcsi) {
-    lcs.className = "lc-step " + status;
-    if (status === "active") lcsi.textContent = "\u25CF";
-    else if (status === "done") lcsi.textContent = "\u2713";
-    else if (status === "error") lcsi.textContent = "\u2717";
-    else lcsi.textContent = "\u25CB";
+  if (lcs) {
+    lcs.className = "agent-chip " + status;
   }
 }
 
