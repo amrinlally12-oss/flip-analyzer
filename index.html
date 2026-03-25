@@ -1055,6 +1055,15 @@ function resetForm() {
   el("pdfBtn").disabled = true;
   setAllAgents("idle");
   setWave(0);
+  // Clear form inputs so previous deal values don't carry over
+  ["address","purchasePrice","offerPrice","arv","beds","baths","sqft","yearBuilt","lotSize","condNotes","userRehabBudget"].forEach(id => {
+    const inp = el(id); if (inp) inp.value = "";
+  });
+  const cs = el("conditionScore"); if (cs) { cs.value = 5; el("condLabel").textContent = "5 / 10"; }
+  const hm = el("holdMonths"); if (hm) { hm.value = 5; el("holdLabel").textContent = "5 months"; }
+  const rs = el("rehabScope"); if (rs) rs.value = "auto";
+  const fin = el("financing"); if (fin) fin.value = "HML";
+  const exit = el("exitStrategy"); if (exit) exit.value = "flip";
 }
 
 // \u2500\u2500 Agent status helpers \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
@@ -1405,7 +1414,7 @@ function renderDeal(d) {
     ["Sale Costs", d.saleCosts?.total, "#d3d1c7"],
   ];
   el("costBars").innerHTML = bars.map(([l,v,c]) => {
-    const w = Math.max(2, Math.round(((v||0) / d.allInCost) * 100));
+    const w = d.allInCost > 0 ? Math.max(2, Math.round(((v||0) / d.allInCost) * 100)) : 2;
     return `<div class="cbar-row"><div class="cbar-meta"><span>${l}</span><span>${fmt(v)}</span></div>
       <div class="cbar-bg"><div class="cbar-fill" style="width:${w}%;background:${c}"></div></div></div>`;
   }).join("");
@@ -1593,13 +1602,13 @@ function clientComputeDealMath(purchasePrice, arv, holdMonths, rehabBudget, cont
   const hasHml = !isCash && (fType === "HML" || fType === "HML+PML");
 
   const hmlLtv        = fType === "HML+PML" ? 0.70 : 0.90;
-  const hmlRate       = 10;
+  const hmlRate       = 12; // 12% / yr (hard money)
   const hmlLoanAmount = hasHml ? Math.round(purchasePrice * hmlLtv) : 0;
-  const hmlOriginFee  = Math.round(hmlLoanAmount * 0.01);
+  const hmlOriginFee  = Math.round(hmlLoanAmount * 0.02); // 2 points
   const hmlMonthly    = Math.round((hmlLoanAmount * hmlRate / 100) / 12);
   const hmlInterest   = hmlMonthly * holdMonths;
 
-  const pmlRate       = 12;
+  const pmlRate       = 10; // 10% / yr (private money)
   const pmlLoanAmount = hasPml
     ? (fType === "HML+PML" ? Math.round(purchasePrice * 0.20) : Math.round(purchasePrice * 0.85))
     : 0;
