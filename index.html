@@ -1518,7 +1518,7 @@ function renderDeal(d) {
          <td class="num">${fmt(c.soldPrice)}</td><td class="num">${fmt(c.pricePerSqft)}/sqft</td>
          <td class="num gold-v">${fmt(c.adjustedPrice)}</td>
          <td class="num">${c.distance||"\u2014"}</td>
-         <td>${c.daysOnMarket||"\u2014"} days</td><td>${c.soldDate||"\u2014"}</td>
+         <td>${c.daysOnMarket||"\u2014"} days</td><td>${c.soldDate ? new Date(c.soldDate+"T00:00:00").toLocaleDateString("en-US",{month:"2-digit",day:"2-digit",year:"numeric"}) : "\u2014"}</td>
          <td style="font-size:12px;color:var(--steel);">${c.adjustmentNotes||""}</td></tr>`
       ).join("")
     : `<tr><td colspan="10" style="text-align:center;color:var(--steel);padding:20px;">No comps found \u2014 ARV based on user input</td></tr>`;
