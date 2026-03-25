@@ -1134,10 +1134,12 @@ const HANG_TIGHT_MSGS = [
   "Putting together your report\u2026",
 ];
 
+let estimatedTotalSeconds = 65;
+
 function startProgress() {
   progValue = 0;
   analysisStartTime = Date.now();
-  const estimatedSeconds = 65;
+  estimatedTotalSeconds = 65;
   let hangIdx = 0;
 
   clearInterval(progInterval);
@@ -1170,7 +1172,7 @@ function startProgress() {
   if (tr) {
     countdownInterval = setInterval(() => {
       const elapsed = Math.floor((Date.now() - analysisStartTime) / 1000);
-      const remaining = Math.max(0, estimatedSeconds - elapsed);
+      const remaining = Math.max(0, estimatedTotalSeconds - elapsed);
       if (remaining > 0) {
         tr.textContent = `~${remaining}s remaining`;
       } else {
@@ -1178,6 +1180,12 @@ function startProgress() {
       }
     }, 1000);
   }
+}
+
+// Call this when a wave takes longer than expected (retry detected)
+function extendEstimate(extraSeconds) {
+  estimatedTotalSeconds += extraSeconds;
+  console.log(`[Progress] Estimate extended by ${extraSeconds}s → total ~${estimatedTotalSeconds}s`);
 }
 
 function completeProgress() {
@@ -1272,15 +1280,21 @@ async function runAnalysis() {
 
   try {
     // \u2500\u2500 WAVE 1 \u2500\u2500 Comps + Photos + Records in parallel \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+    // Expected time per wave (seconds) — used to detect retries
+    const WAVE_EXPECTED = { 1: 25, 2: 25, 3: 15 };
+
     updateLoadingMsg(1);
     setAgent(3,"running"); setAgent(4,"running"); setAgent(5,"running");
 
+    const w1Start = Date.now();
     const w1 = await apiCall("/api/wave1", {
       prompt, address: addr, photos,
       beds:  formData.beds  || undefined,
       baths: formData.baths || undefined,
       sqft:  formData.sqft  || undefined
     });
+    const w1Elapsed = (Date.now() - w1Start) / 1000;
+    if (w1Elapsed > WAVE_EXPECTED[1] * 1.5) extendEstimate(Math.round(w1Elapsed - WAVE_EXPECTED[1]));
 
     setAgent(3, w1.agentStatus?.agent3 || "done");
     setAgent(4, w1.agentStatus?.agent4 || "done");
@@ -1303,6 +1317,7 @@ async function runAnalysis() {
     setAgent(1, "running", "synthesizing research\u2026");
     setAgent(7, "running");
 
+    const w2Start = Date.now();
     const w2 = await apiCall("/api/wave2", {
       prompt,
       address: addr,
@@ -1312,6 +1327,8 @@ async function runAnalysis() {
       userConditionScore: formData.conditionScore || null,
       userHoldMonths: formData.holdMonths || null
     });
+    const w2Elapsed = (Date.now() - w2Start) / 1000;
+    if (w2Elapsed > WAVE_EXPECTED[2] * 1.5) extendEstimate(Math.round(w2Elapsed - WAVE_EXPECTED[2]));
 
     setAgent(1, w2.agentStatus?.agent1 === "done" ? "done" : "error");
     setAgent(7, w2.agentStatus?.verifier === "done" ? "done" : "error");
@@ -1328,11 +1345,14 @@ async function runAnalysis() {
     setAgent(2, "running");
     if (needsRental) setAgent(6, "running");
 
+    const w3Start = Date.now();
     const w3 = await apiCall("/api/wave3", {
       deal:             w2.deal,
       prompt,
       needsRentalComps: needsRental
     });
+    const w3Elapsed = (Date.now() - w3Start) / 1000;
+    if (w3Elapsed > WAVE_EXPECTED[3] * 1.5) extendEstimate(Math.round(w3Elapsed - WAVE_EXPECTED[3]));
 
     setAgent(2, w3.agentStatus?.agent2 || "done");
     if (needsRental) setAgent(6, w3.agentStatus?.agent6 || "done");
